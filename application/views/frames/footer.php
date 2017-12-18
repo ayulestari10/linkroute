@@ -4,7 +4,7 @@
     <script src="<?= base_url('assets') ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="<? base_url('assets') ?>/vendor/metisMenu/metisMenu.js"></script>
+    <script src="<?= base_url('assets') ?>/vendor/metisMenu/metisMenu.js"></script>
 
     <!-- Morris Charts JavaScript -->
     <script src="<?= base_url('assets') ?>/vendor/raphael/raphael.min.js"></script>
