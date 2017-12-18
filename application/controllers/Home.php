@@ -4,19 +4,27 @@ class Home extends CI_Controller{
 
 	function index(){
 		$data = array(
-			'title'		=> 'Oprec BEM 2017',
+			'title'		=> 'Link Route',
 			'content'	=> 'dashboard'
 		);
 		$this->load->view('frames/templates', $data);
 	}
 
-	function route(){
+	function site(){
 		$data = array(
-			'title'		=> 'Route',
-			'content'	=> 'route'
+			'title'		=> 'Site Table',
+			'content'	=> 'site'
 		);
 		$this->load->view('frames/templates', $data);
-	}	
+	}
+
+	function linkroute(){
+		$data = array(
+			'title'		=> 'Link Route Table',
+			'content'	=> 'linkroute'
+		);
+		$this->load->view('frames/templates', $data);	
+	}
 }
 
 ?>
