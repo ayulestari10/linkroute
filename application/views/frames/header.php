@@ -25,7 +25,12 @@
     <!-- Custom Fonts -->
     <link href="<?= base_url('assets') ?>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- jQuery -->
-    <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
+    <!-- DataTables CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    
 
 </head>

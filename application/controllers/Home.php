@@ -10,10 +10,10 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	function cob(){
+	function route(){
 		$data = array(
-			'title'		=> 'Oprec BEM 2017',
-			'content'	=> 'coba2'
+			'title'		=> 'Route',
+			'content'	=> 'route'
 		);
 		$this->load->view('frames/templates', $data);
 	}	
