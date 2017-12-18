@@ -43,7 +43,7 @@
 
             <div class="row" style="margin-top: 5%;">
                 <div class="col-lg-8">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             Searching Route
                         </div>
@@ -137,7 +137,7 @@
                 <!-- /.col-lg-6 -->
 
                 <div class="col-lg-4">
-                    <div class="panel panel-info">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             List of Sites
                         </div>

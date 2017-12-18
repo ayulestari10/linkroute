@@ -1,7 +1,7 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Link Route Table <button type="button" class="btn btn-secondary btn-circle"><i class="fa fa-plus"></i></button></h1>
+                    <h1 class="page-header">Link Route Table <button type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -30,37 +30,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="odd">
-                                        <td>1</td>
-                                        <td>MGR001</td>
-                                        <td>MGR001MD1</td>
-                                        <td>Manggar</td>
-                                        <td>MGR001</td>
-                                        <td>Manggar</td>
-                                        <td>MGR003</td>
-                                        <td>Gantung</td>
-                                        <td>MGR001<>MGR003_IPASO400_TELKOMSEL_150_7687</td>
+                                    <?php foreach ($site as $row): ?>
+                                    <tr>
+                                        <td><?= $row->id ?></td>
+                                        <td><?= $row->Site_ID ?></td>
+                                        <td><?= $row->SysID ?></td>
+                                        <td><?= $row->SiteName ?></td>
+                                        <td><?= $row->NE_ID ?></td>
+                                        <td><?= $row->NE_Name ?></td>
+                                        <td><?= $row->FE_ID ?></td>
+                                        <td><?= $row->FE_Name ?></td>
+                                        <td><?= $row->HOP_ID_DETAIL ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-success btn-circle"><i class="fa fa-pencil-square-o"></i></button>
+                                            <button type="button" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></button>
                                             <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
-                                    <tr class="even">
-                                        <td>2</td>
-                                        <td>MGR001</td>
-                                        <td>MGR001MD1</td>
-                                        <td>Manggar</td>
-                                        <td>MGR001</td>
-                                        <td>Manggar</td>
-                                        <td>MGR003</td>
-                                        <td>Gantung</td>
-                                        <td>MGR001<>MGR003_IPASO400_TELKOMSEL_150_7687</td>
-                                        <td>
-                                            <button type="button" class="btn btn-success btn-circle"><i class="fa fa-pencil-square-o"></i></button>
-                                            <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

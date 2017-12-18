@@ -7,7 +7,7 @@ class Linkroute_model extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
-		$this->table 				= 'site';
+		$this->table 				= 'linkroutebelitung';
 		$this->key 					= 'Site_ID';
 	}
 
