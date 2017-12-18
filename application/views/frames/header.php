@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title><?= $title.' | BEM KM FASILKOM'  ?></title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-	<link href="<?= base_url('assets/bootstrap/css/bootstrap.css') ?>" rel="stylesheet">
-	
-	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/font-awesome/css/font-awesome.css') ?>">
+    <title>Link Route</title>
 
+    <!-- Bootstrap Core CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-	<script type="text/javascript" src="<?= base_url('assets/jquery/jquery.js') ?>"></script>
-	<script type="text/javascript" src="<?= base_url('assets/bootstrap/js/bootstrap.min.js') ?>"></script>
-    
-	<link rel="shortcut icon" href="<?= base_url('assets/img/bem.png') ?>">
-	<link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> 
+    <!-- MetisMenu CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CS -->
+    <link href="<?= base_url('assets') ?>/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="<?= base_url('assets') ?>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- jQuery -->
+    <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
+
 </head>
