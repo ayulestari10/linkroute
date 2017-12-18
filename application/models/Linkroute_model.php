@@ -1,14 +1,14 @@
 <?php  
 
-class Peserta_model extends CI_Model{
+class Linkroute_model extends CI_Model{
 	public $rows = 0;
 	private $table;
 	private $key;
 
 	function __construct(){
 		parent::__construct();
-		$this->table 				= 'data';
-		$this->key 					= 'id_data';
+		$this->table 				= 'site';
+		$this->key 					= 'Site_ID';
 	}
 
 	function cek_nim($nim){
@@ -21,6 +21,24 @@ class Peserta_model extends CI_Model{
 		$this->db->where($data);
 		$query = $this->db->get($this->table);
 		return $query;
+	}
+
+	function getRoute($site, $band){
+		$query = $this->db->query(' SELECT linkroutebelitung.SysID, 
+				linkroutebelitung.NE_ID, (
+				SELECT Longitude FROM site WHERE Site_ID = linkroutebelitung.NE_ID
+				) AS NE_Longitude, (
+				    SELECT Latitude FROM site WHERE Site_ID = linkroutebelitung.NE_ID
+				) AS NE_Latitude, 
+				linkroutebelitung.FE_ID, (
+				    SELECT Longitude FROM site WHERE Site_ID = linkroutebelitung.FE_ID
+				) AS FE_Longitude, (
+				    SELECT Latitude FROM site WHERE Site_ID = linkroutebelitung.FE_ID
+				) AS FE_Latitude 
+				FROM linkroutebelitung NATURAL JOIN site 
+				WHERE linkroutebelitung.SysID = '.$band.' AND linkroutebelitung.Site_ID 
+				');
+		return $query->result();
 	}
 
 	function get_all(){
