@@ -21,7 +21,8 @@ class Home extends CI_Controller{
 	function linkroute(){
 		$data = array(
 			'title'		=> 'Link Route Table',
-			'content'	=> 'linkroute'
+			'content'	=> 'linkroute',
+			'site' 		=> $this->linkroute_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -29,7 +30,8 @@ class Home extends CI_Controller{
 	function site(){
 		$data = array(
 			'title'		=> 'Site Table',
-			'content'	=> 'site'
+			'content'	=> 'site',
+			'site'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -52,15 +54,45 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	public function coba(){
-		$file = @fopen("assets/csv/coba.csv", "r");
-		
-		while($fp = ! feof($file)){
+	public function openCSV(){
+		$file = fopen("assets/linkroutebelitung.csv","r");
+		while(! feof($file)){
 		  print_r(fgetcsv($file));
 		}
+		fclose($file);
+	}
 
-		fclose($functionle);
-	}	
+	function input_site(){
+		$data = array(
+			'title'		=> 'Input Form',
+			'content'	=> 'input_site'
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+	function input_linkroute(){
+		$data = array(
+			'title'		=> 'Input Form',
+			'content'	=> 'input_linkroute'
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+	function edit_site(){
+		$data = array(
+			'title'		=> 'Edit Form',
+			'content'	=> 'edit_site'
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+	function edit_linkroute(){
+		$data = array(
+			'title'		=> 'Edit Form',
+			'content'	=> 'edit_linkroute'
+		);
+		$this->load->view('frames/templates', $data);
+	}
 }
 
 ?>
