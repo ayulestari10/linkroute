@@ -55,11 +55,13 @@ class Home extends CI_Controller{
 	}
 
 	public function openCSV(){
-		$file = fopen("assets/linkroutebelitung.csv","r");
-		while(! feof($file)){
-		  print_r(fgetcsv($file));
+		$file = file('assets/linkroutebelitung.csv');
+		foreach ($file as $k) {
+			$csv[] = explode(';', $k);
 		}
-		fclose($file);
+		echo '<pre>';
+		print_r($csv);
+		echo '</pre>';
 	}
 
 	function input_site(){
