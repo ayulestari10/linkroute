@@ -1,7 +1,7 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Site Table <button onclick="location.href='<?= base_url('home/input_site')  ?>'" type="button" class="btn btn-success btn-circle"></a><i class="fa fa-plus"></i></button></h1>
+                    <h1 class="page-header">Site Table <button onclick="location.href='<?= base_url('home/insert_site')  ?>'" type="button" class="btn btn-success btn-circle"></a><i class="fa fa-plus"></i></button></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

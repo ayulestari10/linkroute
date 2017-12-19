@@ -11,8 +11,9 @@ class Linkroute_model extends CI_Model{
 		$this->key 					= 'Site_ID';
 	}
 
-	function cek_nim($nim){
-		$this->db->where('nim', $nim);
+	//linkroute
+	function cek_siteID($siteID){
+		$this->db->where('Site_ID',$siteID);
 		$data = $this->db->get($this->table);
 		return $data->result();
 	}
@@ -20,7 +21,16 @@ class Linkroute_model extends CI_Model{
 	function get_data_byConditional($data){
 		$this->db->where($data);
 		$query = $this->db->get($this->table);
-		return $query;
+		return $query->row();
+	}
+
+	function insert_site($data){
+		return $this->db->insert($this->table, $data);
+	}
+
+	function get_all(){
+		$query = $this->db->get($this->table);
+		return $query->result();
 	}
 
 	function getRoute($site, $band){
@@ -41,9 +51,12 @@ class Linkroute_model extends CI_Model{
 		return $query->result();
 	}
 
-	function get_all(){
-		$query = $this->db->get($this->table);
-		return $query->result();
+	// - -
+
+	function cek_nim($nim){
+		$this->db->where('nim', $nim);
+		$data = $this->db->get($this->table);
+		return $data->result();
 	}
 
 	public function get_all_category()
