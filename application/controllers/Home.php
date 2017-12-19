@@ -50,6 +50,16 @@ class Home extends CI_Controller{
 			'site'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
+	}
+
+	public function coba(){
+		$file = @fopen("assets/csv/coba.csv", "r");
+		
+		while($fp = ! feof($file)){
+		  print_r(fgetcsv($file));
+		}
+
+		fclose($functionle);
 	}	
 }
 
