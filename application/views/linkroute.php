@@ -1,7 +1,7 @@
 <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Link Route Table <button type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
+                    <h1 class="page-header">Link Route Table <button onclick="location.href='<?= base_url('home/input_linkroute')  ?>'" type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
