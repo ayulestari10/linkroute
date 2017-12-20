@@ -15,25 +15,28 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form">
+                                    <div>
+                                        <?= $this->session->flashdata('msg')  ?>
+                                    </div>
+                                    <?= form_open('Home/insert_site')  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
-                                            <input class="form-control">
+                                            <input type="text" class="form-control" name="Site_ID" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Site Name</label>
-                                            <input class="form-control">
+                                            <input type="text" class="form-control" name="SiteName" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Longitude</label>
-                                            <input class="form-control">
+                                            <input type="text" class="form-control" name="Longitude" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Latitude</label>
-                                            <input class="form-control">
+                                            <input type="text" class="form-control" name="Latitude" required>
                                         </div>
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                    </form>
+                                        <input type="submit" class="btn btn-success" name="save" value="Save">
+                                    <?= form_close()  ?>
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
@@ -51,12 +54,13 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form">
+                                    <?= form_open()  ?>
                                         <div class="form-group">
                                             <label>File input</label>
                                             <input type="file">
                                         </div>
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <input type="submit" class="btn btn-success" name="uploadCSV" value="Save">
+                                    <?= form_close()  ?>
                                 </div>
                             </div>
                             <!-- /.row (nested) -->

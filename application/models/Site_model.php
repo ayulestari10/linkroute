@@ -11,6 +11,37 @@ class Site_model extends CI_Model{
 		$this->key 					= 'Site_ID';
 	}
 
+	//site
+	function cek_siteID($siteID){
+		$this->db->where('Site_ID',$siteID);
+		$data = $this->db->get($this->table);
+		return $data->result();
+	}
+
+	function get_dataBy_siteID($siteID){
+		$this->db->where('Site_ID', $siteID);
+		$query = $this->db->get($this->table);
+		return $query->row();
+	}
+
+	function insert_site($data){
+		return $this->db->insert($this->table, $data);
+	}
+
+	function get_all(){
+		$query = $this->db->get($this->table);
+		return $query->result();
+	}
+
+	public function update($pk, $data)
+	{
+		$this->db->where([$this->key => $pk]);
+		return $this->db->update($this->table, $data);
+	}
+
+
+	// - -
+
 	function cek_nim($nim){
 		$this->db->where('nim', $nim);
 		$data = $this->db->get($this->table);
@@ -21,11 +52,6 @@ class Site_model extends CI_Model{
 		$this->db->where($data);
 		$query = $this->db->get($this->table);
 		return $query;
-	}
-
-	function get_all(){
-		$query = $this->db->get($this->table);
-		return $query->result();
 	}
 
 	public function get_all_category()
@@ -68,16 +94,7 @@ class Site_model extends CI_Model{
 		return $this->db->insert($this->table, $data);
 	}
 
-	function update($nim, $data){
-		$this->db->where('nim', $nim);
-		return $this->db->update($this->table, $data);
-	}
 
-	public function updt($pk, $data)
-	{
-		$this->db->where(['id_data' => $pk]);
-		return $this->db->update($this->table, $data);
-	}
 
 	function delete($id_mhs){
 		return $this->db->delete($this->table, array($this->key => $id_mhs));
