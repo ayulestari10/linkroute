@@ -65,17 +65,20 @@
                             File Site Form
                         </div>
                         <div class="panel-body">
+                            <?= form_open_multipart('home/insertCSV') ?>
                             <div class="row">
                                 <div class="col-lg-12">
+                                <div><?= $this->session->flashdata('msg') ?></div>
                                     <form role="form">
                                         <div class="form-group">
                                             <label>File input</label>
-                                            <input type="file">
+                                            <input type="file" name="file">
                                         </div>
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
+                            <?= form_close() ?>
                         </div>
                         <!-- /.panel-body -->
                     </div>

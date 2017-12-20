@@ -54,14 +54,70 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	public function openCSV(){
-		$file = file('assets/linkroutebelitung.csv');
+	public function openCSV($file_name){
+		$file = file('assets/csv/'.$file_name);
 		foreach ($file as $k) {
-			$csv[] = explode(';', $k);
+			$csv[] = explode(',', $k);
 		}
-		echo '<pre>';
-		print_r($csv);
-		echo '</pre>';
+
+		if(count($csv[0]) == 1 ){
+			foreach ($file as $k) {
+				$csv[] = explode(';', $k);
+			}
+		}
+
+		// echo count($csv);
+
+		// echo '<pre>';
+		// 	print_r($csv);
+		// 	echo '</pre>';
+		// exit;
+
+		return $csv;
+	}
+
+	public function insertCSV(){
+		if($this->input->post('uploadcsv')){
+
+			$this->load->library('upload');
+
+			$file_name = $_FILES['file']['name'];
+
+			$upload_path = realpath(APPPATH . '../assets/csv/');
+			@unlink($upload_path . '/' . $file_name);
+			$config = [
+				'file_name' 		=> $file_name,
+				'allowed_types'		=> 'csv',
+				'upload_path'		=> $upload_path
+			];
+			$this->upload->initialize($config);
+			$this->upload->do_upload('file');
+
+			// insert data
+
+			$data_csv = $this->openCSV($file_name);
+
+
+			for ($i = 0; $i < count($data_csv); $i++) {
+			   	$row = [
+			    	'Site_ID' 		=> $data_csv[$i][0],
+			    	'SysID' 		=> $data_csv[$i][1],
+			    	'SiteName' 		=> $data_csv[$i][2],
+			    	'NE_ID' 		=> $data_csv[$i][3],
+			    	'NE_Name' 		=> $data_csv[$i][4],
+			    	'FE_ID' 		=> $data_csv[$i][5],
+			    	'FE_Name' 		=> $data_csv[$i][6],
+			    	'HOP_ID_DETAIL' => $data_csv[$i][7],
+			   	];
+
+			   	$this->linkroute_model->insert($row);
+			}
+
+
+			$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> File berhasil disimpan!</div>');
+			redirect('home/input_linkroute');
+
+		}
 	}
 
 	function input_site(){
