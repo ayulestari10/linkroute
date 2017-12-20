@@ -33,7 +33,7 @@
                                         <td><?= $row->Longitude ?></td>
                                         <td><?= $row->Latitude ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></button>
+                                            <a href="<?= base_url('Home/edit_site/' . $row->Site_ID)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
                                             <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>

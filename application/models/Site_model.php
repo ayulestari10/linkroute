@@ -33,6 +33,13 @@ class Site_model extends CI_Model{
 		return $query->result();
 	}
 
+	public function update($pk, $data)
+	{
+		$this->db->where([$this->key => $pk]);
+		return $this->db->update($this->table, $data);
+	}
+
+
 	// - -
 
 	function cek_nim($nim){
@@ -87,16 +94,7 @@ class Site_model extends CI_Model{
 		return $this->db->insert($this->table, $data);
 	}
 
-	function update($nim, $data){
-		$this->db->where('nim', $nim);
-		return $this->db->update($this->table, $data);
-	}
 
-	public function updt($pk, $data)
-	{
-		$this->db->where(['id_data' => $pk]);
-		return $this->db->update($this->table, $data);
-	}
 
 	function delete($id_mhs){
 		return $this->db->delete($this->table, array($this->key => $id_mhs));

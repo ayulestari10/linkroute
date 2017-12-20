@@ -54,12 +54,13 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form">
+                                    <?= form_open()  ?>
                                         <div class="form-group">
                                             <label>File input</label>
                                             <input type="file">
                                         </div>
-                                        <button type="submit" class="btn btn-success">Submit</button>
+                                        <input type="submit" class="btn btn-success" name="uploadCSV" value="Save">
+                                    <?= form_close()  ?>
                                 </div>
                             </div>
                             <!-- /.row (nested) -->

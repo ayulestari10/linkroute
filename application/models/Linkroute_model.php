@@ -51,6 +51,8 @@ class Linkroute_model extends CI_Model{
 		return $query->result();
 	}
 
+	
+
 	// - -
 
 	function cek_nim($nim){

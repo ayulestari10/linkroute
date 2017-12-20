@@ -65,13 +65,23 @@ class Home extends CI_Controller{
 		return $csv;
 	}
 
-	function edit_site(){
-		$data = array(
-			'title'		=> 'Edit Form',
-			'content'	=> 'edit_site'
-		);
-		$this->load->view('frames/templates', $data);
-	}
+	
+	// function edit_site(){
+
+	// 	$site_id = $this->uri->segment(3);
+
+	// 	if($this->input->post('edit')){
+	// 		$this->load->model('site_model');
+
+	// 		$cek_segment3 
+	// 	}
+
+	// 	$data = array(
+	// 		'title'		=> 'Edit Form',
+	// 		'content'	=> 'edit_site'
+	// 	);
+	// 	$this->load->view('frames/templates', $data);
+	// }
 
 	function edit_linkroute(){
 		$data = array(
@@ -148,7 +158,6 @@ class Home extends CI_Controller{
 
 	function insert_linkroute(){
 		
-
 		if($this->input->post('save')){
 			$this->load->model('linkroute_model');
 
