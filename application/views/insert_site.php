@@ -49,21 +49,29 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            File Site Form
+                            Upload CSV Site File
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <?= form_open()  ?>
-                                        <div class="form-group">
-                                            <label>File input</label>
-                                            <input type="file">
-                                        </div>
-                                        <input type="submit" class="btn btn-success" name="uploadCSV" value="Save">
-                                    <?= form_close()  ?>
+                                    <div style="margin-top: 2%; margin-bottom: 2%;">
+                                        <?= $this->session->flashdata('msgUpload') ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?= form_open_multipart('home/insertCSV_Site') ?>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>Upload File</label> <span class="text-danger"> * the file format should be csv</span>
+                                        <input type="file" name="file" style="margin: 2% 0% 4% 0%;">
+                                    </div>
+                                    <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
+                            <?= form_close() ?>
                         </div>
                         <!-- /.panel-body -->
                     </div>

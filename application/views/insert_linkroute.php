@@ -74,16 +74,23 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            File Site Form
+                            Upload CSV Link Route File
                         </div>
                         <div class="panel-body">
-                            <?= form_open_multipart('home/insertCSV') ?>
                             <div class="row">
                                 <div class="col-lg-12">
-                                <div><?= $this->session->flashdata('msg') ?></div>
+                                    <div style="margin-top: 2%; margin-bottom: 2%;">
+                                        <?= $this->session->flashdata('msgUpload') ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?= form_open_multipart('home/insertCSV_Linkroute') ?>
+                            <div class="row">
+                                <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label>File input</label>
-                                        <input type="file" name="file">
+                                        <label>Upload File</label> <span class="text-danger"> * the file format should be csv</span>
+                                        <input type="file" name="file" style="margin: 2% 0% 4% 0%;">
                                     </div>
                                     <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
                                 </div>
