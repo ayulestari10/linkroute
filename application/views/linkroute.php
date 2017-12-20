@@ -19,30 +19,30 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Site ID</th>
-                                        <th>Band</th>
                                         <th>Site Name</th>
+                                        <th>Band</th>
                                         <th>NE ID</th>
                                         <th>NE Name</th>
                                         <th>FE ID</th>
                                         <th>FE Name</th>
-                                        <th>Hop ID Detail</th>
+                                        <th>HOP ID DEATIL</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($site as $row): ?>
+                                    <?php $i = 1; foreach ($site as $row): ?>
                                     <tr>
-                                        <td><?= $row->id ?></td>
+                                        <td><?= $i++ ?></td>
                                         <td><?= $row->Site_ID ?></td>
+                                        <td><?= $row->Site_Name ?></td>
                                         <td><?= $row->SysID ?></td>
-                                        <td><?= $row->SiteName ?></td>
                                         <td><?= $row->NE_ID ?></td>
                                         <td><?= $row->NE_Name ?></td>
                                         <td><?= $row->FE_ID ?></td>
                                         <td><?= $row->FE_Name ?></td>
                                         <td><?= $row->HOP_ID_DETAIL ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></button>
+                                            <a href="<?= base_url('Home/edit_linkroute/' . $row->Site_ID  . '_' . $row->SysID . '_' . $row->NE_ID . '_' . $row->FE_ID) ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
                                             <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>

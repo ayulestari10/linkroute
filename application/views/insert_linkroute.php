@@ -31,10 +31,6 @@
                                             <input class="form-control" type="text" name="Band" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Site Name</label>
-                                            <input class="form-control" type="text" name="Site_Name" required>
-                                        </div>
-                                        <div class="form-group">
                                             <label>Near End ID</label>
                                             <input class="form-control" type="text" name="NE_ID" required>
                                         </div>
@@ -42,19 +38,11 @@
                                             <?= $this->session->flashdata('msg3')  ?>
                                         </div>
                                         <div class="form-group">
-                                            <label>Near End Name</label>
-                                            <input class="form-control" type="text" name="NE_Name" required>
-                                        </div>
-                                        <div class="form-group">
                                             <label>Far End ID</label>
                                             <input class="form-control" type="text" name="FE_ID" required>
                                         </div>
                                         <div>
                                             <?= $this->session->flashdata('msg4')  ?>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Far End Name</label>
-                                            <input class="form-control" type="text" name="FE_Name" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Hop ID Detail</label>

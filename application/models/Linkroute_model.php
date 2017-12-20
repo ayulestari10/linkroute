@@ -51,7 +51,18 @@ class Linkroute_model extends CI_Model{
 		return $query->result();
 	}
 
-	
+	function get_all_twotable(){
+		$query = $this->db->query('SELECT linkroutebelitung.Site_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.Site_ID) AS Site_Name,
+			linkroutebelitung.SysID, 
+			linkroutebelitung.NE_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.NE_ID) AS NE_Name,
+			linkroutebelitung.FE_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.FE_ID) AS FE_Name,
+			linkroutebelitung.HOP_ID_DETAIL
+			FROM linkroutebelitung JOIN site ON linkroutebelitung.Site_ID = site.Site_ID;');
+		return $query->result();	
+	}
 
 	// - -
 
