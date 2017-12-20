@@ -1,4 +1,5 @@
-<div id="page-wrapper">
+      
+        <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Link Route Table <button onclick="location.href='<?= base_url('home/insert_linkroute')  ?>'" type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
@@ -17,7 +18,7 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Site ID</th>
                                         <th>Site Name</th>
                                         <th>Band</th>
@@ -37,7 +38,7 @@
                                         <td><?= $row->Site_Name ?></td>
                                         <td><?= $row->SysID ?></td>
                                         <td><?= $row->NE_ID ?></td>
-                                        <td><?= $row->NE_Name ?></td>
+                                        <td><p><?= $row->NE_Name ?></p></td>
                                         <td><?= $row->FE_ID ?></td>
                                         <td><?= $row->FE_Name ?></td>
                                         <td><?= $row->HOP_ID_DETAIL ?></td>
@@ -46,7 +47,7 @@
                                             <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php $i++; endforeach; ?>
                                 </tbody>
                             </table>
                         </div>

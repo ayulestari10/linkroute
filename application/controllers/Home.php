@@ -53,11 +53,204 @@ class Home extends CI_Controller{
 
 		if($this->input->post('edit')){
 
+<<<<<<< HEAD
 			$this->load->model('site_model');
 			$site_id 	= $this->input->post('Site_ID');
 			$site_name 	= $this->input->post('SiteName');
 			$longitude 	= $this->input->post('Longitude');
 			$latitude 	= $this->input->post('Latitude');
+=======
+	public function openCSV($folder, $file_name){
+		$file = file('assets/csv/'.$folder.'/'.$file_name);
+		foreach ($file as $k) {
+			$csv[] = explode(',', $k);
+		}
+
+		if(count($csv[0]) == 1 ){
+			foreach ($file as $k) {
+				$csv[] = explode(';', $k);
+			}
+		}
+
+		return $csv;
+	}
+
+	public function insertCSV_Site(){
+
+		if($this->input->post('uploadcsv')){
+
+			if($_FILES['file']['name']) {
+				$this->load->library('upload');
+
+				$file_name = $_FILES['file']['name'];
+
+				$upload_path = realpath(APPPATH . '../assets/csv/site');
+				@unlink($upload_path . '/' . $file_name);
+				$config = [
+					'file_name' 		=> $file_name,
+					'allowed_types'		=> 'csv',
+					'upload_path'		=> $upload_path
+				];
+				$this->upload->initialize($config);
+				$this->upload->do_upload('file');
+
+				// insert data
+
+				$data_csv = $this->openCSV('site', $file_name);
+
+				// Cek jika data telah ada
+				for ($i = 0; $i < count($data_csv); $i++) {
+				   	$row = [
+				    	'Site_ID' 		=> $data_csv[$i][0],
+				    	'SiteName' 		=> $data_csv[$i][1],
+				    	'Longitude' 	=> $data_csv[$i][2],
+				    	'Latitude' 		=> $data_csv[$i][3]
+				   	];
+
+				   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+
+				   	if(count($site_id) > 0){
+				   		$line = $i + 1;
+				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
+				   		redirect('home/insert_site');	
+				   	}
+				}
+				
+				// Insert Data
+				for ($i = 0; $i < count($data_csv); $i++) {
+				   	$row = [
+				    	'Site_ID' 		=> $data_csv[$i][0],
+				    	'SiteName' 		=> $data_csv[$i][1],
+				    	'Longitude' 	=> $data_csv[$i][2],
+				    	'Latitude' 		=> $data_csv[$i][3]
+				   	];
+
+				   	$this->site_model->insert($row);
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+					redirect('home/insert_site');
+				}
+			}
+
+			else
+			{
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files uploaded!</div>');
+				redirect('home/insert_site');
+			}
+		}
+
+	}
+
+	public function insertCSV_Linkroute(){
+
+		if($this->input->post('uploadcsv')){
+
+			if($_FILES['file']['name']){
+			
+				$this->load->library('upload');
+
+				$file_name = $_FILES['file']['name'];
+
+				$upload_path = realpath(APPPATH . '../assets/csv/linkroute');
+				@unlink($upload_path . '/' . $file_name);
+				$config = [
+					'file_name' 		=> $file_name,
+					'allowed_types'		=> 'csv',
+					'upload_path'		=> $upload_path
+				];
+				$this->upload->initialize($config);
+				$this->upload->do_upload('file');
+
+				// open data
+
+				$data_csv = $this->openCSV('linkroute', $file_name);
+
+				// Cek jika id tidak ada di site 
+				for ($i = 0; $i < count($data_csv); $i++) {
+				   	$row = [
+				    	'Site_ID' 		=> $data_csv[$i][0],
+				    	'SysID' 		=> $data_csv[$i][1],
+				    	'NE_ID' 		=> $data_csv[$i][3],
+				    	'FE_ID' 		=> $data_csv[$i][5],
+				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+				   	];
+
+				   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+				   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
+				   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
+
+				   	if(count($site_id) < 1){
+				   		$line = $i + 1;
+				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> in the file!</div>');
+
+						redirect('home/insert_linkroute');
+				   	}
+
+				   	if(count($ne_id) < 1){
+				   		$line = $i + 1;
+				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  NE ID '. $data_csv[$i][3] .' in line '.$line.'</strong> in the file!</div>');
+
+						redirect('home/insert_linkroute');
+				   	}
+
+				   	if(count($fe_id) < 1){
+				   		$line = $i + 1;
+				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  FE ID '. $data_csv[$i][5] .' in line '.$line.'</strong> in the file!</div>');
+
+						redirect('home/insert_linkroute');
+				   	}	
+				}
+
+				// Cek kesamaan data
+				for ($i = 0; $i < count($data_csv); $i++) {
+				   	$row = [
+				    	'Site_ID' 		=> $data_csv[$i][0],
+				    	'SysID' 		=> $data_csv[$i][1],
+				    	'NE_ID' 		=> $data_csv[$i][3],
+				    	'FE_ID' 		=> $data_csv[$i][5],
+				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+				   	];
+
+				   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
+
+				   	if(count($cek_linkroute) > 0){
+				   		$id = $i + 1;
+
+				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, line '.$id.' already exists! Please check it!</div>');
+
+						redirect('home/insert_linkroute');
+				   	}
+				}
+
+				// insert data
+				for ($i = 0; $i < count($data_csv); $i++) {
+				   	$row = [
+				    	'Site_ID' 		=> $data_csv[$i][0],
+				    	'SysID' 		=> $data_csv[$i][1],
+				    	'NE_ID' 		=> $data_csv[$i][3],
+				    	'FE_ID' 		=> $data_csv[$i][5],
+				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+				   	];
+
+				   	$this->linkroute_model->insert($row);
+				}
+
+		   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+				redirect('home/insert_linkroute');
+					
+			}
+
+			else
+			{
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files uploaded!</div>');
+				redirect('home/insert_linkroute');
+			}
+		}
+			
+	}
+
+	
+	// function edit_site(){
+>>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
 
 			$required = ['Site_ID','SiteName','Longitude','Latitude'];
 
@@ -103,6 +296,27 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
+<<<<<<< HEAD
+=======
+	public function required_input($input_names){
+		$rules = [];
+		foreach ($input_names as $input){
+		   $rules []= [
+		    'field'  => $input,
+		    'label'  => ucfirst($input),
+		    'rules'  => 'required'
+		   ];
+		}
+		return $this->validate($rules);
+	}
+
+	public function validate($conf){
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules($conf);
+		return $this->form_validation->run();
+	}
+
+>>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
 	function insert_site(){
 
 		if($this->input->post('save')){
@@ -129,13 +343,18 @@ class Home extends CI_Controller{
 
 				
 				$cek_data = $this->site_model->get_dataBy_siteID($site_id);
+<<<<<<< HEAD
 				if(count($cek_data) > 0){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Telah Ada</div>');
+=======
+				if($cek_data == 1){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;"> Data Already Exists! </div>');
+>>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
 					redirect('Home/insert_site');
 				}
 				else{
 					$this->site_model->insert_site($input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;">  Successed! </div>');
 					//echo '<pre>';
 					//print_r($input);
 					//echo '</pre>';
