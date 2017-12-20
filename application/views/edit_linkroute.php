@@ -18,23 +18,23 @@
                                     <?= form_open('Home/edit_linkroute/' . $row->Site_ID  . '_' . $row->SysID . '_' . $row->NE_ID . '_' . $row->FE_ID)  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
-                                            <input class="form-control" type="text" name="Site_ID" value="" required>
+                                            <input class="form-control" type="text" name="Site_ID" value=" $site->Site_ID" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Band</label>
-                                            <input class="form-control" type="text" name="Band" value="" required>
+                                            <input class="form-control" type="text" name="Band" value=" $site->SysID" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Near End ID</label>
-                                            <input class="form-control" type="text" name="NE_ID" value="" required>
+                                            <input class="form-control" type="text" name="NE_ID" value="$site->NE_ID" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Far End ID</label>
-                                            <input class="form-control" type="text" name="FE_ID" value="" required>
+                                            <input class="form-control" type="text" name="FE_ID" value="$site->FE_ID" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Hop ID Detail</label>
-                                            <input class="form-control" type="text" name="HOP_ID_DETAIL" value="" required>
+                                            <input class="form-control" type="text" name="HOP_ID_DETAIL" value="$site->HOP_ID_DETAIL" required>
                                         </div>
                                         <input type="submit" class="btn btn-success" name="edit" value="Save">
                                     <?= form_close()  ?>
