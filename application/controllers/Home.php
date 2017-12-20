@@ -47,19 +47,7 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	function edit_site(){
 
-		$get_id = $this->uri->segment(3);
-
-		if($this->input->post('edit')){
-
-<<<<<<< HEAD
-			$this->load->model('site_model');
-			$site_id 	= $this->input->post('Site_ID');
-			$site_name 	= $this->input->post('SiteName');
-			$longitude 	= $this->input->post('Longitude');
-			$latitude 	= $this->input->post('Latitude');
-=======
 	public function openCSV($folder, $file_name){
 		$file = file('assets/csv/'.$folder.'/'.$file_name);
 		foreach ($file as $k) {
@@ -249,8 +237,11 @@ class Home extends CI_Controller{
 	}
 
 	
-	// function edit_site(){
->>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
+	function edit_site(){
+
+		$get_id = $this->uri->segment(3);
+
+		if($this->input->post('edit')){
 
 			$required = ['Site_ID','SiteName','Longitude','Latitude'];
 
@@ -296,27 +287,7 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-<<<<<<< HEAD
-=======
-	public function required_input($input_names){
-		$rules = [];
-		foreach ($input_names as $input){
-		   $rules []= [
-		    'field'  => $input,
-		    'label'  => ucfirst($input),
-		    'rules'  => 'required'
-		   ];
-		}
-		return $this->validate($rules);
-	}
 
-	public function validate($conf){
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules($conf);
-		return $this->form_validation->run();
-	}
-
->>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
 	function insert_site(){
 
 		if($this->input->post('save')){
@@ -343,13 +314,9 @@ class Home extends CI_Controller{
 
 				
 				$cek_data = $this->site_model->get_dataBy_siteID($site_id);
-<<<<<<< HEAD
-				if(count($cek_data) > 0){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Telah Ada</div>');
-=======
+
 				if($cek_data == 1){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;"> Data Already Exists! </div>');
->>>>>>> 13efe982b82dd853508cad4208b78ea53e029660
 					redirect('Home/insert_site');
 				}
 				else{
@@ -548,24 +515,6 @@ class Home extends CI_Controller{
 	}
 
 	// ---------
-
-	
-	public function openCSV(){
-		$file = file('assets/linkroutebelitung.csv');
-		foreach ($file as $k) {
-			$csv[] = explode(';', $k);
-		}
-		//echo '<pre>';
-		//print_r($csv);
-		//echo '</pre>';
-		return $csv;
-	}
-
-	
-	
-
-	
-
 	
 }
 
