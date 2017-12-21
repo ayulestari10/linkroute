@@ -73,6 +73,7 @@ class Home extends CI_Controller{
 	}
 
 	public function insertCSV_Site(){
+		set_time_limit(1800);
 
 		if($this->input->post('uploadcsv')){
 
@@ -96,7 +97,7 @@ class Home extends CI_Controller{
 				$data_csv = $this->openCSV('site', $file_name);
 
 				// Cek jika data telah ada
-				for ($i = 0; $i < count($data_csv); $i++) {
+				for ($i = 1; $i < count($data_csv); $i++) {
 				   	$row = [
 				    	'Site_ID' 		=> $data_csv[$i][0],
 				    	'SiteName' 		=> $data_csv[$i][1],
@@ -114,7 +115,7 @@ class Home extends CI_Controller{
 				}
 				
 				// Insert Data
-				for ($i = 0; $i < count($data_csv); $i++) {
+				for ($i = 1; $i < count($data_csv); $i++) {
 				   	$row = [
 				    	'Site_ID' 		=> $data_csv[$i][0],
 				    	'SiteName' 		=> $data_csv[$i][1],
@@ -123,9 +124,10 @@ class Home extends CI_Controller{
 				   	];
 
 				   	$this->site_model->insert($row);
-			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-					redirect('home/insert_site');
 				}
+
+		   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+				redirect('home/insert_site');
 			}
 
 			else
@@ -138,6 +140,7 @@ class Home extends CI_Controller{
 	}
 
 	public function insertCSV_Linkroute(){
+		set_time_limit(1800);
 
 		if($this->input->post('uploadcsv')){
 
@@ -162,7 +165,7 @@ class Home extends CI_Controller{
 				$data_csv = $this->openCSV('linkroute', $file_name);
 
 				// Cek jika id tidak ada di site 
-				for ($i = 0; $i < count($data_csv); $i++) {
+				for ($i = 1; $i < count($data_csv); $i++) {
 				   	$row = [
 				    	'Site_ID' 		=> $data_csv[$i][0],
 				    	'SysID' 		=> $data_csv[$i][1],
@@ -198,7 +201,7 @@ class Home extends CI_Controller{
 				}
 
 				// Cek kesamaan data
-				for ($i = 0; $i < count($data_csv); $i++) {
+				for ($i = 1; $i < count($data_csv); $i++) {
 				   	$row = [
 				    	'Site_ID' 		=> $data_csv[$i][0],
 				    	'SysID' 		=> $data_csv[$i][1],
@@ -219,7 +222,7 @@ class Home extends CI_Controller{
 				}
 
 				// insert data
-				for ($i = 0; $i < count($data_csv); $i++) {
+				for ($i = 1; $i < count($data_csv); $i++) {
 				   	$row = [
 				    	'Site_ID' 		=> $data_csv[$i][0],
 				    	'SysID' 		=> $data_csv[$i][1],
