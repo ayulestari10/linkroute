@@ -21,7 +21,7 @@
                                     <?= form_open('Home/edit_site/' . $site->Site_ID)  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
-                                            <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" required>
+                                            <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" disabled="">
                                         </div>
                                         <div class="form-group">
                                             <label>Site Name</label>
