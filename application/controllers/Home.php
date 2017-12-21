@@ -352,12 +352,17 @@ class Home extends CI_Controller{
 
 	public function SearchingRoute(){
 
-		if($this->input->post('site') && $this->input->post('band')){
-			echo "hay";exit;
+		if($this->input->post('cari')){
 
-			$hasil_pencarian = $this->linkroute_model->getRoute($this->input->post('site'), $this->input->post('band'));
-			exit;
-	}
+			$site = $this->input->post('site');
+			$band = $this->input->post('band');
+
+			if(isset($site) && isset($band)){
+
+				$hasil_pencarian = $this->linkroute_model->getRoute($site, $band);
+				$this->dump($hasil_pencarian); exit;
+			}
+		}
 
 		$data = array(
 			'title'		=> 'Route',
@@ -515,6 +520,12 @@ class Home extends CI_Controller{
 	}
 
 	// ---------
+
+	public function dump($data){
+		echo "<pre>";
+		var_dump($data);
+		echo "</pre>";
+	}
 	
 }
 

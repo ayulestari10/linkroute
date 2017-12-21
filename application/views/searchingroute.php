@@ -34,7 +34,7 @@
                     <div class="col-md-2">
                         <div class="input-group" style="padding: 14%; margin-left: -30%; position: absolute;">
                             <!-- <button class="btn btn-info"><i class="fa fa-search"></i> Cari</button> -->
-                            <input type="button" name="cari" value="Search" class="btn btn-info">
+                            <input type="submit" name="cari" value="Search" class="btn btn-info">
                         </div>
                     </div>
                 </div>
