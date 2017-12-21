@@ -33,12 +33,15 @@ class Site_model extends CI_Model{
 		return $query->result();
 	}
 
-	public function update($pk, $data)
+	function update($pk, $data)
 	{
 		$this->db->where([$this->key => $pk]);
 		return $this->db->update($this->table, $data);
 	}
 
+	function delete($id){
+		return $this->db->delete($this->table, array($this->key => $id));
+	}
 
 	// - -
 
@@ -92,12 +95,6 @@ class Site_model extends CI_Model{
 
 	function insert($data){
 		return $this->db->insert($this->table, $data);
-	}
-
-
-
-	function delete($id_mhs){
-		return $this->db->delete($this->table, array($this->key => $id_mhs));
 	}
 
 	function get_role($nim){

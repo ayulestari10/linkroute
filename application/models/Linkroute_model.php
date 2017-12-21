@@ -8,7 +8,7 @@ class Linkroute_model extends CI_Model{
 	function __construct(){
 		parent::__construct();
 		$this->table 				= 'linkroutebelitung';
-		$this->key 					= 'Site_ID';
+		$this->key 					= 'id';
 	}
 
 	//linkroute
@@ -52,7 +52,8 @@ class Linkroute_model extends CI_Model{
 	}
 
 	function get_all_twotable(){
-		$query = $this->db->query('SELECT linkroutebelitung.Site_ID,
+		$query = $this->db->query('SELECT linkroutebelitung.id,
+			linkroutebelitung.Site_ID,
 			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.Site_ID) AS Site_Name,
 			linkroutebelitung.SysID, 
 			linkroutebelitung.NE_ID,
@@ -62,6 +63,12 @@ class Linkroute_model extends CI_Model{
 			linkroutebelitung.HOP_ID_DETAIL
 			FROM linkroutebelitung JOIN site ON linkroutebelitung.Site_ID = site.Site_ID;');
 		return $query->result();	
+	}
+
+	function update($pk, $data)
+	{
+		$this->db->where([$this->key => $pk]);
+		return $this->db->update($this->table, $data);
 	}
 
 	// - -
@@ -110,17 +117,6 @@ class Linkroute_model extends CI_Model{
 
 	function insert($data){
 		return $this->db->insert($this->table, $data);
-	}
-
-	function update($nim, $data){
-		$this->db->where('nim', $nim);
-		return $this->db->update($this->table, $data);
-	}
-
-	public function updt($pk, $data)
-	{
-		$this->db->where(['id_data' => $pk]);
-		return $this->db->update($this->table, $data);
 	}
 
 	function delete($id_mhs){
