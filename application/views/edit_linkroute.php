@@ -25,6 +25,7 @@
                                             <select class="form-control" >
                                                 <option value=""></option>
                                                 <?php foreach ($site as $row): ?>
+                                                    <option value=""></option>
                                                     <option value="<?= $row->Site_ID ?>"><?= $row->Site_ID  ?></option>
                                                 <?php endforeach;  ?>
                                             </select>

@@ -39,6 +39,13 @@ class Home extends CI_Controller{
 	// site
 
 	function site(){
+		if ($this->input->post('Site_ID') && $this->input->post('delete'))
+        {
+        	echo $this->input->post('Site_ID');
+        	exit;
+            $this->site_model->delete($this->input->post('Site_ID'));
+        }
+
 		$data = array(
 			'title'		=> 'Site Table',
 			'content'	=> 'site',
@@ -289,23 +296,6 @@ class Home extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	function delete_site(){
-		$get_id = $this->uri->segment(3);
-
-		if($this->input->post('delete')){
-
-			$this->load->model('site_model');
-			$this->site_model->delete($get_id);
-            $this->site();
-		}
-        $data = array(
-			'title'		=> 'Edit Form',
-			'content'	=> 'site',
-			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
-		);
-		$this->load->view('frames/templates', $data);
-	}
-
 	function insert_site(){
 
 		if($this->input->post('save')){
@@ -389,7 +379,7 @@ class Home extends CI_Controller{
 		// if($this->input->post('edit')){
 		// 	$this->load->model('linkroute_model');
 
-		// 	$site_id = $this->input->post('Site_ID');
+		// 	$site_id = $this->gitinput->post('Site_ID');
 		// 	$band = $this->input->post('Band');
 		// 	$ne_id = $this->input->post('NE_ID');
 		// 	$fe_id = $this->input->post('FE_ID');
