@@ -21,7 +21,12 @@
                                     <?= form_open('home/insert_linkroute')  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
-                                            <input class="form-control" type="text" name="Site_ID" required>
+                                            <input class="form-control" type="text" name="Site_ID" list="data_siteid" autocomplete="off" required>
+                                            <datalist id="data_siteid">
+                                                <?php foreach ($site2 as $row): ?>
+                                                <option value="<?= $row->Site_ID ?>">
+                                                <?php endforeach;  ?>
+                                            </datalist>
                                         </div>
                                         <div>
                                             <?= $this->session->flashdata('msg2')  ?>
@@ -32,14 +37,24 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Near End ID</label>
-                                            <input class="form-control" type="text" name="NE_ID" required>
+                                            <input class="form-control" type="text" name="NE_ID" list="data_neid" autocomplete="off" required>
+                                            <datalist id="data_neid">
+                                                <?php foreach ($site2 as $row): ?>
+                                                <option value="<?= $row->Site_ID ?>">
+                                                <?php endforeach;  ?>
+                                            </datalist>
                                         </div>
                                         <div>
                                             <?= $this->session->flashdata('msg3')  ?>
                                         </div>
                                         <div class="form-group">
                                             <label>Far End ID</label>
-                                            <input class="form-control" type="text" name="FE_ID" required>
+                                            <input class="form-control" type="text" name="FE_ID" list="data_feid" autocomplete="off" required>
+                                            <datalist id="data_feid">
+                                                <?php foreach ($site2 as $row): ?>
+                                                <option value="<?= $row->Site_ID ?>">
+                                                <?php endforeach;  ?>
+                                            </datalist>
                                         </div>
                                         <div>
                                             <?= $this->session->flashdata('msg4')  ?>

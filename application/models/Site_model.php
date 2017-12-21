@@ -32,7 +32,7 @@ class Site_model extends CI_Model{
 		$query = $this->db->get($this->table);
 		return $query->result();
 	}
-
+	
 	function update($pk, $data)
 	{
 		$this->db->where([$this->key => $pk]);
