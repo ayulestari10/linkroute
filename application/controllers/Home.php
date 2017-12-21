@@ -252,12 +252,11 @@ class Home extends CI_Controller{
 
 		if($this->input->post('edit')){
 
-			$site_id = $this->input->post('Site_ID');
 			$site_name = $this->input->post('SiteName');
 			$longitude = $this->input->post('Longitude');
 			$latitude = $this->input->post('Latitude');
 
-			$required = ['Site_ID','SiteName','Longitude','Latitude'];
+			$required = ['SiteName','Longitude','Latitude'];
 
 			if(!$this->required_input($required)){
 				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
@@ -265,29 +264,14 @@ class Home extends CI_Controller{
 			}
 			else{
 				$input = array(
-						'Site_ID' 	=> $site_id,
 						'SiteName'	=> $site_name,
 						'Longitude'	=> $longitude,
 						'Latitude'	=> $latitude
 				);
 
-				if($site_id == $get_id){
-					$this->site_model->update($get_id, $input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-					redirect('Home/edit_site/' . $site_id);
-				}
-				else{
-					$cek_site_id = $this->site_model->get_dataBy_siteID($site_id);
-					if(count($cek_site_id) > 0){
-						$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Failed, Site already exists!</div>');
-					 	redirect('Home/edit_site/' . $get_id);
-					}
-					else{
-						$this->site_model->update($get_id, $input);
-						$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-						redirect('Home/edit_site/' . $site_id);
-					}
-				}
+				$this->site_model->update($get_id, $input);
+				$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
+				redirect('Home/edit_site/' . $get_id);
 			}
 		}
 
