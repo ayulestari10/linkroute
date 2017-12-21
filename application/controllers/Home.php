@@ -376,7 +376,7 @@ class Home extends CI_Controller{
 		$data = array(
 			'title'		=> 'Route',
 			'content'	=> 'searchingroute',
-			'site'		=> $this->site_model->get_all()
+			'site'		=> $this->site_model->get_all(),
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -450,7 +450,8 @@ class Home extends CI_Controller{
 		$data = array(
 			'title'		=> 'Edit Form',
 			'content'	=> 'edit_linkroute',
-			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id])
+			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id]),
+			'site2'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -459,6 +460,7 @@ class Home extends CI_Controller{
 		
 		if($this->input->post('save')){
 			$this->load->model('linkroute_model');
+			$this->load->model('site_model');
 
 			$site_id 	= $this->input->post('Site_ID');
 			$band 		= $this->input->post('Band');
@@ -494,8 +496,6 @@ class Home extends CI_Controller{
 					redirect('Home/insert_linkroute');
 				}
 				else{
-					$this->load->model('site_model');
-
 					$cek_site = $this->site_model->get_dataBy_siteID($site_id);
 					if(count($cek_site) == 0){
 						$this->session->set_flashdata('msg2', '<div class="alert alert-danger" style="text-align:center;">Data Site Tidak Ada</div>');
@@ -531,7 +531,9 @@ class Home extends CI_Controller{
 
 		$data = array(
 			'title'		=> 'Input Form',
-			'content'	=> 'insert_linkroute'
+			'content'	=> 'insert_linkroute',
+			'site'		=> $this->linkroute_model->get_all(),
+			'site2'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}

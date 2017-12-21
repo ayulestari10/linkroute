@@ -22,6 +22,9 @@
     <script src="<?= base_url('assets') ?>/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="<?= base_url('assets') ?>/vendor/datatables-responsive/dataTables.responsive.js"></script>
 
+    <!-- Jquery Typeahead -->
+    <script src="<?= base_url('assets') ?>/vendor/jquery-typeahead-2.10.4/dist/jquery.typeahead.min.js"></script>
+
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {

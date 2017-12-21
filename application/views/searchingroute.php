@@ -7,21 +7,21 @@
             </div>
             <!-- /.row -->
 
-            <?= form_open('home/SearchingRoute') ?>
+            <?= form_open('Home/SearchingRoute') ?>
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="input-group">
+                        <div class="form-group">
                             <label>Site</label>
-                            <select class="form-control" name="site" id="">
-                                <option value=""></option>
-                                <?php foreach($site as $row): ?>
-                                    <option value="<?= $row->Site_ID ?>"><?= $row->Site_ID ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <input type="text" name="input_site" class="form-control" list="datalist1">
+                            <datalist id="datalist1">
+                                <?php foreach ($site as $row): ?>
+                                <option value="<?= $row->Site_ID ?>">
+                                <?php endforeach;  ?>
+                            </datalist>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="input-group">
+                        <div class="form-group">
                             <label>Band</label>
                             <select class="form-control" name="band" id="">
                                 <option value=""></option>
@@ -32,14 +32,13 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="input-group" style="padding: 14%; margin-left: -30%; position: absolute;">
+                        <div class="form-group" style="padding: 14%; margin-left: -20%; position: absolute;">
                             <!-- <button class="btn btn-info"><i class="fa fa-search"></i> Cari</button> -->
                             <input type="submit" name="cari" value="Search" class="btn btn-info">
                         </div>
                     </div>
                 </div>
-
-                <?= form_close() ?>
+            <?= form_close() ?>
 
             <div class="row" style="margin-top: 5%;">
                 <div class="col-lg-8">
