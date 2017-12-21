@@ -5,6 +5,13 @@ class Home extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 
+		$username = $this->session->userdata('username');
+		if (!isset($username))
+		{
+			redirect('Login');
+			exit;
+		}
+
 		$this->load->model('site_model');
 		$this->load->model('linkroute_model');
 	}

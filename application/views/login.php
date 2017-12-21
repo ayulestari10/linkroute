@@ -1,82 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" >
+
 <head>
-	<!-- Bootstrap Core CSS -->
-    <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Login Form</title>
+ 
+      <style>
+      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+      /*@import url(https://fonts.googleapis.com/css?family=Exo:100,200,400);
+		@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);*/
 
-
-	<script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
-	<!-- This is a very simple parallax effect achieved by simple CSS 3 multiple backgrounds, made by http://twitter.com/msurguy -->
-	<title>Login</title>
-
-	<style type="text/css">
 		body{
-		    background: url(http://mymaplist.com/img/parallax/pinlayer1.png) no-repeat center center fixed;
-			background-color: #444;
-		    background: url(http://mymaplist.com/img/parallax/pinlayer2.png) no-repeat center center fixed,url(http://mymaplist.com/img/parallax/pinlayer1.png) no-repeat center center fixed,url(http://www.istartedsomething.com/bingimages/cache/AKHumpbacks_EN-AU1914968143.jpg) no-repeat center center fixed;    
-		      -webkit-background-size: auto auto;
-		      -moz-background-size: auto auto;
-		      -o-background-size: auto auto;
-		      background-size: auto auto;
+			margin: 0;
+			padding: 0;
+			background: #fff;
+
+			color: #fff;
+			font-family: Arial;
+			font-size: 12px;
 		}
 
-		.vertical-offset-100{
-		    padding-top:100px;
+		.body{
+			position: absolute;
+			top: -20px;
+			left: -20px;
+			right: -40px;
+			bottom: -40px;
+			width: auto;
+			height: auto;
+			background-image: url(assets/img/city-skyline-wallpapers-008.jpg);
+			background-size: cover;
+			-webkit-filter: blur(5px);
+			z-index: 0;
 		}
-	</style>
+
+		.grad{
+			position: absolute;
+			top: -20px;
+			left: -20px;
+			right: -40px;
+			bottom: -40px;
+			width: auto;
+			height: auto;
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
+			z-index: 1;
+			opacity: 0.7;
+		}
+
+		.header{
+			position: absolute;
+			top: calc(50% - 35px);
+			left: calc(50% - 255px);
+			z-index: 2;
+		}
+
+		.header div{
+			float: left;
+			color: #fff;
+			font-family: 'Exo', sans-serif;
+			font-size: 35px;
+			font-weight: 200;
+		}
+
+		.header div span{
+			color: #5379fa !important;
+		}
+
+		.login{
+			position: absolute;
+			top: calc(50% - 75px);
+			left: calc(50% - 50px);
+			height: 150px;
+			width: 350px;
+			padding: 10px;
+			z-index: 2;
+		}
+
+		.login input[type=text]{
+			width: 250px;
+			height: 30px;
+			background: transparent;
+			border: 1px solid rgba(255,255,255,0.6);
+			border-radius: 2px;
+			color: #fff;
+			font-family: 'Exo', sans-serif;
+			font-size: 16px;
+			font-weight: 400;
+			padding: 4px;
+		}
+
+		.login input[type=password]{
+			width: 250px;
+			height: 30px;
+			background: transparent;
+			border: 1px solid rgba(255,255,255,0.6);
+			border-radius: 2px;
+			color: #fff;
+			font-family: 'Exo', sans-serif;
+			font-size: 16px;
+			font-weight: 400;
+			padding: 4px;
+			margin-top: 10px;
+		}
+
+		.login input[type=submit]{
+			width: 260px;
+			height: 35px;
+			background: #fff;
+			border: 1px solid #fff;
+			cursor: pointer;
+			border-radius: 2px;
+			color: #a18d6c;
+			font-family: 'Exo', sans-serif;
+			font-size: 16px;
+			font-weight: 400;
+			padding: 6px;
+			margin-top: 10px;
+		}
+
+		.login input[type=submit]:hover{
+			opacity: 0.8;
+		}
+
+		.login input[type=submit]:active{
+			opacity: 0.6;
+		}
+
+		.login input[type=text]:focus{
+			outline: none;
+			border: 1px solid rgba(255,255,255,0.9);
+		}
+
+		.login input[type=password]:focus{
+			outline: none;
+			border: 1px solid rgba(255,255,255,0.9);
+		}
+
+		.login input[type=submit]:focus{
+			outline: none;
+		}
+
+		::-webkit-input-placeholder{
+		   color: rgba(255,255,255,0.6);
+		}
+
+		::-moz-input-placeholder{
+		   color: rgba(255,255,255,0.6);
+		}
+    </style>
+
+     <!-- Bootstrap Core CSS -->
+    <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="<?= base_url('assets') ?>/prefixfree.min.js"></script>
+
 </head>
+
 <body>
-	<div class="container">
-	    <div class="row vertical-offset-100">
-	    	<div class="col-md-4 col-md-offset-4">
-	    		<div class="panel panel-default">
-				  	<div class="panel-heading">
-				    	<h3 class="panel-title">Please sign in</h3>
-				 	</div>
-				  	<div class="panel-body">
-				    	<form accept-charset="UTF-8" role="form">
-	                    <fieldset>
-				    	  	<div class="form-group">
-				    		    <input class="form-control" placeholder="E-mail" name="email" type="text">
-				    		</div>
-				    		<div class="form-group">
-				    			<input class="form-control" placeholder="Password" name="password" type="password" value="">
-				    		</div>
-				    		<div class="checkbox">
-				    	    	<label>
-				    	    		<input name="remember" type="checkbox" value="Remember You"> Remember You
-				    	    	</label>
-				    	    </div>
-				    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-				    	</fieldset>
-				      	</form>
-				    </div>
-				</div>
-			</div>
+
+  <div class="body"></div>
+		<div class="grad"></div>
+		<div class="header">
+			<div>LOGIN</div>
 		</div>
-	</div>
+		<br>
+		<div class="login">
+			<?= form_open('login') ?>
+				<input type="text" placeholder="username" name="username"><br>
+				<input type="password" placeholder="password" name="password"><br>
+				<input type="submit" name="login-submit" value="Login">
+			<?= form_close() ?>
+		</div>
 
+  <script src='<?= base_url('assets') ?>/jquery-2.1.3.min.js'></script>
+  <!-- jQuery -->
+    <script src="<?= base_url('assets') ?>/vendor/jquery/jquery.min.js"></script>
 
+    
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="<?= base_url('assets') ?>/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-		  $(document).mousemove(function(e){
-		     TweenLite.to($('body'), 
-		        .5, 
-		        { css: 
-		            {
-		                'background-position':parseInt(event.pageX/8) + "px "+parseInt(event.pageY/12)+"px, "+parseInt(event.pageX/15)+"px "+parseInt(event.pageY/15)+"px, "+parseInt(event.pageX/30)+"px "+parseInt(event.pageY/30)+"px"
-		            }
-		        });
-		  });
-		});
-	</script>
 </body>
+
 </html>
-
-
-
-
-
-
