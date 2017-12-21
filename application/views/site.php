@@ -34,7 +34,7 @@
                                         <td><?= $row->Latitude ?></td>
                                         <td>
                                             <a href="<?= base_url('Home/edit_site/' . $row->Site_ID)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
-                                            <a href="<?= base_url('Home/edit_site/' . $row->Site_ID)  ?>" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></a>
+                                            <a href="" class="btn btn-danger btn-circle" onclick="delete_site(<?= $row->Site_ID  ?>)"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -55,3 +55,23 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <script>
+        function delete_site(Site_ID) {
+            $.ajax({
+                url: '<?= base_url('Home/site') ?>',
+                type: 'POST',
+                data: {
+                        delete: true,
+                        Site_ID: Site_ID
+                      },
+                success: function(response) {
+                        var json = $.parseJSON(response);
+                        window.location = '<?= base_url('Home/site') ?>';
+                        },
+                error: function(e) {
+                        console.log(e.responseText);
+                        }
+                    });
+            }
+    </script>
