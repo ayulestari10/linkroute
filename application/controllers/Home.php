@@ -41,9 +41,9 @@ class Home extends CI_Controller{
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
-        	echo $this->input->post('Site_ID');
-        	exit;
+        	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
+            exit;
         }
 
 		$data = array(
@@ -347,6 +347,13 @@ class Home extends CI_Controller{
 	// linkroute
 
 	function linkroute(){
+		if ($this->input->post('id') && $this->input->post('delete'))
+        {
+        	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
+            $this->linkroute_model->delete($this->input->post('id'));
+            exit;
+        }
+
 		$data = array(
 			'title'		=> 'Link Route Table',
 			'content'	=> 'linkroute',
