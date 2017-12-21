@@ -43,6 +43,17 @@ class Site_model extends CI_Model{
 		return $this->db->delete($this->table, array($this->key => $id));
 	}
 
+	public function delete_by($cond)
+	{
+		$this->db->where($cond);
+		return $this->db->delete($this->table);
+	}
+
+	public function delete_where_and($value){
+		$query = $this->db->query('DELETE FROM '.$this->table.' WHERE Site_ID = "'.$value.'" OR NE_ID = "'.$value.'" OR FE_ID = "'.$value.'"');
+		return $query->result();
+	}
+
 	// - -
 
 	function cek_nim($nim){
