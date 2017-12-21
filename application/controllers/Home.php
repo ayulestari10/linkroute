@@ -43,6 +43,9 @@ class Home extends CI_Controller{
         {
         	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
+
+            // delete site di link route
+            $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
             exit;
         }
 
