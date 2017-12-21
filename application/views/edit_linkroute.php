@@ -15,7 +15,20 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <?= form_open('Home/edit_linkroute/' . $row->Site_ID  . '_' . $row->SysID . '_' . $row->NE_ID . '_' . $row->FE_ID)  ?>
+                                    <?= form_open('Home/edit_linkroute')  ?>
+                                        <div class="form-group">
+                                            <label>ID</label>
+                                            <input type="text" name="id" class="form-control" value="$site->id" disabled="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Site ID</label>
+                                            <select class="form-control" >
+                                                <option value=""></option>
+                                                <?php foreach ($site as $row): ?>
+                                                    <option value="<?= $row->Site_ID ?>"><?= $row->Site_ID  ?></option>
+                                                <?php endforeach;  ?>
+                                            </select>
+                                        </div>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input class="form-control" type="text" name="Site_ID" value=" $site->Site_ID" required>

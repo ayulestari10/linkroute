@@ -242,6 +242,11 @@ class Home extends CI_Controller{
 
 		if($this->input->post('edit')){
 
+			$site_id = $this->input->post('Site_ID');
+			$site_name = $this->input->post('SiteName');
+			$longitude = $this->input->post('Longitude');
+			$latitude = $this->input->post('Latitude');
+
 			$required = ['Site_ID','SiteName','Longitude','Latitude'];
 
 			if(!$this->required_input($required)){
@@ -256,24 +261,22 @@ class Home extends CI_Controller{
 						'Latitude'	=> $latitude
 				);
 
-				
-				$cek_data = $this->site_model->get_dataBy_siteID($get_id);
-				if(count($cek_data) > 0){
+				if($site_id == $get_id){
+					$this->site_model->update($get_id, $input);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+					redirect('Home/edit_site/' . $site_id);
+				}
+				else{
 					$cek_site_id = $this->site_model->get_dataBy_siteID($site_id);
 					if(count($cek_site_id) > 0){
 						$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Ganda</div>');
-						redirect('Home/edit_site/' . $get_id);
+					 	redirect('Home/edit_site/' . $get_id);
 					}
 					else{
 						$this->site_model->update($get_id, $input);
 						$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
 						redirect('Home/edit_site/' . $site_id);
 					}
-
-				}
-				else{
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Belum Ada</div>');
-					redirect('Home/edit_site');
 				}
 			}
 		}
@@ -281,6 +284,23 @@ class Home extends CI_Controller{
 		$data = array(
 			'title'		=> 'Edit Form',
 			'content'	=> 'edit_site',
+			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+	function delete_site(){
+		$get_id = $this->uri->segment(3);
+
+		if($this->input->post('delete')){
+
+			$this->load->model('site_model');
+			$this->site_model->delete($get_id);
+            $this->site();
+		}
+        $data = array(
+			'title'		=> 'Edit Form',
+			'content'	=> 'site',
 			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
 		);
 		$this->load->view('frames/templates', $data);
@@ -320,9 +340,6 @@ class Home extends CI_Controller{
 				else{
 					$this->site_model->insert_site($input);
 					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
-					//echo '<pre>';
-					//print_r($input);
-					//echo '</pre>';
 					redirect('Home/insert_site');
 				}
 			}
@@ -367,66 +384,62 @@ class Home extends CI_Controller{
 
 	function edit_linkroute(){
 		$get_id = $this->uri->segment(3);
-		$get_id_explode = explode('_', $get_id);
+		// $get_id_explode = explode('_', $get_id);
 
-		if($this->input->post('edit')){
-			$this->load->model('linkroute_model');
+		// if($this->input->post('edit')){
+		// 	$this->load->model('linkroute_model');
 
-			$site_id = $this->input->post('Site_ID');
-			$band = $this->input->post('Band');
-			$ne_id = $this->input->post('NE_ID');
-			$fe_id = $this->input->post('FE_ID');
-			$hop = $this->input->post('HOP_ID_DETAIL'); 
-		}
+		// 	$site_id = $this->input->post('Site_ID');
+		// 	$band = $this->input->post('Band');
+		// 	$ne_id = $this->input->post('NE_ID');
+		// 	$fe_id = $this->input->post('FE_ID');
+		// 	$hop = $this->input->post('HOP_ID_DETAIL'); 
+		// }
 
-		$required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
+		// $required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
 
-		if(!$this->required_input($required)){
-			$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
-					redirect('Home/edit_linkroute');
-		}
+		// if(!$this->required_input($required)){
+		// 		$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
+		// 			redirect('Home/edit_linkroute');
+		// }
+		// else{
+		// 	$input = array(
+		// 			'Site_ID' => $site_id,
+		// 			'SysID'	=> $band,
+		// 			'NE_ID' => $ne_id,
+		// 			'FE_ID' => $fe_id,
+		// 			'HOP_ID_DETAIL' => $hop 
+		// 	);
+		// 	$cek_input = array(
+		// 			'Site_ID' => $site_id,
+		// 			'SysID'	=> $band,
+		// 			'NE_ID' => $ne_id,
+		// 			'FE_ID' => $fe_id,
+		// 	);
 
-		else{
-				$input = array(
-						'Site_ID' 	=> $site_id,
-						'SysID'		=> $band,
-						'NE_ID'		=> $ne_id,
-						'FE_ID'		=> $fe_id,
-						'HOP_ID_DETAIL' => $hop
-				);
-
-				$cek_input = array(
-							'Site_ID' 	=> $site_id,
-							'SysID'		=> $band,
-							'NE_ID'		=> $ne_id,
-							'FE_ID'		=> $fe_id,
-				);
-
-				
-				$cek_data = $this->linkroute_model->get_data_byConditional($get_id_explode);
-				if(count($cek_data) > 0){
-					$cek_site_id = $this->linkroute_model->get_dataBy_siteID($site_id);
-					if(count($cek_site_id) > 0){
-						$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Ganda</div>');
-						redirect('Home/edit_linkroute/' . $get_id);
-					}
-					else{
-						$this->site_model->update($get_id, $input);
-						$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
-						redirect('Home/edit_linkroute/' . $site_id);
-					}
-
-				}
-				else{
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Belum Ada</div>');
-					redirect('Home/edit_linkroute');
-				}
-			}
+		// 	if($cek_site_id == $get_id_explode){
+		// 		$this->linkroute_model->update($get_id, $input);
+		// 		$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+		// 		redirect('Home/edit_linkroute/' . $site_id);
+		// 	}
+		// 	else{
+		// 		$cek_site_id = $this->site_model->get_dataBy_siteID($site_id);
+		// 		if(count($cek_site_id) > 0){
+		// 			$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Ganda</div>');
+		// 		 	redirect('Home/edit_linkroute/' . $get_id);
+		// 		}
+		// 		else{
+		// 			$this->site_model->update($get_id, $input);
+		// 			$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+		// 			redirect('Home/edit_linkroute/' . $site_id);
+		// 		}
+		// 	}
+		// }
 
 		$data = array(
 			'title'		=> 'Edit Form',
 			'content'	=> 'edit_linkroute',
-			'site'		=> $this->linkroute_model->get_data_byConditional($get_id_explode)
+			'site'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}

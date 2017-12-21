@@ -38,16 +38,16 @@
                                         <td><?= $row->Site_Name ?></td>
                                         <td><?= $row->SysID ?></td>
                                         <td><?= $row->NE_ID ?></td>
-                                        <td><p><?= $row->NE_Name ?></p></td>
+                                        <td><?= $row->NE_Name ?></td>
                                         <td><?= $row->FE_ID ?></td>
                                         <td><?= $row->FE_Name ?></td>
                                         <td><?= $row->HOP_ID_DETAIL ?></td>
                                         <td>
-                                            <a href="<?= base_url('Home/edit_linkroute/' . $row->Site_ID  . '_' . $row->SysID . '_' . $row->NE_ID . '_' . $row->FE_ID) ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="<?= base_url('Home/edit_linkroute/' . $row->id)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
                                             <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
-                                <?php $i++; endforeach; ?>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
