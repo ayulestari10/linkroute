@@ -250,7 +250,7 @@ class Home extends CI_Controller{
 			$required = ['Site_ID','SiteName','Longitude','Latitude'];
 
 			if(!$this->required_input($required)){
-				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
 					redirect('Home/edit_site');
 			}
 			else{
@@ -263,18 +263,18 @@ class Home extends CI_Controller{
 
 				if($site_id == $get_id){
 					$this->site_model->update($get_id, $input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					redirect('Home/edit_site/' . $site_id);
 				}
 				else{
 					$cek_site_id = $this->site_model->get_dataBy_siteID($site_id);
 					if(count($cek_site_id) > 0){
-						$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Ganda</div>');
+						$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Failed, Site already exists!</div>');
 					 	redirect('Home/edit_site/' . $get_id);
 					}
 					else{
 						$this->site_model->update($get_id, $input);
-						$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+						$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 						redirect('Home/edit_site/' . $site_id);
 					}
 				}
@@ -319,7 +319,7 @@ class Home extends CI_Controller{
 			$required = ['Site_ID','SiteName','Longitude','Latitude'];
 
 			if(!$this->required_input($required)){
-				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
 					redirect('Home/insert_site');
 			}
 			else{
@@ -339,7 +339,7 @@ class Home extends CI_Controller{
 				}
 				else{
 					$this->site_model->insert_site($input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					redirect('Home/insert_site');
 				}
 			}
@@ -389,62 +389,74 @@ class Home extends CI_Controller{
 
 	function edit_linkroute(){
 		$get_id = $this->uri->segment(3);
-		// $get_id_explode = explode('_', $get_id);
+		
+		if(isset($get_id)){
+			
+			if($this->input->post('edit')){
 
-		// if($this->input->post('edit')){
-		// 	$this->load->model('linkroute_model');
+				$required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
 
-		// 	$site_id = $this->input->post('Site_ID');
-		// 	$band = $this->input->post('Band');
-		// 	$ne_id = $this->input->post('NE_ID');
-		// 	$fe_id = $this->input->post('FE_ID');
-		// 	$hop = $this->input->post('HOP_ID_DETAIL'); 
-		// }
+				if(!$this->required_input($required)) {
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+					redirect('Home/edit_linkroute/'.$get_id);
+				}
+				else {
 
-		// $required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
+					$site_id 	= $this->input->post('Site_ID');
+					$band 		= $this->input->post('Band');
+					$ne_id 		= $this->input->post('NE_ID');
+					$fe_id 		= $this->input->post('FE_ID');
+					$hop 		= $this->input->post('HOP_ID_DETAIL'); 
 
-		// if(!$this->required_input($required)){
-		// 		$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
-		// 			redirect('Home/edit_linkroute');
-		// }
-		// else{
-		// 	$input = array(
-		// 			'Site_ID' => $site_id,
-		// 			'SysID'	=> $band,
-		// 			'NE_ID' => $ne_id,
-		// 			'FE_ID' => $fe_id,
-		// 			'HOP_ID_DETAIL' => $hop 
-		// 	);
-		// 	$cek_input = array(
-		// 			'Site_ID' => $site_id,
-		// 			'SysID'	=> $band,
-		// 			'NE_ID' => $ne_id,
-		// 			'FE_ID' => $fe_id,
-		// 	);
+					$input = array(
+						'Site_ID' => $site_id,
+						'SysID'	=> $band,
+						'NE_ID' => $ne_id,
+						'FE_ID' => $fe_id,
+						'HOP_ID_DETAIL' => $hop 
+					);
 
-		// 	if($cek_site_id == $get_id_explode){
-		// 		$this->linkroute_model->update($get_id, $input);
-		// 		$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
-		// 		redirect('Home/edit_linkroute/' . $site_id);
-		// 	}
-		// 	else{
-		// 		$cek_site_id = $this->site_model->get_dataBy_siteID($site_id);
-		// 		if(count($cek_site_id) > 0){
-		// 			$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Ganda</div>');
-		// 		 	redirect('Home/edit_linkroute/' . $get_id);
-		// 		}
-		// 		else{
-		// 			$this->site_model->update($get_id, $input);
-		// 			$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
-		// 			redirect('Home/edit_linkroute/' . $site_id);
-		// 		}
-		// 	}
-		// }
+					// cek jika linkroute yang diinput sudah ada di tabel
+					$cek_linkroute = $this->linkroute_model->get_data_byConditional($input);
 
+					if(count($cek_linkroute) > 0){
+						$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, linkroute already exists!</div>');
+						redirect('home/edit_linkroute/'.$get_id);
+					}
+
+					// cek jika id yang diinput tidak ada di tabel site
+					$site_id 	= $this->site_model->get_dataBy_siteID($site_id);
+				   	$ne_id 		= $this->site_model->get_dataBy_siteID($ne_id);
+				   	$fe_id 		= $this->site_model->get_dataBy_siteID($fe_id);
+
+				   	if(count($site_id) < 1){
+				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $site_id.' does not exits!</strong></div>');
+						redirect('home/edit_linkroute/'.$get_id);
+				   	}
+
+				   	if(count($ne_id) < 1){
+				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $ne_id.' does not exits!</strong></div>');
+						redirect('home/edit_linkroute/'.$get_id);
+				   	}
+
+				   	if(count($fe_id) < 1){
+				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $fe_id.' does not exits!</strong></div>');
+						redirect('home/edit_linkroute/'.$get_id);
+				   	}
+
+				   	// update data
+				   	$this->linkroute_model->update($get_id, $input);
+				   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+					redirect('home/edit_linkroute/'.$get_id);
+					
+				}
+			}
+		}
+			
 		$data = array(
 			'title'		=> 'Edit Form',
 			'content'	=> 'edit_linkroute',
-			'site'		=> $this->site_model->get_all()
+			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id])
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -463,7 +475,7 @@ class Home extends CI_Controller{
 			$required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
 
 			if(!$this->required_input($required)){
-				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Lengkapi Data</div>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
 					redirect('Home/insert_linkroute');
 			}
 			else{
@@ -513,7 +525,7 @@ class Home extends CI_Controller{
 
 
 					$this->linkroute_model->insert_site($input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Berhasil </div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					//echo '<pre>';
 					//print_r($input);
 					//echo '</pre>';
