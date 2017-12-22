@@ -53,10 +53,12 @@ class Linkroute_model extends CI_Model{
 
 	function getUnion($site, $band){
 		$query = $this->db->query(' SELECT DISTINCT x.Site_ID, x.Longitude, x.Latitude FROM 
-			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in (SELECT linkroutebelitung.NE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as x
+			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in 
+			(SELECT linkroutebelitung.NE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as x
 			UNION
 			SELECT DISTINCT y.Site_ID, y.Longitude, y.Latitude FROM 
-			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in (SELECT linkroutebelitung.FE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as y
+			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in 
+				(SELECT linkroutebelitung.FE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as y
 			');
 		return $query->result();
 	}
