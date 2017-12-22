@@ -6,15 +6,19 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-
-            <?= form_open('Home/SearchingRoute') ?>
+            <div class="row">
+                <div class="col-md-5">
+                    <?= $this->session->flashdata('msg')  ?>
+                </div>
+            </div>
+            <?= form_open('Home/find_searching') ?>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Site</label>
-                            <input type="text" name="input_site" class="form-control" list="datalist1">
+                            <input type="text" name="input_site" class="form-control" list="datalist1" autocomplete="off" required>
                             <datalist id="datalist1">
-                                <?php foreach ($site as $row): ?>
+                                <?php foreach ($site1 as $row): ?>
                                 <option value="<?= $row->Site_ID ?>">
                                 <?php endforeach;  ?>
                             </datalist>
@@ -23,23 +27,25 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             <label>Band</label>
-                            <select class="form-control" name="band" id="">
+                            <select class="form-control" name="band" required>
                                 <option value=""></option>
-                                <option value="2G">2G</option>
-                                <option value="3G">3G</option>
-                                <option value="4G">4G</option>
+                                <option value="MD">2G(MD)</option>
+                                <option value="MG">2G(MG)</option>
+                                <option value="MM">2G(MM)</option>
+                                <option value="MW">3G</option>
+                                <option value="ML">4G</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group" style="padding: 14%; margin-left: -20%; position: absolute;">
-                            <!-- <button class="btn btn-info"><i class="fa fa-search"></i> Cari</button> -->
+                        <div class="form-group" style="padding: 12%; margin-left: -15%; position: absolute;">
                             <input type="submit" name="cari" value="Search" class="btn btn-info">
                         </div>
                     </div>
                 </div>
             <?= form_close() ?>
 
+            <?php if(isset($site) && isset($site2)): ?>
             <div class="row" style="margin-top: 5%;">
                 <div class="col-lg-8">
                     <div class="panel panel-default">
@@ -67,22 +73,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                            <?php foreach ($site as $row): ?>
                                                 <tr>   
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>  
-                                                    <td>-2.86489</td>  
+                                                    <td><?= $row->NE_ID ?></td>  
+                                                    <td><?= $row->NE_Longitude ?></td>  
+                                                    <td><?= $row->NE_Latitude ?></td>  
                                                 </tr>
-                                                <tr>   
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>  
-                                                    <td>-2.86489</td>
-                                                </tr>
-                                                <tr>   
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>  
-                                                    <td>-2.86489</td>
-                                                </tr>
-
+                                            <?php endforeach;  ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -103,28 +100,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                <?php foreach ($site as $row): ?>
                                                 <tr>     
-                                                    <td>MGR003</td>  
-                                                    <td>108.168</td>     
-                                                    <td>-2.97053</td>
+                                                    <td><?= $row->FE_ID ?></td>  
+                                                    <td><?= $row->FE_Longitude ?></td>     
+                                                    <td><?= $row->FE_Latitude ?></td>
                                                 </tr>
-                                                <tr>    
-                                                    <td>MGR003</td>  
-                                                    <td>108.168</td>     
-                                                    <td>-2.97053</td>
-                                                </tr>
-                                                <tr> 
-                                                    <td>MGR003</td>  
-                                                    <td>108.168</td>     
-                                                    <td>-2.97053</td>
-                                                </tr>
-
+                                                <?php endforeach;  ?>
                                             </tbody>
                                         </table>
                                     </div>
                                     <!-- /.table-responsive -->
                                 </div>
-
 
                             </div> 
                             <!-- /.row -->
@@ -151,27 +138,14 @@
                                                 <th >Longitude</th>
                                                 <th >Latitude</th>
                                             </thead>
-                                            <tbody>                                            
+                                            <tbody>
+                                                <?php foreach ($site2 as $row): ?>           
                                                 <tr >
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>
-                                                    <td>-2.86489</td>
-                                                </tr>                                            
-                                                <tr >
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>
-                                                    <td>-2.86489</td>
-                                                </tr>                                            
-                                                <tr >
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>
-                                                    <td>-2.86489</td>
-                                                </tr>                                            
-                                                <tr >
-                                                    <td>MGR001</td>  
-                                                    <td>108.28</td>
-                                                    <td>-2.86489</td>
+                                                    <td><?= $row->Site_ID ?></td>  
+                                                    <td><?= $row->Longitude ?></td>
+                                                    <td><?= $row->Latitude ?></td>
                                                 </tr>
+                                                <?php endforeach; ?>                                            
                                             </tbody>
                                         </table>
                                     </div>
@@ -184,7 +158,7 @@
                 <!-- /.col-lg-6 -->
             </div>
             <!-- /.row -->
-
+        <?php endif; ?>
             </div>
 
         </div>

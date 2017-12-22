@@ -360,25 +360,44 @@ class Home extends CI_Controller{
 	}
 
 	public function SearchingRoute(){
-
-		if($this->input->post('cari')){
-
-			$site = $this->input->post('site');
-			$band = $this->input->post('band');
-
-			if(isset($site) && isset($band)){
-
-				$hasil_pencarian = $this->linkroute_model->getRoute($site, $band);
-				$this->dump($hasil_pencarian); exit;
-			}
-		}
-
+		$this->load->model('site_model');
 		$data = array(
 			'title'		=> 'Route',
 			'content'	=> 'searchingroute',
-			'site'		=> $this->site_model->get_all(),
+			'site1'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
+
+	}
+
+	function find_searching(){
+
+		if($this->input->post('cari')){
+			$required = ['input_site','band'];
+
+			$site = $this->input->post('input_site');
+			$band_id = $this->input->post('band');
+
+			if(isset($site) && isset($band_id)){
+				$hasil_site = $this->linkroute_model->getRoute($site, $band_id);
+				$hasil_site2 = $this->linkroute_model->getUnion($site, $band_id);
+
+				if(count($hasil_site) < 1 && count($hasil_site2) < 1){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Empty</div>');
+					redirect('Home/SearchingRoute');
+					exit;
+				}
+			}
+		}
+		$data = array(
+			'title'		=> 'Route',
+			'content'	=> 'searchingroute',
+			'site'		=> $hasil_site,
+			'site1'		=> $this->site_model->get_all(),
+			'site2'		=> $hasil_site2
+		);
+		$this->load->view('frames/templates', $data);
+
 	}
 
 	function edit_linkroute(){

@@ -34,9 +34,9 @@ class Linkroute_model extends CI_Model{
 	}
 
 	function getRoute($site, $band){
-		$query = $this->db->query(' SELECT linkroutebelitung.SysID, 
+		$query = $this->db->query('  SELECT linkroutebelitung.SysID, 
 				linkroutebelitung.NE_ID, (
-				SELECT Longitude FROM site WHERE Site_ID = linkroutebelitung.NE_ID
+				    SELECT Longitude FROM site WHERE Site_ID = linkroutebelitung.NE_ID
 				) AS NE_Longitude, (
 				    SELECT Latitude FROM site WHERE Site_ID = linkroutebelitung.NE_ID
 				) AS NE_Latitude, 
@@ -45,9 +45,19 @@ class Linkroute_model extends CI_Model{
 				) AS FE_Longitude, (
 				    SELECT Latitude FROM site WHERE Site_ID = linkroutebelitung.FE_ID
 				) AS FE_Latitude 
-				FROM linkroutebelitung NATURAL JOIN site 
-				WHERE linkroutebelitung.SysID = '.$band.' AND linkroutebelitung.Site_ID 
+				FROM linkroutebelitung JOIN site ON linkroutebelitung.Site_ID = site.Site_ID 
+				WHERE linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"
 				');
+		return $query->result();
+	}
+
+	function getUnion($site, $band){
+		$query = $this->db->query(' SELECT DISTINCT x.Site_ID, x.Longitude, x.Latitude FROM 
+			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in (SELECT linkroutebelitung.NE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as x
+			UNION
+			SELECT DISTINCT y.Site_ID, y.Longitude, y.Latitude FROM 
+			(SELECT site.Site_ID, site.Longitude, site.Latitude FROM site where site.Site_ID in (SELECT linkroutebelitung.FE_ID FROM linkroutebelitung where linkroutebelitung.Site_ID = "'.$site.'" AND linkroutebelitung.SysID like "'.$site.''.$band.'%"))as y
+			');
 		return $query->result();
 	}
 
