@@ -16,8 +16,8 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div><?= $this->session->flashdata('msg') ?></div>
-
-                                    <?= form_open('Home/edit_linkroute/'.$site->id)  ?>
+                                    
+                                    <?= form_open('Home/edit_linkroute/'. $site->id)  ?>
                                         <div class="form-group">
                                             <label>ID</label>
                                             <input type="text" name="id" class="form-control" value="<?= $site->id ?>" disabled="">

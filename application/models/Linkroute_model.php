@@ -93,6 +93,9 @@ class Linkroute_model extends CI_Model{
 		return $this->db->update($this->table, $data);
 	}
 
+	function delete($id){
+		return $this->db->delete($this->table, array($this->key => $id));
+	}
 	// - -
 
 	function cek_nim($nim){
@@ -139,10 +142,6 @@ class Linkroute_model extends CI_Model{
 
 	function insert($data){
 		return $this->db->insert($this->table, $data);
-	}
-
-	function delete($id_mhs){
-		return $this->db->delete($this->table, array($this->key => $id_mhs));
 	}
 
 	function get_role($nim){

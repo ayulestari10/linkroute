@@ -48,12 +48,10 @@ class Home extends CI_Controller{
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
-        	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
-
-            // delete site di link route
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
-            exit;
+            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
+            redirect('Home/site');
         }
 
 		$data = array(
@@ -68,6 +66,7 @@ class Home extends CI_Controller{
 
 		$get_id = $this->uri->segment(3);
 
+		if(isset($get_id)){
 		if($this->input->post('edit')){
 
 			$site_name = $this->input->post('SiteName');
@@ -92,6 +91,7 @@ class Home extends CI_Controller{
 				redirect('Home/edit_site/' . $get_id);
 			}
 		}
+	}
 
 		$data = array(
 			'title'		=> 'Edit Form',
