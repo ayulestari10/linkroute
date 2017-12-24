@@ -48,10 +48,10 @@ class Home extends CI_Controller{
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
+            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
-            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
-            redirect('Home/site');
+            exit;
         }
 
 		$data = array(
