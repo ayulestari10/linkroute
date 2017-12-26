@@ -9,7 +9,7 @@ class Login extends CI_Controller{
 		$username = $this->session->userdata('username');
 		if (isset($username))
 		{
-			redirect('home');
+			redirect('admin');
 			exit;
 		}
 	}

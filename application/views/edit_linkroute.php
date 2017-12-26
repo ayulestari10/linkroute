@@ -6,6 +6,16 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <ol class="breadcrumb">
+                      <li><a href="<?= base_url('admin/linkroute') ?>"><i class="fa fa-book"> Link Route</i></a></li>
+                      <li class="active"><i class="fa fa-pencil"> Edit Link Route</i></li>
+                    </ol>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -17,7 +27,7 @@
                                 <div class="col-lg-12">
                                     <div><?= $this->session->flashdata('msg') ?></div>
                                     
-                                    <?= form_open('Home/edit_linkroute/'. $site->id)  ?>
+                                    <?= form_open('admin/edit_linkroute/'. $site->id)  ?>
                                         <div class="form-group">
                                             <label>ID</label>
                                             <input type="text" name="id" class="form-control" value="<?= $site->id ?>" disabled="">

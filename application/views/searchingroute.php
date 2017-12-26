@@ -11,7 +11,7 @@
                     <?= $this->session->flashdata('msg')  ?>
                 </div>
             </div>
-            <?= form_open('Home/find_searching') ?>
+            <?= form_open('admin/find_searching') ?>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -38,8 +38,8 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-group" style="padding: 12%; margin-left: -15%; position: absolute;">
-                            <input type="submit" name="cari" value="Search" class="btn btn-info">
+                        <div class="form-group" style="padding: 14%; margin-left: -15%; position: absolute;">
+                            <input type="submit" name="cari" value="Search" class="btn btn-primary">
                         </div>
                     </div>
                 </div>

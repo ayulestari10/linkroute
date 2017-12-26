@@ -6,6 +6,16 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <ol class="breadcrumb">
+                      <li><a href="<?= base_url('admin/site') ?>"><i class="fa fa-book"> Site</i></a></li>
+                      <li class="active"><i class="fa fa-pencil"> Edit Site</i></li>
+                    </ol>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -18,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('Home/edit_site/' . $site->Site_ID)  ?>
+                                    <?= form_open('admin/edit_site/' . $site->Site_ID)  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" disabled="">
