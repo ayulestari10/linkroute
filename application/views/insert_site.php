@@ -6,6 +6,16 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                      <li><a href="<?= base_url('admin/site') ?>"><i class="fa fa-book"> Site</i></a></li>
+                      <li class="active"><i class="fa fa-pencil"> Insert Site</i></li>
+                    </ol>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -18,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('Home/insert_site')  ?>
+                                    <?= form_open('admin/insert_site')  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input type="text" class="form-control" name="Site_ID" required>
@@ -60,7 +70,7 @@
                                 </div>
                             </div>
 
-                            <?= form_open_multipart('home/insertCSV_Site') ?>
+                            <?= form_open_multipart('admin/insertCSV_Site') ?>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">

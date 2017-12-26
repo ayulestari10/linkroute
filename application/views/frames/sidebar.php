@@ -2,16 +2,16 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="<?= base_url('home/index') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="<?= base_url('admin') ?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('home/linkroute') ?>"><i class="fa fa-table fa-fw"></i> Link Route Table</a>
+                            <a href="<?= base_url('admin/linkroute') ?>"><i class="fa fa-table fa-fw"></i> Link Route Table</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('home/site') ?>"><i class="fa fa-table fa-fw"></i> Site Table</a>
+                            <a href="<?= base_url('admin/site') ?>"><i class="fa fa-table fa-fw"></i> Site Table</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('home/searchingroute') ?>"><i class="fa fa-search fa-fw"></i> Searching Route</a>
+                            <a href="<?= base_url('admin/searchingroute') ?>"><i class="fa fa-search fa-fw"></i> Searching Route</a>
                         </li>
                     </ul>
                 </div>
