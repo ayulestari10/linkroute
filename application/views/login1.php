@@ -1,48 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-	<!-- Bootstrap Core CSS -->
-    <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css">
-    </style>
-</head>
-<body>
-	<br><br><br>
-	<div class="container-fluid" id="div1">
-		<div class="row"></div>
-			<div class="container" id="div3">
-				<div class="col-lg-4"></div>
-				<div class="col-lg-4">
-					<div style="margin-top: 20px">
-					<h3>Login</h3>
-						<?= form_open('Login') ?>
-							<div class="form-group">
-								<input type="text" class="form-control" name="username" placeholder="Username">
-							</div>
-							<div class="form-group">
-								<input type="password" class="form-control" name="password" placeholder="Password">
-							</div>
-							<div class="form-group">
-								<input type="submit" name="login-submit" value="Login" class="btn btn-primary form-control">
-							</div>
-						</form>
-						<?= form_close() ?>
-					</div>
-				</div>
-				<div class="col-lg-4"></div>
-			</div>
-		</div>
+<html lang="en">
 
-	<script src="<?= base_url('assets')?>/vendor/jquery/jquery.js"></script>
-	<script>
-		function validAngka(a)
-		{
-			if(!/^[0-9.]+$/.test(a.value))
-			{
-			a.value = a.value.substring(0,a.value.length-1000);
-			}
-		}
-	</script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="author" content="GeeksLabs">
+  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+
+  <title></title>
+
+  <link href="<?= base_url('assets') ?>	/vendor/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+  <!--external css-->
+  <!-- font icon -->
+  <link href="<?= base_url('assets') ?>	/vendor/bootstrap/css/elegant-icons-style.css" rel="stylesheet" />
+  <!-- Custom styles -->
+  <link href="<?= base_url('assets') ?>	/vendor/bootstrap/css/style.css" rel="stylesheet">
+  <link href="<?= base_url('assets') ?>	/vendor/bootstrap/css/style-responsive.css" rel="stylesheet" />
+  <!-- Bootstrap Core CSS -->
+  <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom Fonts -->
+  <link href="<?= base_url('assets') ?>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <style type="text/css">
+  	body{
+  		background-image: url('assets/img/telkomsel3.jpg');
+  		background-size: cover;
+  		background-repeat: no-repeat;
+  	}
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+  	<?= form_open('Login') ?>
+    <div class="login-form">
+      <div class="login-wrap">
+        <p class="login-img"><i class="fa fa-lock" aria-hidden="true"></i></p>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+          <input type="text" class="form-control" name="username" placeholder="Username" autocomplete="off" autofocus>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+          <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <input type="submit" name="login-submit" class="btn btn-primary btn-lg btn-block" value="Login">
+      </div>
+    </div>
+    <?= form_close() ?>
+  </div>
+
+
 </body>
+
 </html>

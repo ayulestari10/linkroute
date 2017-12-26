@@ -24,7 +24,7 @@ class Login extends CI_Controller{
 
 			$result = $this->user_model->login($data);
 
-			redirect('login');
+			redirect('Admin');
 		}
 		
 		$this->load->view('login1');
