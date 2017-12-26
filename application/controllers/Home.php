@@ -48,7 +48,7 @@ class Home extends CI_Controller{
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
-            $this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
+            $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
             exit;
@@ -319,7 +319,7 @@ class Home extends CI_Controller{
 				
 				$cek_data = $this->linkroute_model->get_data_byConditional($cek_array);
 				if(count($cek_data) > 0){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Telah Ada</div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Already Exists</div>');
 					redirect('Home/insert_linkroute');
 				}
 				else{

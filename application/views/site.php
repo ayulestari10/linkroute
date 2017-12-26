@@ -11,13 +11,13 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            DataTables Advanced Tables
+                            Site Table
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <?= $this->session->flashdata('msg'); ?>
+                                    <?= $this->session->flashdata('msg5'); ?>
                                 </div>
                             </div>
 
