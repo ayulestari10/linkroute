@@ -53,6 +53,7 @@ class Admin extends CI_Controller{
             $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
+            redirect('admin/site');
             exit;
         }
 
@@ -212,6 +213,7 @@ class Admin extends CI_Controller{
 
 	function edit_linkroute(){
 		$get_id = $this->uri->segment(3);
+		$siteID = $this->linkroute_model->get_data_byConditional(['id' => $get_id])->Site_ID;
 		
 		if(isset($get_id)){
 			
@@ -280,10 +282,12 @@ class Admin extends CI_Controller{
 			'title'		=> 'Edit Form',
 			'content'	=> 'edit_linkroute',
 			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id]),
+			'all_site'	=> $this->linkroute_model->get_linkroute_byConditional($siteID),
 			'site2'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
 	}
+
 
 	function insert_linkroute(){
 		

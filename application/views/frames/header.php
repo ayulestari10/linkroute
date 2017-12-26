@@ -34,4 +34,5 @@
     <!-- Typeahead -->
     <link href="<?= base_url('assets') ?>/vendor/jquery-typeahead-2.10.4/dist/jquery.typeahead.min.css" rel="stylesheet">
 
+
 </head>

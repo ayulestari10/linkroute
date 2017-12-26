@@ -16,6 +16,42 @@
                 </div>
             </div>
 
+             <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Linkroute List To Edit
+                        </div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="mainTable">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Site ID</th>
+                                        <th>Band</th>
+                                        <th>NE ID</th>
+                                        <th>FE ID</th>
+                                        <th>HOP ID DEATIL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; foreach ($all_site as $row): ?>
+                                    <tr>
+                                        <td><?= $i++ ?></td>
+                                        <td><?= $row->Site_ID ?></td>
+                                        <td><?= $row->SysID ?></td>
+                                        <td><?= $row->NE_ID ?></td>
+                                        <td><?= $row->FE_ID ?></td>
+                                        <td><?= $row->HOP_ID_DETAIL ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
