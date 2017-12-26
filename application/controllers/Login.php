@@ -27,7 +27,7 @@ class Login extends CI_Controller{
 			redirect('login');
 		}
 		
-		$this->load->view('login');
+		$this->load->view('login1');
 	}
 }
 
