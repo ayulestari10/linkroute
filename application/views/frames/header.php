@@ -34,5 +34,11 @@
     <!-- Typeahead -->
     <link href="<?= base_url('assets') ?>/vendor/jquery-typeahead-2.10.4/dist/jquery.typeahead.min.css" rel="stylesheet">
 
+    <script src="<?= base_url('assets') ?>/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+    <script src="<?= base_url('assets') ?>/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="<?= base_url('assets') ?>/sweetalert2/dist/sweetalert2.min.css">
 
 </head>
