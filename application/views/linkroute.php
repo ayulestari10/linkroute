@@ -51,7 +51,6 @@
                                         <td>
                                             <a href="<?= base_url('admin/edit_linkroute/' . $row->id)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
                                             <button onclick="delete_linkroute(<?= $row->id ?>)" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
-                                            <button onclick="coba()" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -74,50 +73,43 @@
     <!-- /#wrapper -->
 
     <script type="text/javascript">
-        function delete_linkroute(id) {
-            $.ajax({
-                url: '<?= base_url('admin/linkroute') ?>',
-                type: 'POST',
-                data: {
-                    id: id,
-                    delete: true
-                },
-                success: function() {
-                    window.location = '<?= base_url('admin/linkroute') ?>';
-                }
-            });
-        }
 
-        function coba(){
+        function delete_linkroute(id){
             swal({
-                          title: 'Are you sure?',
-                          text: "You won't be able to revert this!",
-                          type: 'warning',
-                          showCancelButton: true,
-                          confirmButtonColor: '#3085d6',
-                          cancelButtonColor: '#d33',
-                          confirmButtonText: 'Yes, delete it!',
-                          cancelButtonText: 'No, cancel!',
-                          confirmButtonClass: 'btn btn-success',
-                          cancelButtonClass: 'btn btn-danger',
-                          buttonsStyling: false,
-                          reverseButtons: true
-                        }).then((result) => {
-                          if (result.value) {
-                            swal(
-                              'Deleted!',
-                              'Your file has been deleted.',
-                              'success'
-                            )
-                          // result.dismiss can be 'cancel', 'overlay',
-                          // 'close', and 'timer'
-                          } else if (result.dismiss === 'cancel') {
-                            swal(
-                              'Cancelled',
-                              'Your imaginary file is safe :)',
-                              'error'
-                            )
-                          }
-                        })  
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              confirmButtonClass: 'btn btn-success',
+              cancelButtonClass: 'btn btn-danger',
+              buttonsStyling: false,
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                $.ajax({
+                    url: '<?= base_url('admin/linkroute') ?>',
+                    type: 'POST',
+                    data: {
+                        id: id,
+                        delete: true
+                    },
+                    success: function() {
+                       window.location = '<?= base_url('admin/linkroute') ?>';
+                    }
+                });
+              } 
+
+              else if (result.dismiss === 'cancel') {
+                swal(
+                  'Cancelled',
+                  'Your data is safe!',
+                  'error'
+                )
+              }
+            })  
         }
     </script>

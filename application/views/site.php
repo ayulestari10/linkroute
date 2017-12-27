@@ -64,16 +64,48 @@
 
     <script type="text/javascript">
         function delete_site(Site_ID) {
-            $.ajax({
-                url: '<?= base_url('admin/site') ?>',
-                type: 'POST',
-                data: {
-                    Site_ID: Site_ID,
-                    delete: true
-                },
-                success: function() {
-                    window.location = '<?= base_url('admin/site') ?>';
-                }
-            });
+            
+            swal({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              cancelButtonText: 'No, cancel!',
+              confirmButtonClass: 'btn btn-success',
+              cancelButtonClass: 'btn btn-danger',
+              buttonsStyling: false,
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                $.ajax({
+                    url: '<?= base_url('admin/site') ?>',
+                    type: 'POST',
+                    data: {
+                        Site_ID: Site_ID,
+                        delete: true
+                    },
+                    success: function() {
+                        // window.location = '<?= base_url('admin/site') ?>';
+                        swal(
+                          'Deleted!',
+                          'Your file has been deleted. Please refresh the page!',
+                          'success'
+                        )
+                        window.location = '<?= base_url('admin/site') ?>';
+                    }
+                });
+              } 
+
+              else if (result.dismiss === 'cancel') {
+                swal(
+                  'Cancelled',
+                  'Your data is safe!',
+                  'error'
+                )
+              }
+            }) 
         }
     </script>
