@@ -88,15 +88,17 @@
                         delete: true
                     },
                     success: function() {
-                        // window.location = '<?= base_url('admin/site') ?>';
-                        swal(
-                          'Deleted!',
-                          'Your file has been deleted. Please refresh the page!',
-                          'success'
-                        )
-                        window.location = '<?= base_url('admin/site') ?>';
                     }
                 });
+
+                swal({
+                  type: 'success',
+                  title: 'Your file has been deleted.',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+
+                window.location = '<?= base_url('admin/site') ?>';
               } 
 
               else if (result.dismiss === 'cancel') {
