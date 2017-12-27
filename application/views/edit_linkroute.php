@@ -8,7 +8,7 @@
             <!-- /.row -->
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <ol class="breadcrumb">
                       <li><a href="<?= base_url('admin/linkroute') ?>"><i class="fa fa-book"> Link Route</i></a></li>
                       <li class="active"><i class="fa fa-pencil"> Edit Link Route</i></li>
