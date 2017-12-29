@@ -132,7 +132,7 @@ class Admin extends CI_Controller{
 				$cek_data = $this->site_model->get_dataBy_siteID($site_id);
 
 				if(count($cek_data) > 0){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Telah Ada</div>');
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data already exists!</div>');
 					redirect('admin/insert_site');
 				}
 				else{
