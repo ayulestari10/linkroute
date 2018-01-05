@@ -6,6 +6,7 @@ class Admin extends CI_Controller{
 		parent::__construct();
 
 		$username = $this->session->userdata('username');
+
 		if (!isset($username))
 		{
 			redirect('Login');
@@ -50,9 +51,9 @@ class Admin extends CI_Controller{
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
-            $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             $this->site_model->delete($this->input->post('Site_ID'));
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
+            $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
             redirect('admin/site');
             exit;
         }
@@ -70,31 +71,36 @@ class Admin extends CI_Controller{
 		$get_id = $this->uri->segment(3);
 
 		if(isset($get_id)){
-		if($this->input->post('edit')){
+			if($this->input->post('edit')){
 
-			$site_name = $this->input->post('SiteName');
-			$longitude = $this->input->post('Longitude');
-			$latitude = $this->input->post('Latitude');
+				$site_name = $this->input->post('SiteName');
+				$longitude = $this->input->post('Longitude');
+				$latitude = $this->input->post('Latitude');
 
-			$required = ['SiteName','Longitude','Latitude'];
+				$required = ['SiteName','Longitude','Latitude'];
 
-			if(!$this->required_input($required)){
-				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-					redirect('admin/edit_site');
-			}
-			else{
-				$input = array(
-						'SiteName'	=> $site_name,
-						'Longitude'	=> $longitude,
-						'Latitude'	=> $latitude
-				);
+				if(!$this->required_input($required)){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+						redirect('admin/edit_site');
+				}
+				else{
+					$input = array(
+							'SiteName'	=> $site_name,
+							'Longitude'	=> $longitude,
+							'Latitude'	=> $latitude
+					);
 
-				$this->site_model->update($get_id, $input);
-				$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-				redirect('admin/edit_site/' . $get_id);
+					$this->site_model->update($get_id, $input);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
+					redirect('admin/edit_site/' . $get_id);
+				}
 			}
 		}
-	}
+
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+					redirect('admin/site');
+		}
 
 		$data = array(
 			'title'		=> 'Edit Form',
@@ -190,22 +196,27 @@ class Admin extends CI_Controller{
 			$band_id = $this->input->post('band');
 
 			if(isset($site) && isset($band_id)){
-				$hasil_site = $this->linkroute_model->getRoute($site, $band_id);
-				$hasil_site2 = $this->linkroute_model->getUnion($site, $band_id);
+				$routes = $this->linkroute_model->getRoute($site, $band_id);
+				$bts 	= $this->linkroute_model->getUnion($site, $band_id);
 
-				if(count($hasil_site) < 1 && count($hasil_site2) < 1){
+				if(count($routes) < 1 && count($bts) < 1){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Empty</div>');
 					redirect('admin/SearchingRoute');
 					exit;
 				}
 			}
+
+			else{
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+				redirect('admin/SearchingRoute');
+			}
 		}
 		$data = array(
 			'title'		=> 'Route',
 			'content'	=> 'searchingroute',
-			'site'		=> $hasil_site,
+			'site'		=> $routes,
 			'site1'		=> $this->site_model->get_all(),
-			'site2'		=> $hasil_site2
+			'site2'		=> $bts
 		);
 		$this->load->view('frames/templates', $data);
 
@@ -245,37 +256,42 @@ class Admin extends CI_Controller{
 					$cek_linkroute = $this->linkroute_model->get_data_byConditional($input);
 
 					if(count($cek_linkroute) > 0){
-						$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, linkroute already exists!</div>');
+						$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data already exists!</div>');
 						redirect('admin/edit_linkroute/'.$get_id);
 					}
+					else{
+						// cek jika id yang diinput tidak ada di tabel site
+						$site_id 	= $this->site_model->get_dataBy_siteID($site_id);
+					   	$ne_id 		= $this->site_model->get_dataBy_siteID($ne_id);
+					   	$fe_id 		= $this->site_model->get_dataBy_siteID($fe_id);
 
-					// cek jika id yang diinput tidak ada di tabel site
-					$site_id 	= $this->site_model->get_dataBy_siteID($site_id);
-				   	$ne_id 		= $this->site_model->get_dataBy_siteID($ne_id);
-				   	$fe_id 		= $this->site_model->get_dataBy_siteID($fe_id);
+					   	if(count($site_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $site_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
 
-				   	if(count($site_id) < 1){
-				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $site_id.' does not exits!</strong></div>');
+					   	if(count($ne_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $ne_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
+
+					   	if(count($fe_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $fe_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
+
+					   	// update data
+					   	$this->linkroute_model->update($get_id, $input);
+					   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
 						redirect('admin/edit_linkroute/'.$get_id);
-				   	}
-
-				   	if(count($ne_id) < 1){
-				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $ne_id.' does not exits!</strong></div>');
-						redirect('admin/edit_linkroute/'.$get_id);
-				   	}
-
-				   	if(count($fe_id) < 1){
-				   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, <strong>  Site ID '. $fe_id.' does not exits!</strong></div>');
-						redirect('admin/edit_linkroute/'.$get_id);
-				   	}
-
-				   	// update data
-				   	$this->linkroute_model->update($get_id, $input);
-				   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-					redirect('admin/edit_linkroute/'.$get_id);
-					
+					}
 				}
 			}
+		}
+
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+			redirect('admin/linkroute');
 		}
 			
 		$data = array(
@@ -315,7 +331,7 @@ class Admin extends CI_Controller{
 						'FE_ID'			=> $fe_id,
 						'HOP_ID_DETAIL'	=> $hop
 				);
-				$cek_array = array(
+				$cek_input = array(
 						'Site_ID' 		=> $site_id,
 						'SysID'			=> $band,
 						'NE_ID'			=> $ne_id,
@@ -323,7 +339,7 @@ class Admin extends CI_Controller{
 				);
 
 				
-				$cek_data = $this->linkroute_model->get_data_byConditional($cek_array);
+				$cek_data = $this->linkroute_model->get_data_byConditional($cek_input);
 				if(count($cek_data) > 0){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Already Exists</div>');
 					redirect('admin/insert_linkroute');
@@ -331,27 +347,27 @@ class Admin extends CI_Controller{
 				else{
 					$cek_site = $this->site_model->get_dataBy_siteID($site_id);
 					if(count($cek_site) == 0){
-						$this->session->set_flashdata('msg2', '<div class="alert alert-danger" style="text-align:center;">Data Site Tidak Ada</div>');
+						$this->session->set_flashdata('msg2', '<div class="alert alert-danger" style="text-align:center;">Site ID does not exist!</div>');
 						redirect('admin/insert_linkroute');
 						exit;
 					}
 
 					$cek_NE = $this->site_model->get_dataBy_siteID($ne_id);
 					if(count($cek_NE) == 0){
-						$this->session->set_flashdata('msg3', '<div class="alert alert-danger" style="text-align:center;">Data NE Tidak Ada</div>');
+						$this->session->set_flashdata('msg3', '<div class="alert alert-danger" style="text-align:center;">NE ID does not exist!</div>');
 						redirect('admin/insert_linkroute');
 						exit;
 					}
 
 					$cek_FE = $this->site_model->get_dataBy_siteID($fe_id);
 					if(count($cek_FE) == 0){
-						$this->session->set_flashdata('msg4', '<div class="alert alert-danger" style="text-align:center;">Data FE Tidak Ada</div>');
+						$this->session->set_flashdata('msg4', '<div class="alert alert-danger" style="text-align:center;">FE ID does not exist!</div>');
 						redirect('admin/insert_linkroute');
 						exit;
 					}
 
 
-					$this->linkroute_model->insert_site($input);
+					$this->linkroute_umodel->insert_linkroute($input);
 					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					//echo '<pre>';
 					//print_r($input);
@@ -381,7 +397,7 @@ class Admin extends CI_Controller{
 	
 	// csv
 
-	public function openCSV($folder, $file_name){
+	private function openCSV($folder, $file_name){
 		$file = file('assets/csv/'.$folder.'/'.$file_name);
 		foreach ($file as $k) {
 			$csv[] = explode(',', $k);
@@ -400,58 +416,69 @@ class Admin extends CI_Controller{
 		set_time_limit(1800);
 
 		if($this->input->post('uploadcsv')){
+			$file_name = $_FILES['file']['name'];
 
-			if($_FILES['file']['name']) {
-				$this->load->library('upload');
+			$exe = substr($file_name, -4);
 
-				$file_name = $_FILES['file']['name'];
+			if($file_name) {
+				if($exe == ".csv") {
+					$this->load->library('upload');
 
-				$upload_path = realpath(APPPATH . '../assets/csv/site');
-				@unlink($upload_path . '/' . $file_name);
-				$config = [
-					'file_name' 		=> $file_name,
-					'allowed_types'		=> 'csv',
-					'upload_path'		=> $upload_path
-				];
-				$this->upload->initialize($config);
-				$this->upload->do_upload('file');
+					//$file_name = $_FILES['file']['name'];
 
-				// insert data
+					$upload_path = realpath(APPPATH . '../assets/csv/site');
+					@unlink($upload_path . '/' . $file_name);
+					$config = [
+						'file_name' 		=> $file_name,
+						'allowed_types'		=> 'csv',
+						'upload_path'		=> $upload_path
+					];
+					$this->upload->initialize($config);
+					$this->upload->do_upload('file');
 
-				$data_csv = $this->openCSV('site', $file_name);
+					// insert data
 
-				// Cek jika data telah ada
-				for ($i = 1; $i < count($data_csv); $i++) {
-				   	$row = [
-				    	'Site_ID' 		=> $data_csv[$i][0],
-				    	'SiteName' 		=> $data_csv[$i][1],
-				    	'Longitude' 	=> $data_csv[$i][2],
-				    	'Latitude' 		=> $data_csv[$i][3]
-				   	];
+					$data_csv = $this->openCSV('site', $file_name);
 
-				   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+					// Cek jika data telah ada
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
 
-				   	if(count($site_id) > 0){
-				   		$line = $i + 1;
-				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
-				   		redirect('admin/insert_site');	
-				   	}
+					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+
+					   	if(count($site_id) > 0){
+					   		$line = $i + 1;
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
+					   		redirect('admin/insert_site');	
+					   	}
+					}
+					
+					// Insert Data
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
+
+					   	$this->site_model->insert($row);
+					}
+
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+					redirect('admin/insert_site');
 				}
-				
-				// Insert Data
-				for ($i = 1; $i < count($data_csv); $i++) {
-				   	$row = [
-				    	'Site_ID' 		=> $data_csv[$i][0],
-				    	'SiteName' 		=> $data_csv[$i][1],
-				    	'Longitude' 	=> $data_csv[$i][2],
-				    	'Latitude' 		=> $data_csv[$i][3]
-				   	];
 
-				   	$this->site_model->insert($row);
+				else
+				{
+					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
+					redirect('admin/insert_site');
 				}
-
-		   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-				redirect('admin/insert_site');
 			}
 
 			else
@@ -467,99 +494,111 @@ class Admin extends CI_Controller{
 		set_time_limit(1800);
 
 		if($this->input->post('uploadcsv')){
+			$file_name = $_FILES['file']['name'];
 
-			if($_FILES['file']['name']){
+			$exe = substr($file_name, -4);
+
+			if($file_name) {
+				if($exe == ".csv") {
 			
-				$this->load->library('upload');
+					$this->load->library('upload');
 
-				$file_name = $_FILES['file']['name'];
+					//$file_name = $_FILES['file']['name'];
 
-				$upload_path = realpath(APPPATH . '../assets/csv/linkroute');
-				@unlink($upload_path . '/' . $file_name);
-				$config = [
-					'file_name' 		=> $file_name,
-					'allowed_types'		=> 'csv',
-					'upload_path'		=> $upload_path
-				];
-				$this->upload->initialize($config);
-				$this->upload->do_upload('file');
+					$upload_path = realpath(APPPATH . '../assets/csv/linkroute');
+					@unlink($upload_path . '/' . $file_name);
+					$config = [
+						'file_name' 		=> $file_name,
+						'allowed_types'		=> 'csv',
+						'upload_path'		=> $upload_path
+					];
+					$this->upload->initialize($config);
+					$this->upload->do_upload('file');
 
-				// open data
+					// open data
 
-				$data_csv = $this->openCSV('linkroute', $file_name);
+					$data_csv = $this->openCSV('linkroute', $file_name);
 
-				// Cek jika id tidak ada di site 
-				for ($i = 1; $i < count($data_csv); $i++) {
-				   	$row = [
-				    	'Site_ID' 		=> $data_csv[$i][0],
-				    	'SysID' 		=> $data_csv[$i][1],
-				    	'NE_ID' 		=> $data_csv[$i][3],
-				    	'FE_ID' 		=> $data_csv[$i][5],
-				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
-				   	];
+					// Cek jika id tidak ada di site 
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SysID' 		=> $data_csv[$i][1],
+					    	'NE_ID' 		=> $data_csv[$i][3],
+					    	'FE_ID' 		=> $data_csv[$i][5],
+					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+					   	];
 
-				   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
-				   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
-				   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
+					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+					   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
+					   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
 
-				   	if(count($site_id) < 1){
-				   		$line = $i + 1;
-				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> in the file!</div>');
+					   	if(count($site_id) < 1){
+					   		$line = $i + 1;
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> in the file!</div>');
 
-						redirect('admin/insert_linkroute');
-				   	}
+							redirect('admin/insert_linkroute');
+					   	}
 
-				   	if(count($ne_id) < 1){
-				   		$line = $i + 1;
-				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  NE ID '. $data_csv[$i][3] .' in line '.$line.'</strong> in the file!</div>');
+					   	if(count($ne_id) < 1){
+					   		$line = $i + 1;
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  NE ID '. $data_csv[$i][3] .' in line '.$line.'</strong> in the file!</div>');
 
-						redirect('admin/insert_linkroute');
-				   	}
+							redirect('admin/insert_linkroute');
+					   	}
 
-				   	if(count($fe_id) < 1){
-				   		$line = $i + 1;
-				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  FE ID '. $data_csv[$i][5] .' in line '.$line.'</strong> in the file!</div>');
+					   	if(count($fe_id) < 1){
+					   		$line = $i + 1;
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  FE ID '. $data_csv[$i][5] .' in line '.$line.'</strong> in the file!</div>');
 
-						redirect('admin/insert_linkroute');
-				   	}	
+							redirect('admin/insert_linkroute');
+					   	}	
+					}
+
+					// Cek kesamaan data
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SysID' 		=> $data_csv[$i][1],
+					    	'NE_ID' 		=> $data_csv[$i][3],
+					    	'FE_ID' 		=> $data_csv[$i][5],
+					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+					   	];
+
+					   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
+
+					   	if(count($cek_linkroute) > 0){
+					   		$id = $i + 1;
+
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check line '.$id.' already exists!</div>');
+
+							redirect('admin/insert_linkroute');
+					   	}
+					}
+
+					// insert data
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SysID' 		=> $data_csv[$i][1],
+					    	'NE_ID' 		=> $data_csv[$i][3],
+					    	'FE_ID' 		=> $data_csv[$i][5],
+					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
+					   	];
+
+					   	$this->linkroute_model->insert($row);
+					}
+
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+					redirect('admin/insert_linkroute');
+
 				}
 
-				// Cek kesamaan data
-				for ($i = 1; $i < count($data_csv); $i++) {
-				   	$row = [
-				    	'Site_ID' 		=> $data_csv[$i][0],
-				    	'SysID' 		=> $data_csv[$i][1],
-				    	'NE_ID' 		=> $data_csv[$i][3],
-				    	'FE_ID' 		=> $data_csv[$i][5],
-				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
-				   	];
-
-				   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
-
-				   	if(count($cek_linkroute) > 0){
-				   		$id = $i + 1;
-
-				   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed, line '.$id.' already exists! Please check it!</div>');
-
-						redirect('admin/insert_linkroute');
-				   	}
+				else
+				{
+					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
+					redirect('admin/insert_site');
 				}
-
-				// insert data
-				for ($i = 1; $i < count($data_csv); $i++) {
-				   	$row = [
-				    	'Site_ID' 		=> $data_csv[$i][0],
-				    	'SysID' 		=> $data_csv[$i][1],
-				    	'NE_ID' 		=> $data_csv[$i][3],
-				    	'FE_ID' 		=> $data_csv[$i][5],
-				    	'HOP_ID_DETAIL' => $data_csv[$i][7]
-				   	];
-
-				   	$this->linkroute_model->insert($row);
-				}
-
-		   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-				redirect('admin/insert_linkroute');
 					
 			}
 

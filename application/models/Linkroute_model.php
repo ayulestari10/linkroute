@@ -24,7 +24,7 @@ class Linkroute_model extends CI_Model{
 		return $query->row();
 	}
 
-	function insert_site($data){
+	function insert_linkroute($data){
 		return $this->db->insert($this->table, $data);
 	}
 
