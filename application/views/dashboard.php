@@ -85,7 +85,7 @@
     <script type="text/javascript">
         
         function site(){
-            window.location = '<?= base_url('admin/site') ?>';
+            window.location = '<?= base_url('admin/data_site') ?>';
         }
         function linkroute(){
             window.location = '<?= base_url('admin/linkroute') ?>';

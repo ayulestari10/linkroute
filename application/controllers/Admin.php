@@ -28,25 +28,16 @@ class Admin extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	public function required_input($input_names){
-		$rules = [];
-		foreach ($input_names as $input){
-		   	$rules []= [
-		    'field'  => $input,
-		    'label'  => ucfirst($input),
-		    'rules'  => 'required'
-		   ];
-		}
-		return $this->validate($rules);
-	}
+	// Site
 
-	public function validate($conf){
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules($conf);
-		return $this->form_validation->run();
+	function data_site(){
+		$data = array(
+			'title'		=> 'Site Table',
+			'content'	=> 'site',
+			'site'		=> $this->site_model->get_all()
+		);
+		$this->menampilkan($data);
 	}
-
-	// site
 
 	function site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
@@ -54,7 +45,8 @@ class Admin extends CI_Controller{
             $this->site_model->delete($this->input->post('Site_ID'));
             $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
             $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
-            redirect('admin/site');
+            //redirect('admin/site');
+            $this->dialihkan('admin/site');
             exit;
         }
 
@@ -62,50 +54,6 @@ class Admin extends CI_Controller{
 			'title'		=> 'Site Table',
 			'content'	=> 'site',
 			'site'		=> $this->site_model->get_all()
-		);
-		$this->load->view('frames/templates', $data);
-	}
-	
-	function edit_site(){
-
-		$get_id = $this->uri->segment(3);
-
-		if(isset($get_id)){
-			if($this->input->post('edit')){
-
-				$site_name = $this->input->post('SiteName');
-				$longitude = $this->input->post('Longitude');
-				$latitude = $this->input->post('Latitude');
-
-				$required = ['SiteName','Longitude','Latitude'];
-
-				if(!$this->required_input($required)){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-						redirect('admin/edit_site');
-				}
-				else{
-					$input = array(
-							'SiteName'	=> $site_name,
-							'Longitude'	=> $longitude,
-							'Latitude'	=> $latitude
-					);
-
-					$this->site_model->update($get_id, $input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-					redirect('admin/edit_site/' . $get_id);
-				}
-			}
-		}
-
-		else {
-			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-					redirect('admin/site');
-		}
-
-		$data = array(
-			'title'		=> 'Edit Form',
-			'content'	=> 'edit_site',
-			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
 		);
 		$this->load->view('frames/templates', $data);
 	}
@@ -155,10 +103,132 @@ class Admin extends CI_Controller{
 		$this->load->view('frames/templates', $data);
 	}
 
-	// -----
+	public function insertCSV_Site(){
+		set_time_limit(1800);
+
+		if($this->input->post('uploadcsv')){
+			$file_name = $_FILES['file']['name'];
+
+			$exe = substr($file_name, -4);
+
+			if($file_name) {
+				if($exe == ".csv") {
+					$this->load->library('upload');
+
+					//$file_name = $_FILES['file']['name'];
+
+					$upload_path = realpath(APPPATH . '../assets/csv/site');
+					@unlink($upload_path . '/' . $file_name);
+					$config = [
+						'file_name' 		=> $file_name,
+						'allowed_types'		=> 'csv',
+						'upload_path'		=> $upload_path
+					];
+					$this->upload->initialize($config);
+					$this->upload->do_upload('file');
+
+					// insert data
+
+					$data_csv = $this->openCSV('site', $file_name);
+
+					// Cek jika data telah ada
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
+
+					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+
+					   	if(count($site_id) > 0){
+					   		$line = $i + 1;
+					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
+					   		redirect('admin/insert_site');	
+					   	}
+					}
+					
+					// Insert Data
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
+
+					   	$this->site_model->insert($row);
+					}
+
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+					redirect('admin/insert_site');
+				}
+
+				else
+				{
+					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
+					redirect('admin/insert_site');
+				}
+			}
+
+			else
+			{
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files uploaded!</div>');
+				redirect('admin/insert_site');
+			}
+		}
+
+	}
+
+	function edit_site(){
+
+		$get_id = $this->uri->segment(3);
+
+		if(isset($get_id)){
+			if($this->input->post('edit')){
+
+				$site_name = $this->input->post('SiteName');
+				$longitude = $this->input->post('Longitude');
+				$latitude = $this->input->post('Latitude');
+
+				$required = ['SiteName','Longitude','Latitude'];
+
+				if(!$this->required_input($required)){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+						redirect('admin/edit_site');
+				}
+				else{
+					$input = array(
+							'SiteName'	=> $site_name,
+							'Longitude'	=> $longitude,
+							'Latitude'	=> $latitude
+					);
+
+					$this->site_model->update($get_id, $input);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
+					redirect('admin/edit_site/' . $get_id);
+				}
+			}
+		}
+
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+					redirect('admin/site');
+		}
+
+		$data = array(
+			'title'		=> 'Edit Form',
+			'content'	=> 'edit_site',
+			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+	// End Site----
 
 
-	// linkroute
+	// Link Route
 
 	function linkroute(){
 		if ($this->input->post('id') && $this->input->post('delete'))
@@ -175,135 +245,6 @@ class Admin extends CI_Controller{
 		);
 		$this->load->view('frames/templates', $data);
 	}
-
-	public function SearchingRoute(){
-		$this->load->model('site_model');
-		$data = array(
-			'title'		=> 'Route',
-			'content'	=> 'searchingroute',
-			'site1'		=> $this->site_model->get_all()
-		);
-		$this->load->view('frames/templates', $data);
-
-	}
-
-	function find_searching(){
-
-		if($this->input->post('cari')){
-			$required = ['input_site','band'];
-
-			$site = $this->input->post('input_site');
-			$band_id = $this->input->post('band');
-
-			if(isset($site) && isset($band_id)){
-				$routes = $this->linkroute_model->getRoute($site, $band_id);
-				$bts 	= $this->linkroute_model->getUnion($site, $band_id);
-
-				if(count($routes) < 1 && count($bts) < 1){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Empty</div>');
-					redirect('admin/SearchingRoute');
-					exit;
-				}
-			}
-
-			else{
-				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-				redirect('admin/SearchingRoute');
-			}
-		}
-		$data = array(
-			'title'		=> 'Route',
-			'content'	=> 'searchingroute',
-			'site'		=> $routes,
-			'site1'		=> $this->site_model->get_all(),
-			'site2'		=> $bts
-		);
-		$this->load->view('frames/templates', $data);
-
-	}
-
-	function edit_linkroute(){
-		$get_id = $this->uri->segment(3);
-		$siteID = $this->linkroute_model->get_data_byConditional(['id' => $get_id])->Site_ID;
-		
-		if(isset($get_id)){
-			
-			if($this->input->post('edit')){
-
-				$required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
-
-				if(!$this->required_input($required)) {
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-					redirect('admin/edit_linkroute/'.$get_id);
-				}
-				else {
-
-					$site_id 	= $this->input->post('Site_ID');
-					$band 		= $this->input->post('Band');
-					$ne_id 		= $this->input->post('NE_ID');
-					$fe_id 		= $this->input->post('FE_ID');
-					$hop 		= $this->input->post('HOP_ID_DETAIL'); 
-
-					$input = array(
-						'Site_ID' => $site_id,
-						'SysID'	=> $band,
-						'NE_ID' => $ne_id,
-						'FE_ID' => $fe_id,
-						'HOP_ID_DETAIL' => $hop 
-					);
-
-					// cek jika linkroute yang diinput sudah ada di tabel
-					$cek_linkroute = $this->linkroute_model->get_data_byConditional($input);
-
-					if(count($cek_linkroute) > 0){
-						$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data already exists!</div>');
-						redirect('admin/edit_linkroute/'.$get_id);
-					}
-					else{
-						// cek jika id yang diinput tidak ada di tabel site
-						$site_id 	= $this->site_model->get_dataBy_siteID($site_id);
-					   	$ne_id 		= $this->site_model->get_dataBy_siteID($ne_id);
-					   	$fe_id 		= $this->site_model->get_dataBy_siteID($fe_id);
-
-					   	if(count($site_id) < 1){
-					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $site_id.' does not exits!</strong></div>');
-							redirect('admin/edit_linkroute/'.$get_id);
-					   	}
-
-					   	if(count($ne_id) < 1){
-					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $ne_id.' does not exits!</strong></div>');
-							redirect('admin/edit_linkroute/'.$get_id);
-					   	}
-
-					   	if(count($fe_id) < 1){
-					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $fe_id.' does not exits!</strong></div>');
-							redirect('admin/edit_linkroute/'.$get_id);
-					   	}
-
-					   	// update data
-					   	$this->linkroute_model->update($get_id, $input);
-					   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-						redirect('admin/edit_linkroute/'.$get_id);
-					}
-				}
-			}
-		}
-
-		else {
-			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-			redirect('admin/linkroute');
-		}
-			
-		$data = array(
-			'title'		=> 'Edit Form',
-			'content'	=> 'edit_linkroute',
-			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id]),
-			'all_site'	=> $this->linkroute_model->get_linkroute_byConditional($siteID),
-			'site2'		=> $this->site_model->get_all()
-		);
-		$this->load->view('frames/templates', $data);
-	}
-
 
 	function insert_linkroute(){
 		
@@ -385,109 +326,6 @@ class Admin extends CI_Controller{
 			'site2'		=> $this->site_model->get_all()
 		);
 		$this->load->view('frames/templates', $data);
-	}
-
-	// ---------
-
-	public function dump($data){
-		echo "<pre>";
-		var_dump($data);
-		echo "</pre>";
-	}
-	
-	// csv
-
-	private function openCSV($folder, $file_name){
-		$file = file('assets/csv/'.$folder.'/'.$file_name);
-		foreach ($file as $k) {
-			$csv[] = explode(',', $k);
-		}
-
-		if(count($csv[0]) == 1 ){
-			foreach ($file as $k) {
-				$csv[] = explode(';', $k);
-			}
-		}
-
-		return $csv;
-	}
-
-	public function insertCSV_Site(){
-		set_time_limit(1800);
-
-		if($this->input->post('uploadcsv')){
-			$file_name = $_FILES['file']['name'];
-
-			$exe = substr($file_name, -4);
-
-			if($file_name) {
-				if($exe == ".csv") {
-					$this->load->library('upload');
-
-					//$file_name = $_FILES['file']['name'];
-
-					$upload_path = realpath(APPPATH . '../assets/csv/site');
-					@unlink($upload_path . '/' . $file_name);
-					$config = [
-						'file_name' 		=> $file_name,
-						'allowed_types'		=> 'csv',
-						'upload_path'		=> $upload_path
-					];
-					$this->upload->initialize($config);
-					$this->upload->do_upload('file');
-
-					// insert data
-
-					$data_csv = $this->openCSV('site', $file_name);
-
-					// Cek jika data telah ada
-					for ($i = 1; $i < count($data_csv); $i++) {
-					   	$row = [
-					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SiteName' 		=> $data_csv[$i][1],
-					    	'Longitude' 	=> $data_csv[$i][2],
-					    	'Latitude' 		=> $data_csv[$i][3]
-					   	];
-
-					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
-
-					   	if(count($site_id) > 0){
-					   		$line = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
-					   		redirect('admin/insert_site');	
-					   	}
-					}
-					
-					// Insert Data
-					for ($i = 1; $i < count($data_csv); $i++) {
-					   	$row = [
-					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SiteName' 		=> $data_csv[$i][1],
-					    	'Longitude' 	=> $data_csv[$i][2],
-					    	'Latitude' 		=> $data_csv[$i][3]
-					   	];
-
-					   	$this->site_model->insert($row);
-					}
-
-			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-					redirect('admin/insert_site');
-				}
-
-				else
-				{
-					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
-					redirect('admin/insert_site');
-				}
-			}
-
-			else
-			{
-				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files uploaded!</div>');
-				redirect('admin/insert_site');
-			}
-		}
-
 	}
 
 	public function insertCSV_Linkroute(){
@@ -611,7 +449,196 @@ class Admin extends CI_Controller{
 			
 	}
 
-	// --------
+	function edit_linkroute(){
+		$get_id = $this->uri->segment(3);
+		$siteID = $this->linkroute_model->get_data_byConditional(['id' => $get_id])->Site_ID;
+		
+		if(isset($get_id)){
+			
+			if($this->input->post('edit')){
+
+				$required = ['Site_ID','Band','NE_ID','FE_ID','HOP_ID_DETAIL'];
+
+				if(!$this->required_input($required)) {
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+					redirect('admin/edit_linkroute/'.$get_id);
+				}
+				else {
+
+					$site_id 	= $this->input->post('Site_ID');
+					$band 		= $this->input->post('Band');
+					$ne_id 		= $this->input->post('NE_ID');
+					$fe_id 		= $this->input->post('FE_ID');
+					$hop 		= $this->input->post('HOP_ID_DETAIL'); 
+
+					$input = array(
+						'Site_ID' => $site_id,
+						'SysID'	=> $band,
+						'NE_ID' => $ne_id,
+						'FE_ID' => $fe_id,
+						'HOP_ID_DETAIL' => $hop 
+					);
+
+					// cek jika linkroute yang diinput sudah ada di tabel
+					$cek_linkroute = $this->linkroute_model->get_data_byConditional($input);
+
+					if(count($cek_linkroute) > 0){
+						$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data already exists!</div>');
+						redirect('admin/edit_linkroute/'.$get_id);
+					}
+					else{
+						// cek jika id yang diinput tidak ada di tabel site
+						$site_id 	= $this->site_model->get_dataBy_siteID($site_id);
+					   	$ne_id 		= $this->site_model->get_dataBy_siteID($ne_id);
+					   	$fe_id 		= $this->site_model->get_dataBy_siteID($fe_id);
+
+					   	if(count($site_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $site_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
+
+					   	if(count($ne_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $ne_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
+
+					   	if(count($fe_id) < 1){
+					   		$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>  Site ID '. $fe_id.' does not exits!</strong></div>');
+							redirect('admin/edit_linkroute/'.$get_id);
+					   	}
+
+					   	// update data
+					   	$this->linkroute_model->update($get_id, $input);
+					   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+						redirect('admin/edit_linkroute/'.$get_id);
+					}
+				}
+			}
+		}
+
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+			redirect('admin/linkroute');
+		}
+			
+		$data = array(
+			'title'		=> 'Edit Form',
+			'content'	=> 'edit_linkroute',
+			'site'		=> $this->linkroute_model->get_data_byConditional(['id' => $get_id]),
+			'all_site'	=> $this->linkroute_model->get_linkroute_byConditional($siteID),
+			'site2'		=> $this->site_model->get_all()
+		);
+		$this->load->view('frames/templates', $data);
+	}
+
+
+	// End Link Route----
+
+
+	// Searching Route
+
+	public function SearchingRoute(){
+		$this->load->model('site_model');
+		$data = array(
+			'title'		=> 'Route',
+			'content'	=> 'searchingroute',
+			'site1'		=> $this->site_model->get_all()
+		);
+		$this->load->view('frames/templates', $data);
+
+	}
+
+	function find_searching(){
+
+		if($this->input->post('cari')){
+			$required = ['input_site','band'];
+
+			$site = $this->input->post('input_site');
+			$band_id = $this->input->post('band');
+
+			if(isset($site) && isset($band_id)){
+				$routes = $this->linkroute_model->getRoute($site, $band_id);
+				$bts 	= $this->linkroute_model->getUnion($site, $band_id);
+
+				if(count($routes) < 1 && count($bts) < 1){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Empty</div>');
+					redirect('admin/SearchingRoute');
+					exit;
+				}
+			}
+
+			else{
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+				redirect('admin/SearchingRoute');
+			}
+		}
+		$data = array(
+			'title'		=> 'Route',
+			'content'	=> 'searchingroute',
+			'site'		=> $routes,
+			'site1'		=> $this->site_model->get_all(),
+			'site2'		=> $bts
+		);
+		$this->load->view('frames/templates', $data);
+
+	}
+
+	// End Searching Route----
+
+	
+	/*
+	 * Fungsi-fungsi yang digunakan
+	 */
+
+	public function dump($data){
+		echo "<pre>";
+		var_dump($data);
+		echo "</pre>";
+	}
+	
+
+	private function openCSV($folder, $file_name){
+		$file = file('assets/csv/'.$folder.'/'.$file_name);
+		foreach ($file as $k) {
+			$csv[] = explode(',', $k);
+		}
+
+		if(count($csv[0]) == 1 ){
+			foreach ($file as $k) {
+				$csv[] = explode(';', $k);
+			}
+		}
+
+		return $csv;
+	}
+
+	public function menampilkan($data){
+		$this->load->view('frames/templates', $data);
+	}
+
+	public function dialihkan($url){
+		redirect($url);
+	}
+
+	public function required_input($input_names){
+		$rules = [];
+		foreach ($input_names as $input){
+		   	$rules []= [
+		    'field'  => $input,
+		    'label'  => ucfirst($input),
+		    'rules'  => 'required'
+		   ];
+		}
+		return $this->validate($rules);
+	}
+
+	public function validate($conf){
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules($conf);
+		return $this->form_validation->run();
+	}
+
+	// End fungsi-fungsi yang digunakan----
 
 }
 
