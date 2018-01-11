@@ -25,7 +25,7 @@ class Admin extends CI_Controller{
 			'site'		=> $this->site_model->get_all(),
 			'linkroute'	=> $this->linkroute_model->get_all()
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 	}
 
 	// Site
@@ -539,7 +539,7 @@ class Admin extends CI_Controller{
 			'all_site'	=> $this->linkroute_model->get_linkroute_byConditional($siteID),
 			'site2'		=> $this->site_model->get_all()
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 	}
 
 
@@ -555,8 +555,7 @@ class Admin extends CI_Controller{
 			'content'	=> 'searchingroute',
 			'site1'		=> $this->site_model->get_all()
 		);
-		$this->load->view('frames/templates', $data);
-
+		$this->menampilkan($data);
 	}
 
 	function find_searching(){
@@ -590,7 +589,7 @@ class Admin extends CI_Controller{
 			'site1'		=> $this->site_model->get_all(),
 			'site2'		=> $bts
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 
 	}
 
