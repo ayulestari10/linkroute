@@ -17,14 +17,29 @@ class Login extends CI_Controller{
 	public function index(){
 		if ($this->input->post('login-submit'))
 		{
-			$data = [
-				'username'	=> $this->input->post('username'),
-				'password'	=> md5($this->input->post('password'))
-			];
+			$username 	= $this->input->post('username');
+			$password	=  $this->input->post('password');
 
-			$result = $this->user_model->login($data);
+			if(!empty($username) && !empty($password)){
+				$data = [
+					'username'	=> $username,
+					'password'	=> md5($password)
+				];
 
-			redirect('Admin');
+				$result = $this->user_model->login($data);
+
+				if($result != NULL){
+					redirect('Admin');
+				}
+				else {
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Username or password incorrect!</div>');
+					redirect('Login');
+				}
+			}
+			else {
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every fill!</div>');
+				redirect('Login');
+			}
 		}
 		
 		$this->load->view('login1');

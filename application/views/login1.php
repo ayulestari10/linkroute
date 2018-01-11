@@ -8,7 +8,7 @@
   <meta name="author" content="GeeksLabs">
   <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
 
-  <title></title>
+  <title>LOGIN | PT. Telekomunikasi Selular</title>
 
   <link href="<?= base_url('assets') ?>	/vendor/bootstrap/css/bootstrap-theme.css" rel="stylesheet">
   <!--external css-->
@@ -34,23 +34,32 @@
 
 <body>
   <div class="container">
-  	<?= form_open('Login') ?>
+  	<?= form_open('Login', ['id' => 'form']) ?>
     <div class="login-form">
+
       <div class="login-wrap">
         <p class="login-img"><i class="fa fa-lock" aria-hidden="true"></i></p>
+        <div><?= $this->session->flashdata('msg') ?></div>
         <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
           <input type="text" class="form-control" name="username" placeholder="Username" autocomplete="off" autofocus>
         </div>
         <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-key" aria-hidden="true"></i></span>
+          <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
           <input type="password" class="form-control" name="password" placeholder="Password">
         </div>
-        <input type="submit" name="login-submit" class="btn btn-primary btn-lg btn-block" value="Login">
+        <input onclick="submit_data()" type="submit" name="login-submit" class="btn btn-primary btn-lg btn-block" value="Login">
       </div>
     </div>
     <?= form_close() ?>
   </div>
+
+
+  <script type="text/javascript">
+    function submit_data(){
+      $('#form').submit();
+    }
+  </script>
 
 
 </body>

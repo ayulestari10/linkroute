@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?= base_url('admin/site') ?>">
+                        <a href="#" onclick="site()">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?= base_url('admin/linkroute') ?>">
+                        <a href="#" onclick="linkroute()">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?= base_url('admin/SearchingRoute') ?>">
+                        <a href="#" onclick="searching_route()">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -81,3 +81,16 @@
 
     </div>
     <!-- /#wrapper -->
+
+    <script type="text/javascript">
+        
+        function site(){
+            window.location = '<?= base_url('admin/site') ?>';
+        }
+        function linkroute(){
+            window.location = '<?= base_url('admin/linkroute') ?>';
+        }
+        function searching_route(){
+            window.location = '<?= base_url('admin/SearchingRoute') ?>';
+        }
+    </script>
