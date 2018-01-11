@@ -28,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('admin/insert_site')  ?>
+                                    <?= form_open('admin/insert_site', ['id' => 'tambah_baris'])  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input type="text" class="form-control" name="Site_ID" required>
@@ -45,7 +45,7 @@
                                             <label>Latitude</label>
                                             <input type="text" class="form-control" name="Latitude" required>
                                         </div>
-                                        <input type="submit" class="btn btn-success" name="save" value="Save">
+                                        <input onclick="submit_data()" type="submit" class="btn btn-success" name="save" value="Save">
                                     <?= form_close()  ?>
                                 </div>
                             </div>
@@ -70,14 +70,14 @@
                                 </div>
                             </div>
 
-                            <?= form_open_multipart('admin/insertCSV_Site') ?>
+                            <?= form_open_multipart('admin/insertCSV_Site', ['id' => 'upload']) ?>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Upload File</label> <span class="text-danger"> * the file format should be csv</span>
                                         <input type="file" name="file" style="margin: 2% 0% 4% 0%;">
                                     </div>
-                                    <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
+                                    <input onclick="uploadCSV()" type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
@@ -92,3 +92,13 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+
+        <script type="text/javascript">
+            function submit_data(){
+                $('#tambah_baris').submit();
+            }
+
+            function uploadCSV(){
+                $('#upload').submit();
+            }
+        </script>

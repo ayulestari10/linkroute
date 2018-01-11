@@ -39,25 +39,6 @@ class Admin extends CI_Controller{
 		$this->menampilkan($data);
 	}
 
-	function site(){
-		if ($this->input->post('Site_ID') && $this->input->post('delete'))
-        {
-            $this->site_model->delete($this->input->post('Site_ID'));
-            $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
-            $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
-            //redirect('admin/site');
-            $this->dialihkan('admin/site');
-            exit;
-        }
-
-		$data = array(
-			'title'		=> 'Site Table',
-			'content'	=> 'site',
-			'site'		=> $this->site_model->get_all()
-		);
-		$this->load->view('frames/templates', $data);
-	}
-
 	function insert_site(){
 
 		if($this->input->post('save')){
@@ -100,7 +81,7 @@ class Admin extends CI_Controller{
 			'title'		=> 'Input Form',
 			'content'	=> 'insert_site',
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 	}
 
 	public function insertCSV_Site(){
@@ -182,6 +163,23 @@ class Admin extends CI_Controller{
 	}
 
 	function edit_site(){
+		$get_id = $this->uri->segment(3);
+
+		if(isset($get_id)){
+			$data = array(
+				'title'		=> 'Edit Form',
+				'content'	=> 'edit_site',
+				'site'		=> $this->site_model->get_dataBy_siteID($get_id)
+			);
+			$this->menampilkan($data);
+		}
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+			redirect('admin/site');
+		}
+	}
+
+	function edit_process(){
 
 		$get_id = $this->uri->segment(3);
 
@@ -217,12 +215,25 @@ class Admin extends CI_Controller{
 					redirect('admin/site');
 		}
 
-		$data = array(
-			'title'		=> 'Edit Form',
-			'content'	=> 'edit_site',
-			'site'		=> $this->site_model->get_dataBy_siteID($get_id)
-		);
-		$this->load->view('frames/templates', $data);
+		// $data = array(
+		// 	'title'		=> 'Edit Form',
+		// 	'content'	=> 'edit_site',
+		// 	'site'		=> $this->site_model->get_dataBy_siteID($get_id)
+		// );
+		// $this->menampilkan($data);
+		//$this->edit_site();
+	}
+
+	function delete_site(){
+		if ($this->input->post('Site_ID') && $this->input->post('delete'))
+        {
+            $this->site_model->delete($this->input->post('Site_ID'));
+            $this->linkroute_model->delete_where_and($this->input->post('Site_ID'));
+            $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
+            redirect('admin/site');
+            //$this->dialihkan('admin/site');
+            exit;
+        }
 	}
 
 	// End Site----
