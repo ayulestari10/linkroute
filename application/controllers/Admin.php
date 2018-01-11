@@ -243,7 +243,7 @@ class Admin extends CI_Controller{
 			'content'	=> 'linkroute',
 			'site' 		=> $this->linkroute_model->get_all_twotable(),
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 	}
 
 	function insert_linkroute(){
@@ -325,7 +325,7 @@ class Admin extends CI_Controller{
 			'site'		=> $this->linkroute_model->get_all(),
 			'site2'		=> $this->site_model->get_all()
 		);
-		$this->load->view('frames/templates', $data);
+		$this->menampilkan($data);
 	}
 
 	public function insertCSV_Linkroute(){
@@ -361,7 +361,7 @@ class Admin extends CI_Controller{
 					for ($i = 1; $i < count($data_csv); $i++) {
 					   	$row = [
 					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SysID' 		=> $data_csv[$i][1],
+			s		    	'SysID' 		=> $data_csv[$i][1],
 					    	'NE_ID' 		=> $data_csv[$i][3],
 					    	'FE_ID' 		=> $data_csv[$i][5],
 					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
