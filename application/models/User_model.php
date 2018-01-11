@@ -11,7 +11,7 @@ class User_model extends CI_Model{
 		$this->key 					= 'username';
 	}
 
-	function cek_login($data){
+	public function cek_login($data){
 		$data_admin = $this->Peserta_model->get_data_byConditional($data);
 		if($data_admin->num_rows() == 1){
 			 $this->rows = $data_admin->num_rows();
