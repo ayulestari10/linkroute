@@ -28,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('admin/edit_site/' . $site->Site_ID)  ?>
+                                    <?= form_open('admin/edit_process/' . $site->Site_ID , ['id' => 'edit'])  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" disabled="">
@@ -45,7 +45,7 @@
                                             <label>Latitude</label>
                                             <input class="form-control" type="text" name="Latitude" value="<?= $site->Latitude ?>" required>
                                         </div>
-                                        <input type="submit" class="btn btn-success" name="edit" value="Save">
+                                        <input onclick="edit_data()"  type="submit" class="btn btn-success" name="edit" value="Save">
                                     <?= form_close()  ?>
                                 </div>
                             </div>
@@ -59,3 +59,9 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+
+        <script type="text/javascript">
+            function edit_data(){
+                $('#edit').submit();
+            }
+        </script>

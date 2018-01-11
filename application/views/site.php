@@ -39,8 +39,9 @@
                                         <td><?= $row->Longitude ?></td>
                                         <td><?= $row->Latitude ?></td>
                                         <td>
-                                            <a href="<?= base_url('admin/edit_site/' . $row->Site_ID)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
-                                            <button onclick="delete_site('<?= $row->Site_ID ?>')" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
+                                            <!-- <a href="<?= base_url('admin/edit_site/' . $row->Site_ID)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a> -->
+                                            <button onclick="mengubah_site('<?= $row->Site_ID ?>')" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></button>
+                                            <button onclick="hapus_site('<?= $row->Site_ID ?>')" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -67,7 +68,11 @@
           window.location = '<?= base_url('admin/insert_site') ?>';
         }
 
-        function delete_site(Site_ID) {
+        function mengubah_site(Site_ID){
+          window.location = '<?= base_url('admin/edit_site/') ?>' + Site_ID;
+        }
+
+        function hapus_site(Site_ID) {
             
             swal({
               title: 'Are you sure?',
