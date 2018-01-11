@@ -28,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('admin/insert_linkroute')  ?>
+                                    <?= form_open('admin/insert_linkroute', ['id' => 'add_form'])  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input class="form-control" type="text" name="Site_ID" list="data_siteid" autocomplete="off" required>
@@ -73,7 +73,7 @@
                                             <label>Hop ID Detail</label>
                                             <input class="form-control" type="text" name="HOP_ID_DETAIL" required>
                                         </div>
-                                        <input type="submit" class="btn btn-success" name="save" value="Save">
+                                        <input type="submit" class="btn btn-success" name="save" value="Save" onclick="save_data()">
                                     <?= form_close()  ?>
                                 </div>
                             </div>
@@ -98,14 +98,14 @@
                                 </div>
                             </div>
 
-                            <?= form_open_multipart('admin/insertCSV_Linkroute') ?>
+                            <?= form_open_multipart('admin/insertCSV_Linkroute', ['id' => 'upload']) ?>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>Upload File</label> <span class="text-danger"> * the file format should be csv</span>
                                         <input type="file" name="file" style="margin: 2% 0% 4% 0%;">
                                     </div>
-                                    <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
+                                    <input type="submit" class="btn btn-success" value="Upload" name="uploadcsv" onclick="uploadCSV()">
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
@@ -120,3 +120,11 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+        <script type="text/javascript">
+            function save_data(){
+                $('#add_form').submit();
+            }
+            function uploadCSV(){
+                $('#upload').submit();
+            }
+        </script>

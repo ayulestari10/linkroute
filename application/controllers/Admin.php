@@ -372,7 +372,7 @@ class Admin extends CI_Controller{
 					for ($i = 1; $i < count($data_csv); $i++) {
 					   	$row = [
 					    	'Site_ID' 		=> $data_csv[$i][0],
-			s		    	'SysID' 		=> $data_csv[$i][1],
+					    	'SysID' 		=> $data_csv[$i][1],
 					    	'NE_ID' 		=> $data_csv[$i][3],
 					    	'FE_ID' 		=> $data_csv[$i][5],
 					    	'HOP_ID_DETAIL' => $data_csv[$i][7]

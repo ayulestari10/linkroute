@@ -2,7 +2,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Link Route Table <button onclick="location.href='<?= base_url('admin/insert_linkroute')  ?>'" type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
+                    <h1 class="page-header">Link Route Table <button onclick="add_linkroute()" type="button" class="btn btn-success btn-circle"><i class="fa fa-plus"></i></button></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -49,7 +49,8 @@
                                         <td><?= $row->FE_Name ?></td>
                                         <td><?= $row->HOP_ID_DETAIL ?></td>
                                         <td>
-                                            <a href="<?= base_url('admin/edit_linkroute/' . $row->id)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a>
+                                            <!-- <a href="<?= base_url('admin/edit_linkroute/' . $row->id)  ?>" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></a> -->
+                                            <button onclick="edit_linkroute(<?= $row->id ?>)" class="btn btn-info btn-circle"><i class="fa fa-pencil-square-o"></i></button>
                                             <button onclick="delete_linkroute(<?= $row->id ?>)" class="btn btn-danger btn-circle"><i class="fa fa-trash"></i></button>
                                         </td>
                                     </tr>
@@ -73,6 +74,13 @@
     <!-- /#wrapper -->
 
     <script type="text/javascript">
+        function edit_linkroute(id){
+          window.location = '<?= base_url('admin/edit_linkroute/') ?>' + id;
+        }
+
+        function add_linkroute(){
+          window.location = '<?= base_url('admin/insert_linkroute') ?>';
+        }
 
         function delete_linkroute(id){
             swal({
