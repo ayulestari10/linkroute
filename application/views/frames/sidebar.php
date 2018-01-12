@@ -8,7 +8,7 @@
                             <a href="<?= base_url('admin/linkroute') ?>"><i class="fa fa-table fa-fw"></i> Link Route Table</a>
                         </li>
                         <li>
-                            <a href="<?= base_url('admin/site') ?>"><i class="fa fa-table fa-fw"></i> Site Table</a>
+                            <a href="<?= base_url('admin/data_site') ?>"><i class="fa fa-table fa-fw"></i> Site Table</a>
                         </li>
                         <li>
                             <a href="<?= base_url('admin/searchingroute') ?>"><i class="fa fa-search fa-fw"></i> Searching Route</a>
