@@ -50,7 +50,8 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
+                    <!-- /.panel -->                       
+                    <button onclick="delete_all_site()" class="btn btn-danger btn-md" style="margin-bottom: 4%;"> Delete All Data</button>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -90,13 +91,14 @@
             }).then((result) => {
               if (result.value) {
                 $.ajax({
-                    url: '<?= base_url('admin/site') ?>',
+                    url: '<?= base_url('admin/delete_site') ?>',
                     type: 'POST',
                     data: {
                         Site_ID: Site_ID,
                         delete: true
                     },
                     success: function() {
+                      //window.location = '<?= base_url('admin/delete_site') ?>';
                     }
                 });
 
@@ -107,7 +109,7 @@
                   timer: 1500
                 })
 
-                window.location = '<?= base_url('admin/site') ?>';
+                window.location = '<?= base_url('admin/data_site') ?>';
               } 
 
               else if (result.dismiss === 'cancel') {
@@ -118,5 +120,40 @@
                 )
               }
             }) 
+        }
+
+        function delete_all_site(){         
+
+              swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+              }).then((result) => {
+                if (result.value) {
+                  window.location = '<?= base_url('admin/delete_all_site') ?>';
+                  swal(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                // result.dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                } else if (result.dismiss === 'cancel') {
+                  swal(
+                    'Cancelled',
+                    'Your data is safe :)',
+                    'error'
+                  )
+                }
+              })
         }
     </script>

@@ -39,11 +39,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Longitude</label>
-                                            <input type="text" class="form-control" name="Longitude" required>
+                                            <input type="number" step="any" class="form-control" name="Longitude" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Latitude</label>
-                                            <input type="text" class="form-control" name="Latitude" required>
+                                            <input type="number" step="any" class="form-control" name="Latitude" required>
                                         </div>
                                         <input onclick="submit_data()" type="submit" class="btn btn-success" name="save" value="Save">
                                     <?= form_close()  ?>
@@ -97,7 +97,6 @@
             function submit_data(){
                 $('#tambah_baris').submit();
             }
-
             function uploadCSV(){
                 $('#upload').submit();
             }

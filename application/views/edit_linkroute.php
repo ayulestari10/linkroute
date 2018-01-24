@@ -42,7 +42,7 @@
                                         <td><?= $row->SysID ?></td>
                                         <td><?= $row->NE_ID ?></td>
                                         <td><?= $row->FE_ID ?></td>
-                                        <td><?= $row->HOP_ID_DETAIL ?></td>
+                                        <td><?= htmlentities($row->HOP_ID_DETAIL) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

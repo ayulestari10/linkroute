@@ -24,13 +24,21 @@ class Linkroute_model extends CI_Model{
 		return $query->row();
 	}
 
-	function insert_linkroute($data){
+	public function insert_linkroute($data){
+		return $this->db->insert($this->table, $data);
+	}
+
+	public function insert($data){
 		return $this->db->insert($this->table, $data);
 	}
 
 	public function get_all(){
 		$query = $this->db->get($this->table);
 		return $query->result();
+	}
+
+	public function delete_all(){
+		return $this->db->query('DELETE FROM '.$this->table);
 	}
 
 	public function getRoute($site, $band){

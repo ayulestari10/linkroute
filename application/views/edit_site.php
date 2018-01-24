@@ -39,11 +39,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Longitude</label>
-                                            <input class="form-control" type="text" name="Longitude" value="<?= $site->Longitude ?>" required>
+                                            <input class="form-control" type="number" name="Longitude" value="<?= $site->Longitude ?>" step="any" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Latitude</label>
-                                            <input class="form-control" type="text" name="Latitude" value="<?= $site->Latitude ?>" required>
+                                            <input class="form-control" type="number" name="Latitude" value="<?= $site->Latitude ?>" step="any" required>
                                         </div>
                                         <input onclick="edit_data()"  type="submit" class="btn btn-success" name="edit" value="Save">
                                     <?= form_close()  ?>

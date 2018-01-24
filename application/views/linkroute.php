@@ -61,6 +61,7 @@
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
+                    <button onclick="delete_all_linkroute()" class="btn btn-danger btn-md" style="margin-bottom: 4%;"> Delete All Data</button>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -119,5 +120,40 @@
                 )
               }
             })  
+        }
+
+        function delete_all_linkroute(){         
+
+              swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false,
+                reverseButtons: true
+              }).then((result) => {
+                if (result.value) {
+                  window.location = '<?= base_url('admin/delete_all_linkroute') ?>';
+                  swal(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                // result.dismiss can be 'cancel', 'overlay',
+                // 'close', and 'timer'
+                } else if (result.dismiss === 'cancel') {
+                  swal(
+                    'Cancelled',
+                    'Your data is safe :)',
+                    'error'
+                  )
+                }
+              })
         }
     </script>
