@@ -273,7 +273,8 @@ class Admin extends CI_Controller{
 
 			if(!$this->required_input($required)){
 				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-					redirect('admin/insert_linkroute');
+					//redirect('admin/insert_linkroute');
+					$this->dialihkan('admin/insert_linkroute');
 			}
 			else{
 				$input = array(
@@ -294,27 +295,31 @@ class Admin extends CI_Controller{
 				$cek_data = $this->linkroute_model->get_data_byConditional($cek_input);
 				if(count($cek_data) > 0){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Data Already Exists</div>');
-					redirect('admin/insert_linkroute');
+					//redirect('admin/insert_linkroute');
+					$this->dialihkan('admin/insert_linkroute');
 				}
 				else{
 					$cek_site = $this->site_model->get_dataBy_siteID($site_id);
 					if(count($cek_site) == 0){
 						$this->session->set_flashdata('msg2', '<div class="alert alert-danger" style="text-align:center;">Site ID does not exist!</div>');
-						redirect('admin/insert_linkroute');
+						//redirect('admin/insert_linkroute');
+						$this->dialihkan('admin/insert_linkroute');
 						exit;
 					}
 
 					$cek_NE = $this->site_model->get_dataBy_siteID($ne_id);
 					if(count($cek_NE) == 0){
 						$this->session->set_flashdata('msg3', '<div class="alert alert-danger" style="text-align:center;">NE ID does not exist!</div>');
-						redirect('admin/insert_linkroute');
+						//redirect('admin/insert_linkroute');
+						$this->dialihkan('admin/insert_linkroute');
 						exit;
 					}
 
 					$cek_FE = $this->site_model->get_dataBy_siteID($fe_id);
 					if(count($cek_FE) == 0){
 						$this->session->set_flashdata('msg4', '<div class="alert alert-danger" style="text-align:center;">FE ID does not exist!</div>');
-						redirect('admin/insert_linkroute');
+						//redirect('admin/insert_linkroute');
+						$this->dialihkan('admin/insert_linkroute');
 						exit;
 					}
 
@@ -324,7 +329,8 @@ class Admin extends CI_Controller{
 					//echo '<pre>';
 					//print_r($input);
 					//echo '</pre>';
-					redirect('admin/insert_linkroute');
+					//redirect('admin/insert_linkroute');
+					$this->dialihkan('admin/insert_linkroute');
 					exit;
 				}
 			}
@@ -386,21 +392,24 @@ class Admin extends CI_Controller{
 					   		$line = $i + 1;
 					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> in the file!</div>');
 
-							redirect('admin/insert_linkroute');
+							//redirect('admin/insert_linkroute');
+							$this->dialihkan('admin/insert_linkroute');
 					   	}
 
 					   	if(count($ne_id) < 1){
 					   		$line = $i + 1;
 					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  NE ID '. $data_csv[$i][3] .' in line '.$line.'</strong> in the file!</div>');
 
-							redirect('admin/insert_linkroute');
+							//redirect('admin/insert_linkroute');
+					   		$this->dialihkan('admin/insert_linkroute');
 					   	}
 
 					   	if(count($fe_id) < 1){
 					   		$line = $i + 1;
 					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  FE ID '. $data_csv[$i][5] .' in line '.$line.'</strong> in the file!</div>');
 
-							redirect('admin/insert_linkroute');
+							//redirect('admin/insert_linkroute');
+							$this->dialihkan('admin/insert_linkroute');
 					   	}	
 					}
 
@@ -421,7 +430,8 @@ class Admin extends CI_Controller{
 
 					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check line '.$id.' already exists!</div>');
 
-							redirect('admin/insert_linkroute');
+							//redirect('admin/insert_linkroute');
+							$this->dialihkan('admin/insert_linkroute');
 					   	}
 					}
 
@@ -439,14 +449,16 @@ class Admin extends CI_Controller{
 					}
 
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-					redirect('admin/insert_linkroute');
+					//redirect('admin/insert_linkroute');
+					$this->dialihkan('admin/insert_linkroute');
 
 				}
 
 				else
 				{
 					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
-					redirect('admin/insert_site');
+					//redirect('admin/insert_site');
+					$this->dialihkan('admin/insert_linkroute');
 				}
 					
 			}
@@ -454,7 +466,8 @@ class Admin extends CI_Controller{
 			else
 			{
 				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files uploaded!</div>');
-				redirect('admin/insert_linkroute');
+				//redirect('admin/insert_linkroute');
+				$this->dialihkan('admin/insert_linkroute');
 			}
 		}
 			
