@@ -28,6 +28,11 @@ class Site_model extends CI_Model{
 		return $this->db->insert($this->table, $data);
 	}
 
+	public function insert($data)
+	{
+		return $this->db->insert($this->table, $data);
+	}
+
 	public function get_all(){
 		$query = $this->db->get($this->table);
 		return $query->result();
@@ -52,6 +57,10 @@ class Site_model extends CI_Model{
 	public function delete_where_and($value){
 		$query = $this->db->query('DELETE FROM '.$this->table.' WHERE Site_ID = "'.$value.'" OR NE_ID = "'.$value.'" OR FE_ID = "'.$value.'"');
 		return $query->result();
+	}
+
+	public function delete_all(){
+		return $this->db->query('DELETE FROM '.$this->table);
 	}
 
 	function get_data_byConditional($data){

@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
-                      <li><a href="<?= base_url('admin/site') ?>"><i class="fa fa-book"> Site</i></a></li>
+                      <li><a href="<?= base_url('admin/data_site') ?>"><i class="fa fa-book"> Site</i></a></li>
                       <li class="active"><i class="fa fa-pencil"> Insert Site</i></li>
                     </ol>
                 </div>
@@ -39,11 +39,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Longitude</label>
-                                            <input type="text" class="form-control" name="Longitude" required>
+                                            <input type="number" step="any" class="form-control" name="Longitude" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Latitude</label>
-                                            <input type="text" class="form-control" name="Latitude" required>
+                                            <input type="number" step="any" class="form-control" name="Latitude" required>
                                         </div>
                                         <input onclick="submit_data()" type="submit" class="btn btn-success" name="save" value="Save">
                                     <?= form_close()  ?>
@@ -97,7 +97,6 @@
             function submit_data(){
                 $('#tambah_baris').submit();
             }
-
             function uploadCSV(){
                 $('#upload').submit();
             }

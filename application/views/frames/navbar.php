@@ -11,7 +11,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Link Route Admin</a>
+                <a class="navbar-brand" href="<?= base_url() ?>"><img style="margin-top: -14px; border-radius: 5%; padding: 2%;" width="130" height="45" src="<?= base_url('assets/img/logo.png') ?>" alt="Logo Telkomsel"></a>
+                <!-- <a class="navbar-brand" href="<?= base_url() ?>" style="margin-left: -6%;"><strong>Link Route Admin</strong></a> -->
             </div>
             <!-- /.navbar-header -->
 

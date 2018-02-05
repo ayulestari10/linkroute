@@ -37,8 +37,11 @@
   	<?= form_open('Login', ['id' => 'form']) ?>
     <div class="login-form">
 
-      <div class="login-wrap">
-        <p class="login-img"><i class="fa fa-lock" aria-hidden="true"></i></p>
+      <div class="login-wrap"><!-- 
+        <p class="login-img"><i class="fa fa-lock" aria-hidden="true"></i></p> -->
+        <p class="login-img">
+          <img style="border-radius: 5%; padding: 2%;" width="220" height="120" src="<?= base_url('assets/img/logo.png') ?>" alt="Logo Telkomsel">
+        </p>
         <div><?= $this->session->flashdata('msg') ?></div>
         <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
