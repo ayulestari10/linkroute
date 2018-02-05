@@ -87,6 +87,7 @@ class Admin extends CI_Controller{
 				if($exe == ".csv") {
 					$this->load->library('upload');
 					//$file_name = $_FILES['file']['name'];
+					$file_name = str_replace(' ', '_', $file_name);
 					$upload_path = realpath(APPPATH . '../assets/csv/site');
 					@unlink($upload_path . '/' . $file_name);
 					$config = [
@@ -352,6 +353,8 @@ class Admin extends CI_Controller{
 					$this->load->library('upload');
 					//$file_name = $_FILES['file']['name'];
 					$upload_path = realpath(APPPATH . '../assets/csv/linkroute');
+
+					$file_name = str_replace(' ', '_', $file_name);
 					@unlink($upload_path . '/' . $file_name);
 					$config = [
 						'file_name' 		=> $file_name,
@@ -593,8 +596,14 @@ class Admin extends CI_Controller{
 
 	private function openCSV($folder, $file_name){
 
+		$file_name = str_replace(' ', '_', $file_name);
 		$file = file('assets/csv/'.$folder.'/'.$file_name);
-		
+
+		// if ($file == false) {
+		// 	$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files selected!</div>');
+		// 	exit;
+		// }
+
 		foreach ($file as $k) {
 			$csv[] = explode(',', $k);
 		}
