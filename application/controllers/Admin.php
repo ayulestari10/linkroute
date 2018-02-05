@@ -87,6 +87,7 @@ class Admin extends CI_Controller{
 				if($exe == ".csv") {
 					$this->load->library('upload');
 					//$file_name = $_FILES['file']['name'];
+					$file_name = str_replace(' ', '_', $file_name);
 					$upload_path = realpath(APPPATH . '../assets/csv/site');
 					@unlink($upload_path . '/' . $file_name);
 					$config = [
@@ -346,6 +347,8 @@ class Admin extends CI_Controller{
 					$this->load->library('upload');
 					//$file_name = $_FILES['file']['name'];
 					$upload_path = realpath(APPPATH . '../assets/csv/linkroute');
+
+					$file_name = str_replace(' ', '_', $file_name);
 					@unlink($upload_path . '/' . $file_name);
 					$config = [
 						'file_name' 		=> $file_name,
