@@ -232,6 +232,32 @@ class Admin extends CI_Controller{
         redirect('admin/data_site');
 	}
 
+	public function download_site(){
+		//load our new PHPExcel library
+		$this->load->library('excel');
+		//activate worksheet number 1
+		$this->excel->setActiveSheetIndex(0);
+		//name the worksheet
+		$this->excel->getActiveSheet()->setTitle('Site_Template');
+		//set cell A1, B1, C1, D1, E1 content with some text
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Site ID');
+		$this->excel->getActiveSheet()->setCellValue('B1', 'Site Name');
+		$this->excel->getActiveSheet()->setCellValue('C1', 'Longitude');
+		$this->excel->getActiveSheet()->setCellValue('D1', 'Latitude');
+
+		 
+		$filename='Site_Template.xls'; //save our workbook as this file name
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+		            
+		//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+		//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+		//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
+	}
+
 	// End Site----
 
 
@@ -528,6 +554,33 @@ class Admin extends CI_Controller{
         $this->linkroute_model->delete_all();
         $this->session->set_flashdata('msg5', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
         redirect('admin/linkroute');
+	}
+
+	public function download_linkroute(){
+		//load our new PHPExcel library
+		$this->load->library('excel');
+		//activate worksheet number 1
+		$this->excel->setActiveSheetIndex(0);
+		//name the worksheet
+		$this->excel->getActiveSheet()->setTitle('Linkroute_Template');
+		//set cell A1, B1, C1, D1, E1 content with some text
+		$this->excel->getActiveSheet()->setCellValue('A1', 'Site_ID');
+		$this->excel->getActiveSheet()->setCellValue('B1', 'SysID');
+		$this->excel->getActiveSheet()->setCellValue('C1', 'NE_ID');
+		$this->excel->getActiveSheet()->setCellValue('D1', 'FE_ID');
+		$this->excel->getActiveSheet()->setCellValue('E1', 'HOP_ID_DETAIL');
+
+		 
+		$filename='Linkroute_Template.xls'; //save our workbook as this file name
+		header('Content-Type: application/vnd.ms-excel'); //mime type
+		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+		header('Cache-Control: max-age=0'); //no cache
+		            
+		//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+		//if you want to save it as .XLSX Excel 2007 format
+		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+		//force user to download the Excel file without writing it to server's HD
+		$objWriter->save('php://output');
 	}
 
 	// End Link Route----

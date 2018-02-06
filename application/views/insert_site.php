@@ -68,6 +68,9 @@
                                         <?= $this->session->flashdata('msgUpload') ?>
                                     </div>
                                 </div>
+                                <div style="padding-left: 330px">
+                                    <button type="button" class="btn btn-info btn-sm" onclick="download_siteTemplate()">Download Template <i class="fa fa-download"></i></button>
+                                </div>
                             </div>
 
                             <?= form_open_multipart('admin/insertCSV_Site', ['id' => 'upload']) ?>
@@ -99,5 +102,8 @@
             }
             function uploadCSV(){
                 $('#upload').submit();
+            }
+            function download_siteTemplate(){
+                window.location = '<?= base_url('admin/download_site') ?>';
             }
         </script>

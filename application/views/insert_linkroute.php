@@ -96,6 +96,9 @@
                                         <?= $this->session->flashdata('msgUpload') ?>
                                     </div>
                                 </div>
+                                <div style="padding-left: 330px">
+                                    <button type="button" class="btn btn-info btn-sm" onclick="download_linkrouteTemplate()">Download Template <i class="fa fa-download"></i></button>
+                                </div>
                             </div>
 
                             <?= form_open_multipart('admin/insertCSV_Linkroute', ['id' => 'upload']) ?>
@@ -126,5 +129,8 @@
             }
             function uploadCSV(){
                 $('#upload').submit();
+            }
+            function download_linkrouteTemplate(){
+                window.location = '<?= base_url('admin/download_linkroute') ?>';
             }
         </script>
