@@ -158,10 +158,30 @@ class Admin extends CI_Controller{
 			);
 			$this->menampilkan($data);
 		}
-		else {
-			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-			redirect('admin/site');
-		}
+		// else {
+		// 	$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+		// 	redirect('admin/site');
+		// }
+		if($this->input->post('edit')){
+				$site_name = $this->input->post('SiteName');
+				$longitude = $this->input->post('Longitude');
+				$latitude = $this->input->post('Latitude');
+				$required = ['SiteName','Longitude','Latitude'];
+				if(!$this->required_input($required)){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+						redirect('admin/edit_site/' . $get_id);
+				}
+				else{
+					$input = array(
+							'SiteName'	=> $site_name,
+							'Longitude'	=> $longitude,
+							'Latitude'	=> $latitude
+					);
+					$this->site_model->update($get_id, $input);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
+					redirect('admin/edit_site/' . $get_id);
+				}
+			}
 	}
 	public function edit_process(){
 		$get_id = $this->uri->segment(3);
@@ -173,7 +193,7 @@ class Admin extends CI_Controller{
 				$required = ['SiteName','Longitude','Latitude'];
 				if(!$this->required_input($required)){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-						redirect('admin/edit_site');
+						redirect('admin/edit_site/' . $get_id);
 				}
 				else{
 					$input = array(
@@ -189,7 +209,7 @@ class Admin extends CI_Controller{
 		}
 		else {
 			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-					redirect('admin/site');
+					redirect('admin/site/' . $get_id);
 		}
 		// $data = array(
 		// 	'title'		=> 'Edit Form',
@@ -613,9 +633,23 @@ class Admin extends CI_Controller{
 		}
 	}
 
+	public function delete_cob(){
+		if($this->input->post('SiteName') && $this->input->post('delete')){
+			$this->cob_model->delete($this->input->post('SiteName'));
+			$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;">Successed !</div>');
+		}
+		redirect('admin/data_cob');
+	}
+
 	public function download_cob(){
 		$this->load->helper('download');
 		force_download('assets/upload/Combat_Template.csv',NULL);
+	}
+
+	public function delete_all_cob(){
+		$this->cob_model->delete_all();
+		$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;">Successed !</div>');
+		redirect('admin/data_cob');
 	}
 
 	// End Combat
@@ -623,6 +657,7 @@ class Admin extends CI_Controller{
 	/*
 	 * Fungsi-fungsi yang digunakan
 	 */
+	
 	public function dump($data){
 		echo "<pre>";
 		var_dump($data);

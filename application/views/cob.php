@@ -73,11 +73,11 @@
           window.location = '<?= base_url('admin/edit_cob/') ?>' + SiteName;
         }
 
-        function hapus_siteCob(Site_ID) {
+        function hapus_siteCob(SiteName) {
             
             swal({
               title: 'Apakah anda yakin untuk menghapus data?',
-              text: "Setiap Site ID yang diapus akan menghapus link route yang memiliki Site ID itu!",
+              text: "Data akan hilang permanen !",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -91,14 +91,14 @@
             }).then((result) => {
               if (result.value) {
                 $.ajax({
-                    url: '<?= base_url('admin/delete_site') ?>',
+                    url: '<?= base_url('admin/delete_cob') ?>',
                     type: 'POST',
                     data: {
-                        Site_ID: Site_ID,
+                        SiteName: SiteName,
                         delete: true
                     },
                     success: function() {
-                      //window.location = '<?= base_url('admin/delete_site') ?>';
+                      //window.location = '<?= base_url('admin/delete_cob') ?>';
                     }
                 });
 
@@ -109,7 +109,7 @@
                   timer: 1500
                 })
 
-                window.location = '<?= base_url('admin/data_site') ?>';
+                window.location = '<?= base_url('admin/delete_cob') ?>';
               } 
 
               else if (result.dismiss === 'cancel') {
@@ -126,7 +126,7 @@
 
               swal({
                 title: 'Apakah anda yakin untuk menghapus semua data?',
-                text: "Data link route akan terhapus semua!",
+                text: "Data combat akan terhapus semua!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -139,7 +139,7 @@
                 reverseButtons: true
               }).then((result) => {
                 if (result.value) {
-                  window.location = '<?= base_url('admin/delete_all_site') ?>';
+                  window.location = '<?= base_url('admin/delete_all_cob') ?>';
                   swal(
                     'Data berhasil dihapus!',
                     '',
