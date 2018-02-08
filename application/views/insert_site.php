@@ -1,4 +1,4 @@
-<div id="page-wrapper">
+    <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Input Form</h1>
@@ -26,22 +26,55 @@
 
             <div class="row">
                 <!-- Message Box untuk site yang salah -->
-                <?php //if(isset($salah)): ?>
-                    <div class="col-md-12 salah">
-                        <div class="alert alert-success alert-dismissible" style="width: 500px;">
-                            <div>
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                            </div>
-                        </div>
-                    </div>
-                <?php //endif; ?>
+                <?php  
+                    $salah      = $this->session->flashdata('salah');
+                    $jmlh_data  = $this->session->flashdata('arr_data');
+                ?>
+                <?php if(isset($salah)): ?>
+                    <!-- Modal -->
+                        <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Data Site</h4>
+                              </div>
+                              <div class="modal-body">
+                                    <h4>Jumlah Data Sebanyak <?= count($jmlh_data)-1 ?></h4>
+                                    <h5><?= (count($jmlh_data) - 1) - count($salah)  ?> data sukses disimpan.</h5>
+                                    <h5><?= count($salah) ?> data gagal disimpan karena duplikat.</h5>
+                                    <br>
+                                    <h4>Data yang Duplikat</h4>
+                                   
+                                         <table  class="table table-striped table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>Site ID</th>
+                                                    <th>Site Name</th>
+                                                    <th>Longitude</th>
+                                                    <th>Latitude</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($salah as $row): ?>
+                                                <tr>
+                                                    <td><?= $row['Site_ID'] ?></td>
+                                                    <td><?= $row['SiteName'] ?></td>
+                                                    <td><?= $row['Longitude'] ?></td>
+                                                    <td><?= $row['Latitude'] ?></td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    
+                              </div>
+                              <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Abaikan</button>
+                              </div>
+                            </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                <?php endif; ?>
             </div>
 
             <div class="row">
@@ -126,7 +159,12 @@
         </div>
         <!-- /#page-wrapper -->
 
+        
         <script type="text/javascript">
+            $( document ).ready( function(){
+                $('#myModal').modal();
+            } );
+
             function submit_data(){
                 $('#tambah_baris').submit();
             }

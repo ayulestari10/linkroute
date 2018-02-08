@@ -112,20 +112,12 @@ class Admin extends CI_Controller{
 					   	$this->site_model->insert($row);
 					}
 					
-					// Insert Data
-					// for ($i = 1; $i < count($data_csv); $i++) {
-					//    	$row = [
-					//     	'Site_ID' 		=> $data_csv[$i][0],
-					//     	'SiteName' 		=> $data_csv[$i][1],
-					//     	'Longitude' 	=> $data_csv[$i][2],
-					//     	'Latitude' 		=> $data_csv[$i][3]
-					//    	];
-					//    	$this->site_model->insert($row);
-					// }
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
 
-			   		$this->data['salah'] = $salah;
-
+			   		$this->session->set_flashdata('salah', $salah);
+			   		$this->session->set_flashdata('arr_data', $data_csv);
+					
+					redirect('admin/insert_site');
 					exit;
 				}
 				else
