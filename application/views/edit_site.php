@@ -11,7 +11,7 @@
                 <div class="col-lg-6">
                     <ol class="breadcrumb">
                       <li><a href="<?= base_url('admin/data_site') ?>"><i class="fa fa-book"> Site</i></a></li>
-                      <li class="active"><i class="fa fa-pencil"> Edit Combat</i></li>
+                      <li class="active"><i class="fa fa-pencil"> Edit Site</i></li>
                     </ol>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Edit Combat Form
+                            Edit Site Form
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -28,7 +28,7 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('admin/edit_process/' . $site->Site_ID , ['id' => 'edit'])  ?>
+                                    <?= form_open('admin/edit_site/' . $site->Site_ID , ['id' => 'edit'])  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
                                             <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" disabled="">

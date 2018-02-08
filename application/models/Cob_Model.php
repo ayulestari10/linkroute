@@ -41,5 +41,13 @@
 			$this->db->where([$this->key => $pk]);
 			return $this->db->update($this->table, $data);
 		}
+
+		public function delete($pk){
+			return $this->db->delete($this->table, array($this->key => $pk));
+		}
+
+		public function delete_all(){
+		return $this->db->query('DELETE FROM '.$this->table);
+	}
 	}
 ?>
