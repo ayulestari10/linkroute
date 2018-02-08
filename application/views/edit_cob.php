@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <ol class="breadcrumb">
-                      <li><a href="<?= base_url('admin/data_site') ?>"><i class="fa fa-book"> Site</i></a></li>
+                      <li><a href="<?= base_url('admin/data_cob') ?>"><i class="fa fa-book"> Combat</i></a></li>
                       <li class="active"><i class="fa fa-pencil"> Edit Combat</i></li>
                     </ol>
                 </div>
@@ -28,14 +28,14 @@
                                     <div>
                                         <?= $this->session->flashdata('msg')  ?>
                                     </div>
-                                    <?= form_open('admin/edit_process/' . $site->Site_ID , ['id' => 'edit'])  ?>
+                                    <?= form_open('admin/edit_cob/' . $site->SiteName , ['id' => 'edit'])  ?>
                                         <div class="form-group">
                                             <label>Site ID</label>
-                                            <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" disabled="">
+                                            <input class="form-control" type="text" name="Site_ID" value="<?= $site->Site_ID ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Site Name</label>
-                                            <input class="form-control" type="text" name="SiteName" value="<?= $site->SiteName  ?>" required>
+                                            <input class="form-control" type="text" name="SiteName" value="<?= $site->SiteName  ?>" disabled="">
                                         </div>
                                         <div class="form-group">
                                             <label>Longitude</label>
