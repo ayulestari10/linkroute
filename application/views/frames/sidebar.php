@@ -8,6 +8,9 @@
                             <a href="<?= base_url('admin/data_site') ?>"><i class="fa fa-table fa-fw"></i> Site Table</a>
                         </li>
                         <li>
+                            <a href="<?= base_url('admin/data_cob') ?>"><i class="fa fa-table fa-fw"></i> Combat Table</a>
+                        </li>
+                        <li>
                             <a href="<?= base_url('admin/linkroute') ?>"><i class="fa fa-tasks fa-fw"></i> Link Route Table</a>
                         </li>
                         <li>

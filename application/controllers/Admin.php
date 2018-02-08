@@ -10,13 +10,15 @@ class Admin extends CI_Controller{
 		}
 		$this->load->model('site_model');
 		$this->load->model('linkroute_model');
+		$this->load->model('cob_model');
 	}
 	public function index(){
 		$data = array(
 			'title'		=> 'Link Route',
 			'content'	=> 'dashboard',
 			'site'		=> $this->site_model->get_all(),
-			'linkroute'	=> $this->linkroute_model->get_all()
+			'linkroute'	=> $this->linkroute_model->get_all(),
+			'cob'		=> $this->cob_model->get_all()
 		);
 		$this->menampilkan($data);
 	}
@@ -224,29 +226,8 @@ class Admin extends CI_Controller{
 	}
 
 	public function download_site(){
-		//load our new PHPExcel library
-		$this->load->library('excel');
-		//activate worksheet number 1
-		$this->excel->setActiveSheetIndex(0);
-		//name the worksheet
-		$this->excel->getActiveSheet()->setTitle('Site_Template');
-		//set cell A1, B1, C1, D1, E1 content with some text
-		$this->excel->getActiveSheet()->setCellValue('A1', 'Site ID');
-		$this->excel->getActiveSheet()->setCellValue('B1', 'Site Name');
-		$this->excel->getActiveSheet()->setCellValue('C1', 'Longitude');
-		$this->excel->getActiveSheet()->setCellValue('D1', 'Latitude');
-
-		 
-		$filename='Site_Template.xls'; //save our workbook as this file name
-		header('Content-Type: application/vnd.ms-excel'); //mime type
-		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
-		header('Cache-Control: max-age=0'); //no cache
-		            
-		//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
-		//if you want to save it as .XLSX Excel 2007 format
-		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
-		//force user to download the Excel file without writing it to server's HD
-		$objWriter->save('php://output');
+		$this->load->helper('download');
+		force_download('assets/upload/Site_Template.csv',NULL);
 	}
 
 	// End Site----
@@ -512,30 +493,8 @@ class Admin extends CI_Controller{
 	}
 
 	public function download_linkroute(){
-		//load our new PHPExcel library
-		$this->load->library('excel');
-		//activate worksheet number 1
-		$this->excel->setActiveSheetIndex(0);
-		//name the worksheet
-		$this->excel->getActiveSheet()->setTitle('Linkroute_Template');
-		//set cell A1, B1, C1, D1, E1 content with some text
-		$this->excel->getActiveSheet()->setCellValue('A1', 'Site_ID');
-		$this->excel->getActiveSheet()->setCellValue('B1', 'SysID');
-		$this->excel->getActiveSheet()->setCellValue('C1', 'NE_ID');
-		$this->excel->getActiveSheet()->setCellValue('D1', 'FE_ID');
-		$this->excel->getActiveSheet()->setCellValue('E1', 'HOP_ID_DETAIL');
-
-		 
-		$filename='Linkroute_Template.xls'; //save our workbook as this file name
-		header('Content-Type: application/vnd.ms-excel'); //mime type
-		header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
-		header('Cache-Control: max-age=0'); //no cache
-		            
-		//save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
-		//if you want to save it as .XLSX Excel 2007 format
-		$objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
-		//force user to download the Excel file without writing it to server's HD
-		$objWriter->save('php://output');
+		$this->load->helper('download');
+		force_download('assets/upload/Linkroute_Template.csv',NULL);
 	}
 
 	// End Link Route----
@@ -578,6 +537,96 @@ class Admin extends CI_Controller{
 		$this->menampilkan($data);
 	}
 	// End Searching Route----
+		
+	// Combat
+
+	public function data_cob(){
+		$data = array(
+			'title' 	=> 'Combat Table',
+			'content'	=> 'cob',
+			'site'		=> $this->cob_model->get_all()
+		);
+		$this->menampilkan($data);
+	}
+
+	public function insert_cob(){
+		if($this->input->post('save')){
+			$this->load->model('cob_model');
+			$site_ID = $this->input->post('Site_ID');
+			$siteName = $this->input->post('SiteName');
+			$longitude = $this->input->post('Longitude');
+			$latitude = $this->input->post('Latitude');
+			$required = ['Site_ID','SiteName','Longitude','Latitude'];
+			if(!$this->required_input($required)){
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+					redirect('admin/insert_cob');
+			}
+			else{
+				$input = array(
+					'Site_ID'	=> $site_ID,
+					'SiteName'	=> $siteName,
+					'Longitude'	=> $longitude,
+					'Latitude'	=> $latitude
+				);
+				$cek_siteName = $this->cob_model->cek_siteName($siteName);
+
+				if(count($cek_siteName) > 0){
+					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">The Site Name Already Exists!</div>');
+					redirect('admin/insert_cob');
+				}
+				else{
+					$this->cob_model->insert_cob($input);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;">Successed !</div>');
+					redirect('admin/insert_cob');
+				}
+			}
+		}
+
+		$data = array(
+			'title'		=> 'Combat Table',
+			'content'	=> 'insert_cob'
+		);
+		$this->menampilkan($data);
+	}
+
+	public function edit_cob(){
+		$getSiteName = $this->uri->segment(3);
+		if(isset($getSiteName)){
+			$data = array(
+				'title'		=> 'Edit Form',
+				'content'	=> 'edit_cob',
+				'site'		=> $this->cob_model->get_dataBy_siteName($getSiteName)
+			);
+			$this->menampilkan($data);
+		}
+		if($this->input->post('edit')){
+			$site 		= $this->input->post('Site_ID');
+			$longitude 	= $this->input->post('Longitude');
+			$latitude 	= $this->input->post('Latitude');
+			$required = ['Site_ID', 'Longitude', 'Latitude'];
+			if(!$this->required_input($required)){
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Filled Out Every Field !</div>');
+					redirect('admin/insert_cob');
+			}
+			else{
+				$input = array(
+					'Site_ID'	=> $site,
+					'Longitude'	=> $longitude,
+					'Latitude'	=> $latitude
+				);
+				$this->cob_model->update($getSiteName, $input);
+				$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;">Successed !</div>');
+					redirect('admin/edit_cob/' . $getSiteName);
+			}
+		}
+	}
+
+	public function download_cob(){
+		$this->load->helper('download');
+		force_download('assets/upload/Combat_Template.csv',NULL);
+	}
+
+	// End Combat
 	
 	/*
 	 * Fungsi-fungsi yang digunakan
