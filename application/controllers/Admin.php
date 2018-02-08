@@ -88,6 +88,9 @@ class Admin extends CI_Controller{
 					$this->upload->do_upload('file');
 					// insert data
 					$data_csv = $this->openCSV('site', $file_name);
+
+					$salah = [];
+
 					// Cek jika data telah ada
 					for ($i = 1; $i < count($data_csv); $i++) {
 					   	$row = [
@@ -96,26 +99,32 @@ class Admin extends CI_Controller{
 					    	'Longitude' 	=> $data_csv[$i][2],
 					    	'Latitude' 		=> $data_csv[$i][3]
 					   	];
-					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
-					   	if(count($site_id) > 0){
-					   		$line = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed!<strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> already exists!</div>');
-					   		redirect('admin/insert_site');	
-					   	}
+					   	
+					   	if (!empty($this->db->error())) {
+						   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+						   	if(count($site_id) > 0){
+						   		$salah[] = $row;
+						   	}
+						}
+
+					   	$this->site_model->insert($row);
 					}
 					
 					// Insert Data
-					for ($i = 1; $i < count($data_csv); $i++) {
-					   	$row = [
-					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SiteName' 		=> $data_csv[$i][1],
-					    	'Longitude' 	=> $data_csv[$i][2],
-					    	'Latitude' 		=> $data_csv[$i][3]
-					   	];
-					   	$this->site_model->insert($row);
-					}
+					// for ($i = 1; $i < count($data_csv); $i++) {
+					//    	$row = [
+					//     	'Site_ID' 		=> $data_csv[$i][0],
+					//     	'SiteName' 		=> $data_csv[$i][1],
+					//     	'Longitude' 	=> $data_csv[$i][2],
+					//     	'Latitude' 		=> $data_csv[$i][3]
+					//    	];
+					//    	$this->site_model->insert($row);
+					// }
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-					redirect('admin/insert_site');
+
+			   		$this->data['salah'] = $salah;
+
+					exit;
 				}
 				else
 				{
@@ -129,6 +138,13 @@ class Admin extends CI_Controller{
 				redirect('admin/insert_site');
 			}
 		}
+
+		$data = array(
+			'title'		=> 'Input Form',
+			'content'	=> 'insert_site',
+
+		);
+		$this->menampilkan($data);
 	}
 	// function import_csv_progress() {
 	// 	$progress = $this->session->userdata('progress');

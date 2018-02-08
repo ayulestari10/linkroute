@@ -16,6 +16,34 @@
                 </div>
             </div>
 
+
+
+            <style type="text/css">
+                .salah{
+                    width: 500px;
+                }
+            </style>
+
+            <div class="row">
+                <!-- Message Box untuk site yang salah -->
+                <?php //if(isset($salah)): ?>
+                    <div class="col-md-12 salah">
+                        <div class="alert alert-success alert-dismissible" style="width: 500px;">
+                            <div>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                            </div>
+                        </div>
+                    </div>
+                <?php //endif; ?>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -80,17 +108,19 @@
                                         <label>Upload File</label> <span class="text-danger"> * the file format should be csv</span>
                                         <input type="file" name="file" style="margin: 2% 0% 4% 0%;">
                                     </div>
-                                    <input onclick="uploadCSV()" type="submit" class="btn btn-success" value="Upload" name="uploadcsv">
+                                    <input onclick="uploadCSV()" type="submit" class="btn btn-success" value="Upload" name="uploadcsv" id="myButton" data-loading-text="Loading..." autocomplete="off">
                                 </div>
                             </div>
                             <!-- /.row (nested) -->
                             <?= form_close() ?>
-                        </div>
+
+                         </div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
+
             </div>
             <!-- /.row -->
         </div>
@@ -106,4 +136,10 @@
             function download_siteTemplate(){
                 window.location = '<?= base_url('admin/download_site') ?>';
             }
+
+            $('#myButton').on('click', function () {
+                var $btn = $(this).button('loading')
+                // business logic...
+                $btn.button('reset')
+            })
         </script>
