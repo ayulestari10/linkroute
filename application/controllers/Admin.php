@@ -594,6 +594,7 @@ class Admin extends CI_Controller{
 	}
 
 	public function edit_cob(){
+		//echo "hai";
 		$getSiteName = $this->uri->segment(3);
 		if(isset($getSiteName)){
 			$data = array(
