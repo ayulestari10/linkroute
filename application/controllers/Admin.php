@@ -132,13 +132,6 @@ class Admin extends CI_Controller{
 				redirect('admin/insert_site');
 			}
 		}
-
-		$data = array(
-			'title'		=> 'Input Form',
-			'content'	=> 'insert_site',
-
-		);
-		$this->menampilkan($data);
 	}
 	// function import_csv_progress() {
 	// 	$progress = $this->session->userdata('progress');
