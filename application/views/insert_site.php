@@ -37,14 +37,14 @@
                             <div class="modal-content">
                               <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title">Data Site</h4>
+                                    <h4 class="modal-title">Site Data</h4>
                               </div>
                               <div class="modal-body">
-                                    <h4>Jumlah Data Sebanyak <?= count($jmlh_data)-1 ?></h4>
-                                    <h5><?= (count($jmlh_data) - 1) - count($salah)  ?> data sukses disimpan.</h5>
-                                    <h5><?= count($salah) ?> data gagal disimpan karena duplikat.</h5>
+                                    <h4>Total Data <?= count($jmlh_data)-1 ?></h4>
+                                    <h5><?= (count($jmlh_data) - 1) - count($salah)  ?> data successfully saved.</h5>
+                                    <h5><?= count($salah) ?> data failed to be saved due to duplicate data.</h5>
                                     <br>
-                                    <h4>Data yang Duplikat</h4>
+                                    <h4>Duplicate Data</h4>
                                    
                                          <table  class="table table-striped table-bordered table-hover table-responsive">
                                             <thead>
@@ -69,7 +69,7 @@
                                     
                               </div>
                               <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Abaikan</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Ignore</button>
                               </div>
                             </div><!-- /.modal-content -->
                           </div><!-- /.modal-dialog -->

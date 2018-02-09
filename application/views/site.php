@@ -76,14 +76,14 @@
         function hapus_site(Site_ID) {
             
             swal({
-              title: 'Apakah anda yakin untuk menghapus data?',
-              text: "Setiap Site ID yang diapus akan menghapus link route yang memiliki Site ID itu!",
+              title: 'Are you sure to delete data?',
+              text: "The deleted Site ID will remove the linkroute data that owns the Site ID!",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              confirmButtonText: 'Ya',
-              cancelButtonText: 'Batal',
+              confirmButtonText: 'Yes',
+              cancelButtonText: 'Cancel',
               confirmButtonClass: 'btn btn-success',
               cancelButtonClass: 'btn btn-danger',
               buttonsStyling: false,
@@ -104,7 +104,7 @@
 
                 swal({
                   type: 'success',
-                  title: 'Data berhasil dihapus!',
+                  title: 'Data successfully deleted!',
                   showConfirmButton: false,
                   timer: 1500
                 })
@@ -114,8 +114,8 @@
 
               else if (result.dismiss === 'cancel') {
                 swal(
-                  'Dibatalkan',
-                  'Data anda aman! :)',
+                  'Canceled!',
+                  'Your data is safe! :)',
                   'error'
                 )
               }
@@ -125,14 +125,14 @@
         function delete_all_site(){         
 
               swal({
-                title: 'Apakah anda yakin untuk menghapus semua data?',
-                text: "Data link route akan terhapus semua!",
+                title: 'Are you sure to delete all data?',
+                text: "Data link route will be delete all!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Batal',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel',
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false,
@@ -141,7 +141,7 @@
                 if (result.value) {
                   window.location = '<?= base_url('admin/delete_all_site') ?>';
                   swal(
-                    'Data berhasil dihapus!',
+                    'Data successfully deleted!',
                     '',
                     'success'
                   )
@@ -149,8 +149,8 @@
                 // 'close', and 'timer'
                 } else if (result.dismiss === 'cancel') {
                   swal(                    
-                    'Dibatalkan',
-                    'Data anda aman! :)',
+                    'Canceled!',
+                    'Your data is safe! :)',
                     'error'
                   )
                 }

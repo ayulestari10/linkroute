@@ -85,14 +85,14 @@
 
         function delete_linkroute(id){
             swal({
-              title: 'Apakah anda yakin untuk menghapus data?',
-              text: "Anda tidak akan bisa mengembalikan ini!",
+              title: 'Are you sure to delete data?',
+              text: "You will not be able to return this!",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
-              confirmButtonText: 'Ya',
-              cancelButtonText: 'Batal',
+              confirmButtonText: 'Yes',
+              cancelButtonText: 'Cancel',
               confirmButtonClass: 'btn btn-success',
               cancelButtonClass: 'btn btn-danger',
               buttonsStyling: false,
@@ -114,8 +114,8 @@
 
               else if (result.dismiss === 'cancel') {
                 swal(                   
-                  'Dibatalkan',
-                  'Data anda aman! :)',
+                  'Canceled!',
+                  'Your data is safe! :)',
                   'error'
                 )
               }
@@ -125,14 +125,14 @@
         function delete_all_linkroute(){         
 
               swal({
-                title: 'Apakah anda yakin untuk menghapus semua data?',
-                text: "Anda tidak akan bisa mengembalikan ini!",
+                title: 'Are you sure to delete all data?',
+                text: "You will not be able to return this!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Batal',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'Cancel',
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger',
                 buttonsStyling: false,
@@ -141,7 +141,7 @@
                 if (result.value) {
                   window.location = '<?= base_url('admin/delete_all_linkroute') ?>';
                   swal(
-                    'Data berhasil dihapus!',
+                    'Data successfully deleted!',
                     '',
                     'success'
                   )
@@ -149,8 +149,8 @@
                 // 'close', and 'timer'
                 } else if (result.dismiss === 'cancel') {
                   swal(                   
-                    'Dibatalkan',
-                    'Data anda aman! :)',
+                    'Canceled!',
+                    'Your data is safe! :)',
                     'error'
                   )
                 }
