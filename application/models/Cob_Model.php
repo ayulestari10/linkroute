@@ -18,7 +18,7 @@
 
 		public function get_all(){
 			$query = $this->db->get($this->table);
-			//return $query->result();
+			return $query->result();
 		}
 
 		public function insert_cob($data){
