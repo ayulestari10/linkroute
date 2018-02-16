@@ -24,10 +24,6 @@ class Linkroute_model extends CI_Model{
 		return $query->row();
 	}
 
-	public function insert_linkroute($data){
-		return $this->db->insert($this->table, $data);
-	}
-
 	public function insert($data){
 		return $this->db->insert($this->table, $data);
 	}
@@ -96,6 +92,22 @@ class Linkroute_model extends CI_Model{
 	}
 
 	public function get_linkroute_byConditional($site){
+		$query = $this->db->query('SELECT linkroutebelitung.id,
+			linkroutebelitung.Site_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.Site_ID) AS Site_Name,
+			linkroutebelitung.SysID, 
+			linkroutebelitung.NE_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.NE_ID) AS NE_Name,
+			linkroutebelitung.FE_ID,
+			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.FE_ID) AS FE_Name,
+			linkroutebelitung.HOP_ID_DETAIL
+			FROM linkroutebelitung JOIN site ON linkroutebelitung.Site_ID = site.Site_ID 
+			WHERE linkroutebelitung.Site_ID = "'.$site.'"
+			');
+		return $query->result();	
+	}
+
+	public function insert_ignore($data){
 		$query = $this->db->query('SELECT linkroutebelitung.id,
 			linkroutebelitung.Site_ID,
 			(SELECT SiteName FROM site WHERE Site_ID = linkroutebelitung.Site_ID) AS Site_Name,

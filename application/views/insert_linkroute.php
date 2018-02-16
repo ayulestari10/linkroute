@@ -17,6 +17,92 @@
             </div>
 
             <div class="row">
+                <!-- Message Box untuk site yang salah -->
+                <?php  
+                    $duplikat       = $this->session->flashdata('duplikat');
+                    $id_tidak_ada   = $this->session->flashdata('id_tidak_ada');
+                    $jmlh_data      = $this->session->flashdata('arr_data');
+
+                    // $this->session->unset_userdata('duplikat');
+                    // $this->session->unset_userdata('id_tidak_ada');
+                    // $this->session->unset_userdata('arr_data');
+
+                ?>
+                <?php if(isset($duplikat) || isset($id_tidak_ada)): ?>
+                    <!-- Modal -->
+
+                        <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">     
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Link Route Data</h4>
+                              </div>
+                              <div class="modal-body">
+                                    <h4>Total Data <?= count($jmlh_data)-1 ?></h4>
+                                    <!-- <h5><?= (count($jmlh_data) - 1) - count($duplikat) ?> data without duplicate data successfully saved.</h5> -->
+
+                                    <?php if($duplikat != NULL): ?>
+                                        <h5><?= (count($jmlh_data) - 1) - count($duplikat) ?> data successfully saved.</h5>
+                                        <h5 class="text-danger"><?= count($duplikat) ?> duplicate data successfully saved.</h5>
+                                    <?php endif; ?>
+
+                                   <!--  <?php if($id_tidak_ada != NULL): ?>
+                                        <h5><?= count($id_tidak_ada) ?> data failed to be saved due to id doesn't exist on the Site Table.</h5>
+                                        
+                                    <?php endif; ?> -->
+
+                                    <?php if($duplikat != NULL): ?>
+                                    <br>
+                                    <h4>Duplicate Data</h4>
+                                   
+                                         <table  class="table table-striped table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>Site ID</th>
+                                                    <th>Band</th>
+                                                    <th>NE ID</th>
+                                                    <th>FE ID</th>
+                                                    <th>HOP ID Detail</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($duplikat as $row): ?>
+                                                <tr>
+                                                    <td><?= $row['Site_ID'] ?></td>
+                                                    <td><?= $row['SysID'] ?></td>
+                                                    <td><?= $row['NE_ID'] ?></td>
+                                                    <td><?= $row['FE_ID'] ?></td>
+                                                    <td><?= $row['HOP_ID_DETAIL'] ?></td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    <?php endif; ?>
+
+                                    <?php if($id_tidak_ada != NULL): ?>
+                                    <br>
+                                    <h4>Data failed to save, because that id doesn't exist on the Site Table.</h4>
+                                        
+                                        <ul>
+                                            <?php for($i=0; $i <count($id_tidak_ada); $i++): ?>
+                                            <li><?= $id_tidak_ada[$i] ?></li>
+                                            <?php endfor; ?>
+                                        </ul>
+                                         
+                                    <?php endif; ?>
+                                    
+                              </div>
+                              <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Ignore</button>
+                              </div>
+                            </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                <?php endif; ?>
+            </div>
+
+            <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -124,6 +210,10 @@
         </div>
         <!-- /#page-wrapper -->
         <script type="text/javascript">
+            $( document ).ready( function(){
+                $('#myModal').modal();
+            } );
+
             function save_data(){
                 $('#add_form').submit();
             }

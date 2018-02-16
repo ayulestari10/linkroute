@@ -24,10 +24,6 @@ class Site_model extends CI_Model{
 		return $query->row();
 	}
 
-	public function insert_site($data){
-		return $this->db->insert($this->table, $data);
-	}
-
 	public function insert($data)
 	{
 		return $this->db->insert($this->table, $data);
