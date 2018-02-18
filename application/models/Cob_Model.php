@@ -47,7 +47,11 @@
 		}
 
 		public function delete_all(){
-		return $this->db->query('DELETE FROM '.$this->table);
-	}
+			return $this->db->query('DELETE FROM '.$this->table);
+		}
+
+		public function upload_cob($data){
+			return $this->db->replace($this->table, $data);
+		}
 	}
 ?>

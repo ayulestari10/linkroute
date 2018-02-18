@@ -133,14 +133,7 @@ class Admin extends CI_Controller{
 			}
 		}
 	}
-	// function import_csv_progress() {
-	// 	$progress = $this->session->userdata('progress');
-	// 	if ($progress) {
-	// 		echo $progress;
-	// 	} else {
-	// 		echo 0;
-	// 	}
-	// }
+
 	public function edit_site(){
 		$get_id = $this->uri->segment(3);
 		if(isset($get_id)){
@@ -584,6 +577,72 @@ class Admin extends CI_Controller{
 			'content'	=> 'insert_cob'
 		);
 		$this->menampilkan($data);
+	}
+
+
+	public function insertCSV_Cob(){
+		set_time_limit(1800);
+		if($this->input->post('uploadcsv')){
+			$file_name = $_FILES['file']['name'];
+			$exe = substr($file_name, -4);
+			if($file_name) {
+				if($exe == ".csv") {
+					$this->load->library('upload');
+					//$file_name = $_FILES['file']['name'];
+					$file_name = str_replace(' ', '_', $file_name);
+					$upload_path = realpath(APPPATH . '../assets/csv/cob');
+					@unlink($upload_path . '/' . $file_name);
+					$config = [
+						'file_name' 		=> $file_name,
+						'allowed_types'		=> 'csv',
+						'upload_path'		=> $upload_path
+					];
+					$this->upload->initialize($config);
+					$this->upload->do_upload('file');
+					// insert data
+					$data_csv = $this->openCSV('cob', $file_name);
+
+					$salah = [];
+
+					// Cek jika data telah ada
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
+					   	
+					   	if (!empty($this->db->error())) {
+						   	$site_id 	= $this->cob_model->get_dataBy_siteName($data_csv[$i][0]);
+						   	if(count($site_id) > 0){
+						   		$salah[] = $row;
+						   	}
+						}
+
+					   	$this->cob_model->upload_cob($row);
+					}
+					
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+
+			   		$this->session->set_flashdata('salah', $salah);
+			   		$this->session->set_flashdata('arr_data', $data_csv);
+					
+					redirect('admin/insert_cob');
+					exit;
+				}
+				else
+				{
+					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
+					redirect('admin/insert_cob');
+				}
+			}
+			else
+			{
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files selected!</div>');
+				redirect('admin/insert_cob');
+			}
+		}
 	}
 
 	public function edit_cob(){
