@@ -42,30 +42,33 @@
                               <div class="modal-body">
                                     <h4>Total Data <?= count($jmlh_data)-1 ?></h4>
                                     <h5><?= (count($jmlh_data) - 1) - count($salah)  ?> data successfully saved.</h5>
-                                    <h5><?= count($salah) ?> data failed to be saved due to duplicate data.</h5>
-                                    <br>
-                                    <h4>Duplicate Data</h4>
-                                   
-                                         <table  class="table table-striped table-bordered table-hover table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>Site ID</th>
-                                                    <th>Site Name</th>
-                                                    <th>Longitude</th>
-                                                    <th>Latitude</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($salah as $row): ?>
-                                                <tr>
-                                                    <td><?= $row['Site_ID'] ?></td>
-                                                    <td><?= $row['SiteName'] ?></td>
-                                                    <td><?= $row['Longitude'] ?></td>
-                                                    <td><?= $row['Latitude'] ?></td>
-                                                </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
+
+                                    <?php if($salah != NULL): ?>
+                                        <h5><?= count($salah) ?> data failed to be saved due to duplicate data.</h5>
+                                        <br>
+                                        <h4>Duplicate Data</h4>
+                                       
+                                             <table  class="table table-striped table-bordered table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Site ID</th>
+                                                        <th>Site Name</th>
+                                                        <th>Longitude</th>
+                                                        <th>Latitude</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($salah as $row): ?>
+                                                    <tr>
+                                                        <td><?= $row['Site_ID'] ?></td>
+                                                        <td><?= $row['SiteName'] ?></td>
+                                                        <td><?= $row['Longitude'] ?></td>
+                                                        <td><?= $row['Latitude'] ?></td>
+                                                    </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                    <?php endif; ?>   
                                     
                               </div>
                               <div class="modal-footer">

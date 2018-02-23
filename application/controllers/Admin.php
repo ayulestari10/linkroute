@@ -57,7 +57,7 @@ class Admin extends CI_Controller{
 					redirect('admin/insert_site');
 				}
 				else{
-					$this->site_model->insert_site($input);
+					$this->site_model->insert($input);
 					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					redirect('admin/insert_site');
 				}
@@ -133,14 +133,7 @@ class Admin extends CI_Controller{
 			}
 		}
 	}
-	// function import_csv_progress() {
-	// 	$progress = $this->session->userdata('progress');
-	// 	if ($progress) {
-	// 		echo $progress;
-	// 	} else {
-	// 		echo 0;
-	// 	}
-	// }
+
 	public function edit_site(){
 		$get_id = $this->uri->segment(3);
 		if(isset($get_id)){
@@ -305,7 +298,7 @@ class Admin extends CI_Controller{
 						redirect('admin/insert_linkroute');
 						exit;
 					}
-					$this->linkroute_model->insert_linkroute($input);
+					$this->linkroute_model->insert($input);
 					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					//echo '<pre>';
 					//print_r($input);
@@ -347,7 +340,10 @@ class Admin extends CI_Controller{
 					// open data
 					$data_csv = $this->openCSV('linkroute', $file_name);
 					
-					// Cek jika id tidak ada di site 
+					$id_tidak_ada = [];
+					$duplikat = [];
+
+					// Cek 
 					for ($i = 1; $i < count($data_csv); $i++) {
 						
 					   	$row = [
@@ -357,53 +353,42 @@ class Admin extends CI_Controller{
 					    	'FE_ID' 		=> $data_csv[$i][5],
 					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
 					   	];
-					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
-					   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
-					   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
-					   	if(count($site_id) < 1){
-					   		$line = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  Site ID '. $data_csv[$i][0] .' in line '.$line.'</strong> in the file!</div>');
-							redirect('admin/insert_linkroute');
-					   	}
-					   	if(count($ne_id) < 1){
-					   		$line = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  NE ID '. $data_csv[$i][3] .' in line '.$line.'</strong> in the file!</div>');
-							redirect('admin/insert_linkroute');
-					   	}
-					   	if(count($fe_id) < 1){
-					   		$line = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check <strong>  FE ID '. $data_csv[$i][5] .' in line '.$line.'</strong> in the file!</div>');
-							redirect('admin/insert_linkroute');
-					   	}	
+
+					   	// jika id tidak ada pada site dan ada data yang sama
+					   	//if (!empty($this->db->error())) {
+
+						   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+						   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
+						   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
+						   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
+
+						   	$line = $i + 1;
+						   	if(count($site_id) < 1){
+						   		$id_tidak_ada[] = $data_csv[$i][0]. " in line ". $line ." in the file.";
+						   	}
+						   	
+						   	if(count($ne_id) < 1){
+						   		$id_tidak_ada[] = $data_csv[$i][3]. " in line ". $line ." in the file.";
+						   	}
+						   	
+						   	if(count($fe_id) < 1){
+						   		$id_tidak_ada[] = $data_csv[$i][5]. " in line ". $line ." in the file.";
+						   	}
+						   	
+						   	if(count($cek_linkroute) > 0){
+						   		$duplikat[] = $row;
+						   	}
+
+						   	$this->linkroute_model->insert($row);				   	
 					}
-					// Cek kesamaan data
-					for ($i = 1; $i < count($data_csv); $i++) {
-					   	$row = [
-					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SysID' 		=> $data_csv[$i][1],
-					    	'NE_ID' 		=> $data_csv[$i][3],
-					    	'FE_ID' 		=> $data_csv[$i][5],
-					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
-					   	];
-					   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
-					   	if(count($cek_linkroute) > 0){
-					   		$id = $i + 1;
-					   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed! Please check line '.$id.' already exists!</div>');
-							redirect('admin/insert_linkroute');
-					   	}
-					}
-					// insert data
-					for ($i = 1; $i < count($data_csv); $i++) {
-					   	$row = [
-					    	'Site_ID' 		=> $data_csv[$i][0],
-					    	'SysID' 		=> $data_csv[$i][1],
-					    	'NE_ID' 		=> $data_csv[$i][3],
-					    	'FE_ID' 		=> $data_csv[$i][5],
-					    	'HOP_ID_DETAIL' => $data_csv[$i][7]
-					   	];
-					   	$this->linkroute_model->insert_linkroute($row);
-					}
+
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+
+			   		$this->session->set_flashdata('id_tidak_ada', $id_tidak_ada);
+
+			   		$this->session->set_flashdata('duplikat', $duplikat);
+			   		$this->session->set_flashdata('arr_data', $data_csv);
+
 					redirect('admin/insert_linkroute');
 				}
 				else
@@ -592,6 +577,72 @@ class Admin extends CI_Controller{
 			'content'	=> 'insert_cob'
 		);
 		$this->menampilkan($data);
+	}
+
+
+	public function insertCSV_Cob(){
+		set_time_limit(1800);
+		if($this->input->post('uploadcsv')){
+			$file_name = $_FILES['file']['name'];
+			$exe = substr($file_name, -4);
+			if($file_name) {
+				if($exe == ".csv") {
+					$this->load->library('upload');
+					//$file_name = $_FILES['file']['name'];
+					$file_name = str_replace(' ', '_', $file_name);
+					$upload_path = realpath(APPPATH . '../assets/csv/cob');
+					@unlink($upload_path . '/' . $file_name);
+					$config = [
+						'file_name' 		=> $file_name,
+						'allowed_types'		=> 'csv',
+						'upload_path'		=> $upload_path
+					];
+					$this->upload->initialize($config);
+					$this->upload->do_upload('file');
+					// insert data
+					$data_csv = $this->openCSV('cob', $file_name);
+
+					$salah = [];
+
+					// Cek jika data telah ada
+					for ($i = 1; $i < count($data_csv); $i++) {
+					   	$row = [
+					    	'Site_ID' 		=> $data_csv[$i][0],
+					    	'SiteName' 		=> $data_csv[$i][1],
+					    	'Longitude' 	=> $data_csv[$i][2],
+					    	'Latitude' 		=> $data_csv[$i][3]
+					   	];
+					   	
+					   	if (!empty($this->db->error())) {
+						   	$site_id 	= $this->cob_model->get_dataBy_siteName($data_csv[$i][0]);
+						   	if(count($site_id) > 0){
+						   		$salah[] = $row;
+						   	}
+						}
+
+					   	$this->cob_model->upload_cob($row);
+					}
+					
+			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+
+			   		$this->session->set_flashdata('salah', $salah);
+			   		$this->session->set_flashdata('arr_data', $data_csv);
+					
+					redirect('admin/insert_cob');
+					exit;
+				}
+				else
+				{
+					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
+					redirect('admin/insert_cob');
+				}
+			}
+			else
+			{
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-warning alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> No files selected!</div>');
+				redirect('admin/insert_cob');
+			}
+		}
 	}
 
 	public function edit_cob(){
