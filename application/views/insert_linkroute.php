@@ -44,7 +44,7 @@
 
                                     <?php if($duplikat != NULL): ?>
                                         <h5><?= (count($jmlh_data) - 1) - count($duplikat) ?> data successfully saved.</h5>
-                                        <h5 class="text-danger"><?= count($duplikat) ?> duplicate data successfully saved.</h5>
+                                        <h5 class="text-danger"><?= count($duplikat) ?> duplicate data.</h5>
                                     <?php endif; ?>
 
                                    <!--  <?php if($id_tidak_ada != NULL): ?>

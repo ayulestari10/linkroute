@@ -32,7 +32,7 @@
                                         <th>NE Name</th>
                                         <th>FE ID</th>
                                         <th>FE Name</th>
-                                        <th>HOP ID DEATIL</th>
+                                        <th>HOP ID DETAIL</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

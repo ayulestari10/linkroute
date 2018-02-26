@@ -2,6 +2,11 @@
 class Admin extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
+
+		// $this->load->model( 'linkroute_model' );
+		// $this->linkroute_model->delete_linkroute( 165 );
+		// exit;
+
 		$username = $this->session->userdata('username');
 		if (!isset($username))
 		{
@@ -107,9 +112,13 @@ class Admin extends CI_Controller{
 						   	if(count($site_id) > 0){
 						   		$salah[] = $row;
 						   	}
+						} else {
+
+							$this->site_model->insert($row);
+						
 						}
 
-					   	$this->site_model->insert($row);
+					   	
 					}
 					
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
@@ -234,7 +243,8 @@ class Admin extends CI_Controller{
 		if ($this->input->post('id') && $this->input->post('delete'))
         {
         	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Data Successfully Deleted!</div>');
-            $this->linkroute_model->delete($this->input->post('id'));
+            // $this->linkroute_model->delete($this->input->post('id'));
+            $this->linkroute_model->delete_linkroute( $this->input->post( 'id' ) );
             exit;
         }
 		$data = array(
@@ -339,7 +349,7 @@ class Admin extends CI_Controller{
 					
 					// open data
 					$data_csv = $this->openCSV('linkroute', $file_name);
-					
+
 					$id_tidak_ada = [];
 					$duplikat = [];
 
@@ -377,9 +387,10 @@ class Admin extends CI_Controller{
 						   	
 						   	if(count($cek_linkroute) > 0){
 						   		$duplikat[] = $row;
+						   	} else {
+						   		$this->linkroute_model->insert($row);
 						   	}
-
-						   	$this->linkroute_model->insert($row);				   	
+				   	
 					}
 
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
@@ -455,7 +466,8 @@ class Admin extends CI_Controller{
 							redirect('admin/edit_linkroute/'.$get_id);
 					   	}
 					   	// update data
-					   	$this->linkroute_model->update($get_id, $input);
+					   	// $this->linkroute_model->update($get_id, $input);
+					   	$this->linkroute_model->edit_linkroute( $get_id, $input );
 					   	$this->session->set_flashdata('msg', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
 						redirect('admin/edit_linkroute/'.$get_id);
 					}

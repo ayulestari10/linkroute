@@ -134,6 +134,82 @@ class Linkroute_model extends CI_Model{
 	}
 	// - -
 
+	public function delete_linkroute( $id ) {
+
+		$this->db->where([ 'id' => $id ]);
+		$query = $this->db->get( 'linkroutebelitung' );
+		$selected_records = $query->result();
+		$deleted_result = $query->row();
+		if ( isset( $deleted_result ) ) {
+
+			if ( count( $selected_records ) == 1 ) {
+
+				$deleted_NE_ID = $deleted_result->NE_ID;
+				$deleted_FE_ID = $deleted_result->FE_ID;
+
+				$this->db->where([ 'FE_ID' => $deleted_NE_ID ]);
+				$query = $this->db->get( 'linkroutebelitung' );
+				$result = $query->result();
+				foreach ( $result as $row ) {
+
+					$this->db->where([ 'id' => $row->id ]);
+					$this->db->update( 'linkroutebelitung', [
+						'FE_ID'	=> $deleted_FE_ID
+					] );
+
+				}
+
+			}
+
+			$this->db->delete( 'linkroutebelitung', [ 'id' => $deleted_result->id ] );
+
+		}
+
+	}
+
+	public function edit_linkroute( $id, $data ) {
+
+		$this->db->where([ 'id' => $id ]);
+		$query = $this->db->get( 'linkroutebelitung' );
+		$selected_records = $query->result();
+		$edited_result = $query->row();
+
+		if ( isset( $edited_result ) ) {
+
+			$edited_NE_ID = $edited_result->NE_ID;
+			$edited_FE_ID = $edited_result->FE_ID;
+
+			$this->db->where([ 'id' => $edited_result->id ]);
+			$this->db->update( 'linkroutebelitung', $data );
+
+			$this->db->where([ 'FE_ID' => $edited_result->NE_ID ]);
+			$query = $this->db->get( 'linkroutebelitung' );
+			$result = $query->result();
+			foreach ( $result as $row ) {
+
+				$this->db->where([ 'id' => $row->id ]);
+				$this->db->update( 'linkroutebelitung', [
+					'FE_ID'	=> $data['NE_ID']
+				] );
+
+			}
+
+			$this->db->where([ 'NE_ID' => $edited_result->FE_ID ]);
+			$query = $this->db->get( 'linkroutebelitung' );
+			$result = $query->result();
+			foreach ( $result as $row ) {
+
+				$this->db->where([ 'id' => $row->id ]);
+				$this->db->update( 'linkroutebelitung', [
+					'NE_ID'	=> $data['FE_ID']
+				] );
+
+			}
+
+		}
+
+	}
+
 }
 
 ?>
