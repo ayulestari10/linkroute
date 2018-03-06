@@ -19,7 +19,7 @@ class Admin extends CI_Controller{
 	}
 	public function index(){
 		$data = array(
-			'title'		=> 'Link Route',
+			'title'		=> 'Dashboard',
 			'content'	=> 'dashboard',
 			'site'		=> $this->site_model->get_all(),
 			'linkroute'	=> $this->linkroute_model->get_all(),

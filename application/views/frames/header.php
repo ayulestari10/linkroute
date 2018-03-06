@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <meta charset="utf-8">
 
-    <title><?= $title ?> | Link Route</title>
+    <title><?= $title ?> | PT. Telekomunikasi Selular</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?= base_url('assets') ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
