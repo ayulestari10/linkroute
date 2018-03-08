@@ -210,6 +210,54 @@ class Linkroute_model extends CI_Model{
 
 	}
 
+	public function normalize_data( $id ) {
+
+		$start_id = $id;
+		$this->db->where([ 'id' => $id ]);
+		$query = $this->db->get( 'linkroutebelitung' );
+		$linkroute = $query->row();
+
+		if ( isset( $linkroute ) ) {
+
+			$NE_ID = $linkroute->NE_ID;
+			$this->db->where([ 'FE_ID' => $NE_ID ]);
+			$query = $this->db->get( 'linkroutebelitung' );
+			$unnormalize_linkroute = $query->row();
+
+			if ( isset( $unnormalize_linkroute ) ) {
+
+				$finish_id = $unnormalize_linkroute->id;
+				$stop = false;
+				$this->db->delete('linkroutebelitung', [ 'id' => $start_id ]);
+				while ( !$stop ) {
+					
+					$start_id--;
+					$this->db->where([ 'id' => $start_id ]);
+
+					if ( $finish_id == $start_id ) {
+						$stop = true;
+						$this->db->insert('linkroutebelitung', [
+							'id'			=> $finish_id + 1,
+							'Site_ID'		=> $linkroute->Site_ID,
+							'SysID'			=> $linkroute->SysID,
+							'NE_ID'			=> $linkroute->NE_ID,
+							'FE_ID'			=> $linkroute->FE_ID,
+							'HOP_ID_DETAIL'	=> $linkroute->HOP_ID_DETAIL
+						]);
+					}
+
+					$this->db->update('linkroutebelitung', [
+						'id' => $start_id + 1
+					]);
+
+				}
+
+			}
+
+		}
+
+	}
+
 }
 
 ?>

@@ -17,6 +17,7 @@ class Admin extends CI_Controller{
 		$this->load->model('linkroute_model');
 		$this->load->model('cob_model');
 	}
+
 	public function index(){
 		$data = array(
 			'title'		=> 'Dashboard',
@@ -309,6 +310,10 @@ class Admin extends CI_Controller{
 						exit;
 					}
 					$this->linkroute_model->insert($input);
+
+					$id = $this->db->insert_id();
+					$this->linkroute_model->normalize_data( $id );
+					
 					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
 					//echo '<pre>';
 					//print_r($input);
