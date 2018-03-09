@@ -113,13 +113,9 @@ class Admin extends CI_Controller{
 						   	if(count($site_id) > 0){
 						   		$salah[] = $row;
 						   	}
-						} else {
-
-							$this->site_model->insert($row);
-						
 						}
 
-					   	
+						$this->site_model->insert($row);
 					}
 					
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
