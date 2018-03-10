@@ -368,7 +368,6 @@ class Admin extends CI_Controller{
 
 					   	// jika id tidak ada pada site dan ada data yang sama
 					   	
-
 					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
 					   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
 					   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
