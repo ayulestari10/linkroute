@@ -21,6 +21,7 @@
                 <?php  
                     $duplikat       = $this->session->flashdata('duplikat');
                     $id_tidak_ada   = $this->session->flashdata('id_tidak_ada');
+                    $baris_id       = $this->session->flashdata('baris_id');
                     $jmlh_data      = $this->session->flashdata('arr_data');
 
                     // $this->session->unset_userdata('duplikat');
@@ -42,16 +43,22 @@
                                     <h4>Total Data <?= count($jmlh_data)-1 ?></h4>
                                     <!-- <h5><?= (count($jmlh_data) - 1) - count($duplikat) ?> data without duplicate data successfully saved.</h5> -->
 
-                                    <?php if($duplikat != NULL): ?>
+                                    <?php if($duplikat != NULL && $id_tidak_ada == NULL): ?>
                                         <h5><?= (count($jmlh_data) - 1) - count($duplikat) ?> data successfully saved.</h5>
-                                        <h5 class="text-danger"><?= count($duplikat) ?> duplicate data.</h5>
+                                        <h5 class="text-danger"><?= count($duplikat) ?> duplicate data failed to be saved.</h5>
+
+                                    <?php elseif($id_tidak_ada != NULL && $duplikat == NULL): ?>
+                                        <h5><?= (count($jmlh_data) - 1) - count($baris_id) ?> data successfully saved.</h5>
+                                        <h5 class="text-danger"><?= count($baris_id) ?> data failed to be saved due to id doesn't exist on the Site Table.</h5>
+
+                                    <?php elseif($id_tidak_ada != NULL && $duplikat != NULL): ?>
+                                        <h5><?= (count($jmlh_data) - 1) - count($baris_id)- count($duplikat) ?> data successfully saved.</h5>
+                                        <h5 class="text-danger"><?= count($baris_id) + count($duplikat) ?> data failed to be saved due to id doesn't exist on the Site Table and duplicate data.</h5>
+
+                                    <?php elseif($duplikat == NULL && $id_tidak_ada == NULL): ?>
+                                        <h5><?= (count($jmlh_data) - 1) ?> data successfully saved.</h5>
                                     <?php endif; ?>
 
-                                   <!--  <?php if($id_tidak_ada != NULL): ?>
-                                        <h5><?= count($id_tidak_ada) ?> data failed to be saved due to id doesn't exist on the Site Table.</h5>
-                                        
-                                    <?php endif; ?> -->
-                                    <!-- ini komentar testing -->
                                     <?php if($duplikat != NULL): ?>
                                     <br>
                                     <h4>Duplicate Data</h4>

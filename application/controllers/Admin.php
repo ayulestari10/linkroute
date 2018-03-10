@@ -352,6 +352,7 @@ class Admin extends CI_Controller{
 					$data_csv = $this->openCSV('linkroute', $file_name);
 
 					$id_tidak_ada = [];
+				   	$baris_id_tidak_ada = [];
 					$duplikat = [];
 
 					// Cek 
@@ -366,14 +367,15 @@ class Admin extends CI_Controller{
 					   	];
 
 					   	// jika id tidak ada pada site dan ada data yang sama
-					   	//if (!empty($this->db->error())) {
+					   	
 
-						   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
-						   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
-						   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
-						   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
+					   	$site_id 	= $this->site_model->get_dataBy_siteID($data_csv[$i][0]);
+					   	$ne_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][3]);
+					   	$fe_id 		= $this->site_model->get_dataBy_siteID($data_csv[$i][5]);
+					   	$cek_linkroute = $this->linkroute_model->get_data_byConditional($row);
 
-						   	$line = $i + 1;
+						if($site_id == NULL || $ne_id == NULL || $fe_id == NULL){
+							$line = $i + 1;
 						   	if(count($site_id) < 1){
 						   		$id_tidak_ada[] = $data_csv[$i][0]. " in line ". $line ." in the file.";
 						   	}
@@ -385,19 +387,20 @@ class Admin extends CI_Controller{
 						   	if(count($fe_id) < 1){
 						   		$id_tidak_ada[] = $data_csv[$i][5]. " in line ". $line ." in the file.";
 						   	}
-						   	
-						   	if(count($cek_linkroute) > 0){
-						   		$duplikat[] = $row;
-						   	} else {
-						   		$this->linkroute_model->insert($row);
-						   	}
-				   	
+						   	$baris_id_tidak_ada[] = $row;
+						}
+					   	
+					   	if(count($cek_linkroute) > 0){
+					   		$duplikat[] = $row;
+					   	} else {
+					   		$this->linkroute_model->insert($row);
+					   	}				   	
 					}
 
 			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
 
 			   		$this->session->set_flashdata('id_tidak_ada', $id_tidak_ada);
-
+			   		$this->session->set_flashdata('baris_id', $baris_id_tidak_ada);
 			   		$this->session->set_flashdata('duplikat', $duplikat);
 			   		$this->session->set_flashdata('arr_data', $data_csv);
 
