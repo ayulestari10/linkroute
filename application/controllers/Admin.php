@@ -3,10 +3,6 @@ class Admin extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 
-		// $this->load->model( 'linkroute_model' );
-		// $this->linkroute_model->delete_linkroute( 165 );
-		// exit;
-
 		$username = $this->session->userdata('username');
 		if (!isset($username))
 		{
@@ -150,67 +146,33 @@ class Admin extends CI_Controller{
 			);
 			$this->menampilkan($data);
 		}
-		// else {
-		// 	$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-		// 	redirect('admin/site');
-		// }
-		if($this->input->post('edit')){
-				$site_name = $this->input->post('SiteName');
-				$longitude = $this->input->post('Longitude');
-				$latitude = $this->input->post('Latitude');
-				$required = ['SiteName','Longitude','Latitude'];
-				if(!$this->required_input($required)){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-						redirect('admin/edit_site/' . $get_id);
-				}
-				else{
-					$input = array(
-							'SiteName'	=> $site_name,
-							'Longitude'	=> $longitude,
-							'Latitude'	=> $latitude
-					);
-					$this->site_model->update($get_id, $input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-					redirect('admin/edit_site/' . $get_id);
-				}
-			}
-	}
-	public function edit_process(){
-		$get_id = $this->uri->segment(3);
-		if(isset($get_id)){
-			if($this->input->post('edit')){
-				$site_name = $this->input->post('SiteName');
-				$longitude = $this->input->post('Longitude');
-				$latitude = $this->input->post('Latitude');
-				$required = ['SiteName','Longitude','Latitude'];
-				if(!$this->required_input($required)){
-					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
-						redirect('admin/edit_site/' . $get_id);
-				}
-				else{
-					$input = array(
-							'SiteName'	=> $site_name,
-							'Longitude'	=> $longitude,
-							'Latitude'	=> $latitude
-					);
-					$this->site_model->update($get_id, $input);
-					$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
-					redirect('admin/edit_site/' . $get_id);
-				}
-			}
-		}
 		else {
 			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
-					redirect('admin/site/' . $get_id);
+			redirect('admin/data_site');
 		}
-		// $data = array(
-		// 	'title'		=> 'Edit Form',
-		// 	'content'	=> 'edit_site',
-		// 	'site'		=> $this->site_model->get_dataBy_siteID($get_id)
-		// );
-		// $this->menampilkan($data);
-		//$this->edit_site();
+		
+		if($this->input->post('edit')){
+			$site_name = $this->input->post('SiteName');
+			$longitude = $this->input->post('Longitude');
+			$latitude = $this->input->post('Latitude');
+			$required = ['SiteName','Longitude','Latitude'];
+			if(!$this->required_input($required)){
+				$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">Please fill out every field!</div>');
+					redirect('admin/edit_site/' . $get_id);
+			}
+			else{
+				$input = array(
+						'SiteName'	=> $site_name,
+						'Longitude'	=> $longitude,
+						'Latitude'	=> $latitude
+				);
+				$this->site_model->update($get_id, $input);
+				$this->session->set_flashdata('msg', '<div class="alert alert-success" style="text-align:center;"> Successed! </div>');
+				redirect('admin/edit_site/' . $get_id);
+			}
+		}
 	}
+
 	public function delete_site(){
 		if ($this->input->post('Site_ID') && $this->input->post('delete'))
         {
@@ -661,7 +623,6 @@ class Admin extends CI_Controller{
 	}
 
 	public function edit_cob(){
-		//echo "hai";
 		$getSiteName = $this->uri->segment(3);
 		if(isset($getSiteName)){
 			$data = array(
@@ -671,6 +632,11 @@ class Admin extends CI_Controller{
 			);
 			$this->menampilkan($data);
 		}
+		else {
+			$this->session->set_flashdata('msg', '<div class="alert alert-warning" style="text-align:center;"> Required parameter is missing! </div>');
+			redirect('admin/data_cob');
+		}
+
 		if($this->input->post('edit')){
 			$site 		= $this->input->post('Site_ID');
 			$longitude 	= $this->input->post('Longitude');
