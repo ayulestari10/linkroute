@@ -535,9 +535,9 @@ class Admin extends CI_Controller{
 					'Longitude'	=> $longitude,
 					'Latitude'	=> $latitude
 				);
-				$cek_siteName = $this->cob_model->cek_siteName($siteName);
+				$cek_data = $this->cob_model->cek_siteName($siteName);
 
-				if(count($cek_siteName) > 0){
+				if(count($cek_data) > 0){
 					$this->session->set_flashdata('msg', '<div class="alert alert-danger" style="text-align:center;">The Site Name Already Exists!</div>');
 					redirect('admin/insert_cob');
 				}
