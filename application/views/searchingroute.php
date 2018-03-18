@@ -11,7 +11,7 @@
                     <?= $this->session->flashdata('msg')  ?>
                 </div>
             </div>
-            <?= form_open('admin/find_searching') ?>
+            <?= form_open('admin/find_searching', ['id' => 'search']) ?>
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-md-2">
                         <div class="form-group" style="padding: 14%; margin-left: -15%; position: absolute;">
-                            <input type="submit" name="cari" value="Search" class="btn btn-primary">
+                            <input type="submit" name="cari" value="Search" class="btn btn-primary" onclick="find_route()">
                         </div>
                     </div>
                 </div>
@@ -166,3 +166,9 @@
 
     </div>
     <!-- /#wrapper -->
+
+     <script type="text/javascript">
+        function find_route(){
+            $('#search').submit();
+        }
+    </script>

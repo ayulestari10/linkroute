@@ -63,7 +63,7 @@
                                 <div class="col-lg-12">
                                     <div><?= $this->session->flashdata('msg') ?></div>
                                     
-                                    <?= form_open('admin/edit_linkroute/'. $site->id)  ?>
+                                    <?= form_open('admin/edit_linkroute/'. $site->id, ['id' => 'edit'])  ?>
                                         <div class="form-group">
                                             <label>ID</label>
                                             <input type="text" name="id" class="form-control" value="<?= $site->id ?>" disabled="">
@@ -103,7 +103,7 @@
                                             <label>Hop ID Detail</label>
                                             <input class="form-control" type="text" name="HOP_ID_DETAIL" value="<?= $site->HOP_ID_DETAIL ?>" required>
                                         </div>
-                                        <input type="submit" class="btn btn-success" name="edit" value="Edit">
+                                        <input type="submit" class="btn btn-success" name="edit" value="Edit" onclick="edit_data()">
                                     <?= form_close()  ?>
                                 </div>
                             </div>
@@ -117,3 +117,9 @@
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
+
+        <script type="text/javascript">
+            function edit_data(){
+                $('#edit').submit();
+            }
+        </script>
