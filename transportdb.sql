@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 08 Feb 2018 pada 09.18
--- Versi Server: 10.1.10-MariaDB
--- PHP Version: 7.0.3
+-- Generation Time: Mar 18, 2018 at 07:52 AM
+-- Server version: 10.1.25-MariaDB
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -22,7 +24,7 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
--- Prosedur
+-- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getcoordinatebyband` (IN `band` CHAR(10))  BEGIN
  
@@ -76,7 +78,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `cob`
+-- Table structure for table `cob`
 --
 
 CREATE TABLE `cob` (
@@ -87,16 +89,60 @@ CREATE TABLE `cob` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `cob`
+-- Dumping data for table `cob`
 --
 
 INSERT INTO `cob` (`Site_ID`, `SiteName`, `Longitude`, `Latitude`) VALUES
-('cob123', 'telkomsel', 104.56, 34);
+('COB001', 'COB001MD1_TSEL_CombatPamapersadaMD1', 103.68914, -3.73122),
+('COB002', 'COB002MD1_TSEL_PringsewuIIIMD1', 104.987, -5.36028),
+('COB010', 'COB010MD1_TSEL_CombatLPPPIMD1', 103.097, -1.01556),
+('COB011', 'COB011MG1_TSEL_WLLCampangMG1', 105.297, -5.40767),
+('COB012', 'COB012MG1_TSEL_WLLGriyaSukarameLampungMG1', 105.306, -5.38754),
+('COB018', 'COB018MG1_TSEL_CombatTumbukTalangCurupMG1', 102.37, -3.593722),
+('COB029', 'COB029MG1_TSEL_CombatPKORWayHalimMG1', 105.279, -5.37929),
+('COB030', 'COB030MD1_TSEL_CombatCitraRayaMendaloMD1', 103.5236, -1.633),
+('COB032', 'COB032MG1_TSEL_CombatTaniaMakmurMG1', 104.961458, -3.753181),
+('COB034', 'COB034MW1_TSEL_CombatYonif9MarinirLampungMW1', 105.185471, -5.566939),
+('COB035', 'COB035MD1_TSEL_CombatPT.BSS2MD1', 103.699263, -2.320314),
+('COB036', 'COB036MD1_TSEL_CombatAsramaKodiklatPuslatpurBaturajaMD1', 104.3061, -4.301259),
+('COB037', 'COB037AW1_TSEL_CombatBrigif3MarinirLPGAW1', 105.17014, -5.615998),
+('COB039', 'COB039MW1_TSEL_CombatPT.PNSMW1', 105.74439, -3.981405),
+('COB040', 'COB040MW1_TSEL_PTMegaSawindoMW1', 102.2355, -1.6849),
+('COB041', 'COB041MD1_TSE_CombatSTOBabatTomanMD1', 103.64, -2.739),
+('COB043', 'COB043MW1_TSEL_PTAgroWiyanaMW1', 103.109, -1.08111),
+('COB045', 'COB045MW1_TSEL_CombatPTPGEMW1', 102.27785, -3.24243),
+('COB047', 'COB047AW1_TSEL_CombatCiptaFuturaAW1', 103.7034225, -3.506657),
+('COB049', 'COB049MW1_TSEL_CombatPLTUAirAnyir2017MW1', 106.150921, -2.080738),
+('COB050', 'COB050AW1_TSEL_CombatPT.BSSAW1', 106.11617, -1.87189),
+('COB051', 'COB051MD1_TSEL_CombatOKIPP2MD1', 105.284, -2.74436),
+('COB054', 'COB054MG1_TSEl_CombatPTKIMMG1', 101.759021, -1.402248),
+('COB055', 'COB055MW1_TSEL_CombatPT.DASMW1', 103.030278, -1.197778),
+('COB056', 'COB056AW1_TSEL_CombatWaySindyAW1', 103.91847, -5.128958),
+('COB057', 'COB057AW1_TSEL_CombatPergudanganKastaraAW1', 103.63, -1.64273),
+('COB058', 'COB058MW1_TSEL_CombatPT.TriaryaniMW1', 103.15807, -2.51232),
+('COB061', 'COB061AW1_TSEL_CombatKotoSungaiPenuhAW1', 101.409, -2.0831),
+('COB064', 'COB064MD1_TSEL_PemkabMurataraMD1', 102.902, -2.735),
+('COB065', 'COB065MD1_TEL_PASARBUNGO1MD1', 102.112996, -1.490074),
+('COB067', 'COB067MW1_TEL_PasarLematangMW1', 103.541, -3.78725),
+('COB068', 'COB068MD1_TEL_BK10GumawangMD1', 104.648105, -4.109373),
+('COB069', 'COB069MD1_TSEL_SMOLEUINRadenPatahPLGMD1', 104.747386, -2.964162),
+('COB070', 'COB070MD1_TSEL_CombatSmoleBandaraJambiMD1', 103.64396, -1.632049),
+('COB071', 'COB071MD1_TSEL_SMOLE_PSCC_MLTR2017MD1', 104.7455, -2.97939),
+('COB097', 'COB097MD1_TSEL_CombatBandaraDepatiAmirMD1', 106.141412, -2.157322),
+('COB104', 'COB104MW1_TSEL_CombatSmoleJambi2MW1', 103.78809, -1.203376),
+('COB007', 'C_COB007MG1_TSEL_DesaTanjungPuraMG1', 105.81644, -2.369822),
+('COB016', 'C_COB016MD1_TSEL_CombatPT.DwinadNusaSejahteraMD1', 102.655695, -2.865773),
+('COB019', 'C_COB019MD1_TSEL_CombatPT.BKMMD1', 105.656, -3.266),
+('COB042', 'C_COB042MD1_TSEL_CombatRafi2015ArifindoKerinciMD1', 101.3927, -2.0659),
+('COB053', 'C_COB053MD1_TSEL_CombatRafiTelesindoJelutungMD1', 103.616114, -1.605798),
+('COB066', 'C_COB066MD1_TSEL_SekipBengkulu2MD1', 102.277593, -3.811421),
+('COB015', 'N_COB015AG1_TSEL_CombatTegalMuktiAG1', 105.023099, -4.445435),
+('COB048', 'N_COB048MG1_TSEL_CombatBeringinJayaMG1', 104.87043, -4.19188);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `linkroutebelitung`
+-- Table structure for table `linkroutebelitung`
 --
 
 CREATE TABLE `linkroutebelitung` (
@@ -109,7 +155,7 @@ CREATE TABLE `linkroutebelitung` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `linkroutebelitung`
+-- Dumping data for table `linkroutebelitung`
 --
 
 INSERT INTO `linkroutebelitung` (`id`, `Site_ID`, `SysID`, `NE_ID`, `FE_ID`, `HOP_ID_DETAIL`) VALUES
@@ -388,7 +434,7 @@ INSERT INTO `linkroutebelitung` (`id`, `Site_ID`, `SysID`, `NE_ID`, `FE_ID`, `HO
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `site`
+-- Table structure for table `site`
 --
 
 CREATE TABLE `site` (
@@ -399,7 +445,7 @@ CREATE TABLE `site` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `site`
+-- Dumping data for table `site`
 --
 
 INSERT INTO `site` (`Site_ID`, `SiteName`, `Longitude`, `Latitude`) VALUES
@@ -5446,7 +5492,7 @@ INSERT INTO `site` (`Site_ID`, `SiteName`, `Longitude`, `Latitude`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -5455,7 +5501,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`username`, `password`) VALUES
@@ -5502,16 +5548,17 @@ ALTER TABLE `user`
 ALTER TABLE `linkroutebelitung`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=272;
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `linkroutebelitung`
+-- Constraints for table `linkroutebelitung`
 --
 ALTER TABLE `linkroutebelitung`
   ADD CONSTRAINT `fe` FOREIGN KEY (`FE_ID`) REFERENCES `site` (`Site_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ne` FOREIGN KEY (`NE_ID`) REFERENCES `site` (`Site_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `site_id_site` FOREIGN KEY (`Site_ID`) REFERENCES `site` (`Site_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
