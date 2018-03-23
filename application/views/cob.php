@@ -73,11 +73,28 @@
           window.location = '<?= base_url('admin/edit_cob/') ?>' + SiteName;
         }
 
+        function edit(siteName) {
+            $.ajax({
+                url: '<?= base_url('admin/data_cob') ?>',
+                type: 'POST',
+                data: {
+                    siteName: siteName,
+                    edit: true
+                },
+                success: function(response) {
+                    window.location = '<?= base_url('admin/data_cob') ?>'
+                },
+                error: function(e) {
+                    console.log(e.responseText);
+                }
+            });
+        }
+
         function hapus_siteCob(SiteName) {
             
             swal({
               title: 'Are you sure to delete data?',
-              text: "The deleted Site ID will remove the linkroute data that owns the Site ID!",
+              text: "",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -126,7 +143,7 @@
 
               swal({
                 title: 'Are you sure to delete all data?',
-                text: "Data link route will be delete all!",
+                text: "",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

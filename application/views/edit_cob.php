@@ -64,4 +64,5 @@
             function edit_data(){
                 $('#edit').submit();
             }
+
         </script>

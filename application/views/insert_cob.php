@@ -16,6 +16,68 @@
                 </div>
             </div>
 
+            <style type="text/css">
+                .salah{
+                    width: 500px;
+                }
+            </style>
+
+            <div class="row">
+                <!-- Message Box untuk site yang salah -->
+                <?php  
+                    $salah      = $this->session->flashdata('salah');
+                    $jmlh_data  = $this->session->flashdata('arr_data');
+                ?>
+                <?php if(!empty($salah)): ?>
+                    <!-- Modal -->
+                        <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Site Data</h4>
+                              </div>
+                              <div class="modal-body">
+                                    <h4>Total Data <?= count($jmlh_data)-1 ?></h4>
+                                    <h5><?= (count($jmlh_data) - 1) - count($salah)  ?> data successfully saved.</h5>
+
+                                    <?php if($salah != NULL): ?>
+                                        <h5><?= count($salah) ?> data failed to be saved due to duplicate data.</h5>
+                                        <br>
+                                        <h4>Duplicate Data</h4>
+                                       
+                                             <table  class="table table-striped table-bordered table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Site ID</th>
+                                                        <th>Site Name</th>
+                                                        <th>Longitude</th>
+                                                        <th>Latitude</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($salah as $row): ?>
+                                                    <tr>
+                                                        <td><?= $row['Site_ID'] ?></td>
+                                                        <td><?= $row['SiteName'] ?></td>
+                                                        <td><?= $row['Longitude'] ?></td>
+                                                        <td><?= $row['Latitude'] ?></td>
+                                                    </tr>
+                                                    <?php endforeach; ?>
+                                                </tbody>
+                                            </table>
+                                    <?php endif; ?>   
+                                    
+                              </div>
+                              <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Ignore</button>
+                              </div>
+                            </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                <?php endif; ?>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
                     <div class="panel panel-default">
@@ -97,6 +159,10 @@
         <!-- /#page-wrapper -->
 
         <script type="text/javascript">
+            $( document ).ready( function(){
+                $('#myModal').modal();
+            } );
+
             function submit_data(){
                 $('#tambah_baris').submit();
             }

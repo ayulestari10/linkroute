@@ -112,15 +112,24 @@ class Admin extends CI_Controller{
 						}
 
 						$this->site_model->insert($row);
-					}
-					
-			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
-
+					}					
+			   		
 			   		$this->session->set_flashdata('salah', $salah);
 			   		$this->session->set_flashdata('arr_data', $data_csv);
-					
-					redirect('admin/insert_site');
-					exit;
+
+					$success_data = (count($data_csv) - 1) - count($salah);
+
+					if($success_data <= 0){
+						$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed to saved data due to duplicate data!</div>');
+						redirect('admin/insert_site');
+						exit;
+					} 
+
+					else {
+						$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+						redirect('admin/insert_site');
+						exit;
+					}
 				}
 				else
 				{
@@ -598,22 +607,31 @@ class Admin extends CI_Controller{
 					   	];
 					   	
 					   	if (!empty($this->db->error())) {
-						   	$site_id 	= $this->cob_model->get_dataBy_siteName($data_csv[$i][0]);
-						   	if(count($site_id) > 0){
+						   	$siteName 	= $this->cob_model->get_dataBy_siteName($data_csv[$i][1]);
+						   	
+						   	if(count($siteName) > 0){
 						   		$salah[] = $row;
 						   	}
-						}
-
-					   	$this->cob_model->upload_cob($row);
-					}
-					
-			   		$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+						} 
+						$this->cob_model->insert_cob($row);
+					}					
 
 			   		$this->session->set_flashdata('salah', $salah);
 			   		$this->session->set_flashdata('arr_data', $data_csv);
-					
-					redirect('admin/insert_cob');
-					exit;
+
+					$success_data = (count($data_csv) - 1) - count($salah);
+
+					if($success_data <= 0){
+						$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed to saved data due to duplicate data!</div>');
+						redirect('admin/insert_cob');
+						exit;
+					} 
+
+					else {
+						$this->session->set_flashdata('msgUpload', '<div class="alert alert-success alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Successed!</div>');
+						redirect('admin/insert_cob');
+						exit;
+					}
 				}
 				else
 				{
