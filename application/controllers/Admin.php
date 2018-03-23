@@ -292,6 +292,13 @@ class Admin extends CI_Controller{
 	public function insertCSV_Linkroute(){
 		set_time_limit(1800);
 		if($this->input->post('uploadcsv')){
+			$cek_dataSite = $this->site_model->get_all();
+			if(count($cek_dataSite) <= 0) {
+				$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Failed to upload linkroute! Site Data is empty!</div>');
+				redirect('admin/insert_linkroute');
+				exit;
+			}
+
 			$file_name = $_FILES['file']['name'];
 			$exe = substr($file_name, -4);
 			if($file_name) {
@@ -370,7 +377,7 @@ class Admin extends CI_Controller{
 				else
 				{
 					$this->session->set_flashdata('msgUpload', '<div class="alert alert-danger alert-dismissable"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> The file format should be csv!</div>');
-					redirect('admin/insert_site');
+					redirect('admin/insert_linkroute');
 				}
 					
 			}
